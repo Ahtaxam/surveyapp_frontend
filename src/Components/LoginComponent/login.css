@@ -77,3 +77,9 @@
 .valid {
   opacity: 0;
 }
+
+.loginerrorMessage {
+  opacity: 0;
+  color: red;
+  font-size: smaller;
+}
