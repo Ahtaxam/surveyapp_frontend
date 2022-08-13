@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import PersonIcon from "@mui/icons-material/Person";
+import { userSchema } from "../Validations/UserSignupValidation";
 function Signup() {
   const [user, setUser] = useState({ name: "", email: "", password: "" });
   const inputValue = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     const nameerror = document.getElementById("nameerror");
     const emailerror = document.getElementById("emailerror");
     const passworderror = document.getElementById("passworderror");
@@ -20,10 +21,18 @@ function Signup() {
       emailerror.classList.add("invalid");
     }
     if (user.password === "") {
+      passworderror.innerHTML = "password is required";
       passworderror.classList.remove("valid");
       passworderror.classList.add("invalid");
     }
-    console.log(user);
+    if (user.password !== "" && user.password.length < 8) {
+      passworderror.innerHTML = "length must be 8 charactre";
+      passworderror.classList.remove("valid");
+      passworderror.classList.add("invalid");
+    }
+
+    const isValid = await userSchema.isValid(user);
+    console.log(isValid);
   };
   const removeNameErrorMessage = () => {
     document.getElementById("nameerror").classList.add("valid");
