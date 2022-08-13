@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap");
+* {
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+}
+
+.navbar {
+  display: flex;
+  list-style-type: none;
+  justify-content: space-between;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.navbar__button {
+  width: 80px;
+  height: 35px;
+  border: none;
+  cursor: pointer;
+  margin: 8px;
+  background: #1f60f0;
+  color: #eee;
+}
+.navbar__button:hover {
+  background: #111;
+  color: #eee;
+}
+.navbar__text {
+  line-height: 40px;
+  font-family: "Berkshire Swash", cursive;
+}
+.main {
+  width: 100%;
+  height: auto;
+  margin-top: 50px;
+}
+.main__heading {
+  text-align: center;
+  font-family: sans-serif;
+}
+.main__paragraph {
+  text-align: center;
+  padding: 20px;
+  line-height: 20px;
+}
+.imagediv {
+  margin: 20px;
+}
+.heading {
+  text-align: center;
+  font-family: sans-serif;
+  padding: 10px;
+  color: #191919;
+}
+.imagediv__image {
+  width: 100%;
+  height: auto;
+}
+
+@media screen and (min-width: 768px) {
+  .navbar {
+    display: flex;
+    justify-content: space-around;
+  }
+  .navbar__text {
+    font-size: 20px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .imagediv__image {
+    width: 50%;
+    height: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+}
