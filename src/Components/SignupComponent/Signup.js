@@ -5,7 +5,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 function Signup() {
   const [user, setUser] = useState({ name: "", email: "", password: "" });
-  const [errorMessage, setErrorMessage] = useState();
   const navigate = useNavigate();
   const inputValue = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -49,7 +48,7 @@ function Signup() {
           navigate("/login", { replace: true });
         })
         .catch((error) => {
-          setErrorMessage(error.response.data.message);
+          document.getElementById("invaliderror").style.opacity = 1;
         });
     }
   };
@@ -57,6 +56,7 @@ function Signup() {
     document.getElementById("nameerror").classList.add("valid");
   };
   const removeEmailErrorMessage = () => {
+    document.getElementById("invaliderror").style.opacity = 0;
     document.getElementById("emailerror").classList.add("valid");
   };
   const removePasswordErrorMessage = () => {
@@ -65,7 +65,17 @@ function Signup() {
   return (
     <div>
       <div className="mainform">
-        <p style={{ textAlign: "center", color: "red" }}>{errorMessage}</p>
+        <p
+          id="invaliderror"
+          style={{
+            textAlign: "center",
+            color: "red",
+            fontSize: "smaller",
+            opacity: 0,
+          }}
+        >
+          Email already exist. choose different one
+        </p>
         <div className="header">
           <PersonIcon style={{ fontSize: "40px" }} />
           <h1 className="header__heading">Create Account </h1>
