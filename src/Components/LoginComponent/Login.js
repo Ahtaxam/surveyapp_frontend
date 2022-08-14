@@ -3,8 +3,12 @@ import login from "./login.css";
 import LockIcon from "@mui/icons-material/Lock";
 import { Link } from "react-router-dom";
 import { userSchema } from "../Validations/UserLoginValidation";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function Login() {
+  axios.defaults.withCredentials = true;
   const [user, setData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
   const inputValue = (e) => {
     setData({ ...user, [e.target.name]: e.target.value });
   };
@@ -20,17 +24,45 @@ function Login() {
     }
 
     const isValid = await userSchema.isValid(user);
-    console.log(isValid);
+    if (isValid) {
+      const options = {
+        method: "POST",
+        url: "http://localhost:3000/login",
+        data: user,
+      };
+
+      axios
+        .request(options)
+        .then((response) => {
+          navigate("/dashboard", { replace: true });
+        })
+        .catch((error) => {
+          document.getElementById("invaliderror").style.opacity = 1;
+        });
+    }
   };
   const removeEmailErrorMessage = () => {
+    document.getElementById("invaliderror").style.opacity = 0;
     document.getElementById("emailerror").style.opacity = 0;
   };
   const removePasswordErrorMessage = () => {
+    document.getElementById("invaliderror").style.opacity = 0;
     document.getElementById("passworderror").style.opacity = 0;
   };
   return (
     <div>
       <div className="mainform">
+        <p
+          id="invaliderror"
+          style={{
+            textAlign: "center",
+            fontSize: "smaller",
+            color: "red",
+            opacity: 0,
+          }}
+        >
+          invalid username or password
+        </p>
         <div className="header">
           <LockIcon className="header__icon"></LockIcon>
           <h1 className="header__heading">Login </h1>
