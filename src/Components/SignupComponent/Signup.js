@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import PersonIcon from "@mui/icons-material/Person";
 import { userSchema } from "../Validations/UserSignupValidation";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function Signup() {
   const [user, setUser] = useState({ name: "", email: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState();
+  const navigate = useNavigate();
   const inputValue = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -32,7 +36,22 @@ function Signup() {
     }
 
     const isValid = await userSchema.isValid(user);
-    console.log(isValid);
+    if (isValid) {
+      const options = {
+        method: "POST",
+        url: "http://localhost:3000/signup",
+        data: user,
+      };
+
+      axios
+        .request(options)
+        .then((res) => {
+          navigate("/login", { replace: true });
+        })
+        .catch((error) => {
+          setErrorMessage(error.response.data.message);
+        });
+    }
   };
   const removeNameErrorMessage = () => {
     document.getElementById("nameerror").classList.add("valid");
@@ -46,6 +65,7 @@ function Signup() {
   return (
     <div>
       <div className="mainform">
+        <p style={{ textAlign: "center", color: "red" }}>{errorMessage}</p>
         <div className="header">
           <PersonIcon style={{ fontSize: "40px" }} />
           <h1 className="header__heading">Create Account </h1>
