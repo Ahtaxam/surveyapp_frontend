@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import MuiMenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Person from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
+import { styled } from "@mui/material";
 
 function MenuComponent() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -20,7 +21,7 @@ function MenuComponent() {
     setAnchorEl(null);
   };
   return (
-    <div>
+    <div className="menuDiv">
       <Tooltip title="Profile">
         <IconButton
           onClick={handleClick}
@@ -63,3 +64,7 @@ function MenuComponent() {
 }
 
 export default MenuComponent;
+
+const MenuItem = styled(MuiMenuItem)`
+  justify-content: center;
+`;
