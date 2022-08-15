@@ -14,14 +14,68 @@
   margin-left: 10px;
 }
 
-.dashboardnav__menu {
-  padding: 10px;
-  margin-right: 10px;
+#surveyButton {
+  margin: 30px auto;
+  display: block;
 }
-#surveyButton{
-    margin-left: 20px;
-    margin-top: 10px;
-  }
+.createdSurveys {
+  width: 100%;
+  height: auto;
+  position: relative;
+  top: 50px;
+}
+.previousSurvey {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menuDiv {
+  position: relative;
+  right: 30px;
+}
+
+.individualsurvey {
+  width: 200px;
+  height: 100px;
+  text-align: center;
+  margin: 20px;
+  font-family: sans-serif;
+  line-height: 30px;
+  border-bottom: 1px solid gray;
+}
+.individualsurvey__heading {
+  margin-top: 10px;
+  color: #191919;
+}
+.individualsurvey__response {
+  color: gray;
+  font-size: smaller;
+}
+.individualsurvey:hover {
+  border: 0.5px solid blue;
+}
+
+.recentSurvey {
+  margin: 80px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.recentSurveyDiv {
+  width: 200px;
+  height: 100px;
+}
+.recentSurvey__response {
+  color: gray;
+  font-size: smaller;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.recentSurveyDiv:hover {
+  border: 0.5px solid #9500ae;
+}
 @media screen and (min-width: 768px) {
   .dashboardnav__heading {
     margin-left: 70px;
@@ -30,8 +84,20 @@
   .dashboardnav__menu {
     margin-right: 60px;
   }
-  #surveyButton{
-    margin-left: 70px;
-    margin-top: 20px;
+
+  .previousSurvey {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .previousSurvey {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+  .individualsurvey {
+    margin-left: 60px;
   }
 }
