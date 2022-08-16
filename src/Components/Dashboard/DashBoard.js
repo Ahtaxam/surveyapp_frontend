@@ -63,7 +63,7 @@ function DashBoard({ PreviousSurveys, recentSurvey }) {
   );
 }
 const Card = styled(MuiCard)`
-  width: 250px;
+  width: 280px;
   height: auto;
   padding: 40px;
 `;
