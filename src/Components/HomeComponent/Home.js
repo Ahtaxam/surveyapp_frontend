@@ -1,11 +1,11 @@
 import React from "react";
-import home from "./home.css";
-import survey from "../../../src/Images/survey.jpg";
-import graph from "../../../src/Images/graph.jpg";
 import { Link } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+
+import graph from "../../../src/Images/graph.jpg";
+import "./home.css";
 function Home() {
   return (
     <div className="wrapper">
