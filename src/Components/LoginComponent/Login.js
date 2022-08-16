@@ -5,22 +5,24 @@ import { Link } from "react-router-dom";
 import { userSchema } from "../Validations/UserLoginValidation";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function Login() {
   axios.defaults.withCredentials = true;
   const [user, setData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+
   const inputValue = (e) => {
     setData({ ...user, [e.target.name]: e.target.value });
   };
   const submitForm = async (e) => {
-    const emailerror = document.getElementById("emailerror");
-    const passworderror = document.getElementById("passworderror");
     e.preventDefault();
     if (user.email === "") {
-      emailerror.style.opacity = 1;
+      toast.warn("Email is required !");
     }
     if (user.password === "") {
-      passworderror.style.opacity = 1;
+      toast.warn("Password is required !");
     }
 
     const isValid = await userSchema.isValid(user);
@@ -37,32 +39,15 @@ function Login() {
           navigate("/dashboard", { replace: true });
         })
         .catch((error) => {
-          document.getElementById("invaliderror").style.opacity = 1;
+          console.log(error);
+          toast.error(error.response.data);
         });
     }
   };
-  const removeEmailErrorMessage = () => {
-    document.getElementById("invaliderror").style.opacity = 0;
-    document.getElementById("emailerror").style.opacity = 0;
-  };
-  const removePasswordErrorMessage = () => {
-    document.getElementById("invaliderror").style.opacity = 0;
-    document.getElementById("passworderror").style.opacity = 0;
-  };
+
   return (
     <div>
       <div className="mainform">
-        <p
-          id="invaliderror"
-          style={{
-            textAlign: "center",
-            fontSize: "smaller",
-            color: "red",
-            opacity: 0,
-          }}
-        >
-          invalid username or password
-        </p>
         <div className="header">
           <LockIcon className="header__icon"></LockIcon>
           <h1 className="header__heading">Login </h1>
@@ -76,13 +61,10 @@ function Login() {
                 type="email"
                 className="form__input"
                 name="email"
+                autoComplete="off"
                 value={user.email}
                 onChange={inputValue}
-                onKeyUp={removeEmailErrorMessage}
               ></input>
-              <p className="loginerrorMessage" id="emailerror">
-                Email is required
-              </p>
             </div>
             <div className="form__div">
               <label className="form__label">Password</label>
@@ -91,13 +73,10 @@ function Login() {
                 type="password"
                 className="form__input"
                 name="password"
+                autoComplete="off"
                 value={user.password}
                 onChange={inputValue}
-                onKeyUp={removePasswordErrorMessage}
               ></input>
-              <p className="loginerrorMessage" id="passworderror">
-                Password is required
-              </p>
             </div>
             <button className="loginbtn" type="submit">
               Login
@@ -109,6 +88,7 @@ function Login() {
           <Link to="/signup">Sign up</Link>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
