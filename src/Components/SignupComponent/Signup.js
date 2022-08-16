@@ -3,6 +3,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import { userSchema } from "../Validations/UserSignupValidation";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Signup() {
   const [user, setUser] = useState({ name: "", email: "", password: "" });
   const navigate = useNavigate();
@@ -11,27 +13,18 @@ function Signup() {
   };
 
   const submitForm = async (e) => {
-    const nameerror = document.getElementById("nameerror");
-    const emailerror = document.getElementById("emailerror");
-    const passworderror = document.getElementById("passworderror");
     e.preventDefault();
     if (user.name === "") {
-      nameerror.classList.remove("valid");
-      nameerror.classList.add("invalid");
+      toast.warn("Name is required");
     }
     if (user.email === "") {
-      emailerror.classList.remove("valid");
-      emailerror.classList.add("invalid");
+      toast.warn("Email is required");
     }
     if (user.password === "") {
-      passworderror.innerHTML = "password is required";
-      passworderror.classList.remove("valid");
-      passworderror.classList.add("invalid");
+      toast.warn("Password is required");
     }
     if (user.password !== "" && user.password.length < 8) {
-      passworderror.innerHTML = "length must be 8 charactre";
-      passworderror.classList.remove("valid");
-      passworderror.classList.add("invalid");
+      toast.warn("password should be 8 character long");
     }
 
     const isValid = await userSchema.isValid(user);
@@ -48,34 +41,14 @@ function Signup() {
           navigate("/login", { replace: true });
         })
         .catch((error) => {
-          document.getElementById("invaliderror").style.opacity = 1;
+          toast.error(error.response.data.message);
         });
     }
   };
-  const removeNameErrorMessage = () => {
-    document.getElementById("nameerror").classList.add("valid");
-  };
-  const removeEmailErrorMessage = () => {
-    document.getElementById("invaliderror").style.opacity = 0;
-    document.getElementById("emailerror").classList.add("valid");
-  };
-  const removePasswordErrorMessage = () => {
-    document.getElementById("passworderror").classList.add("valid");
-  };
+
   return (
     <div>
       <div className="mainform">
-        <p
-          id="invaliderror"
-          style={{
-            textAlign: "center",
-            color: "red",
-            fontSize: "smaller",
-            opacity: 0,
-          }}
-        >
-          Email already exist. choose different one
-        </p>
         <div className="header">
           <PersonIcon style={{ fontSize: "40px" }} />
           <h1 className="header__heading">Create Account </h1>
@@ -91,11 +64,7 @@ function Signup() {
                 name="name"
                 value={user.name}
                 onChange={inputValue}
-                onKeyUp={removeNameErrorMessage}
               ></input>
-              <p className="errorMessage" id="nameerror">
-                name is required
-              </p>
             </div>
             <div className="form__div">
               <label className="form__label">Email</label>
@@ -106,11 +75,7 @@ function Signup() {
                 name="email"
                 value={user.email}
                 onChange={inputValue}
-                onKeyUp={removeEmailErrorMessage}
               ></input>
-              <p className="errorMessage" id="emailerror">
-                Email is required
-              </p>
             </div>
             <div className="form__div">
               <label className="form__label">Password</label>
@@ -121,11 +86,7 @@ function Signup() {
                 name="password"
                 value={user.password}
                 onChange={inputValue}
-                onKeyUp={removePasswordErrorMessage}
               ></input>
-              <p className="errorMessage" id="passworderror">
-                Password is required
-              </p>
             </div>
             <button className="loginbtn" type="submit">
               Signup
@@ -133,6 +94,7 @@ function Signup() {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 }
