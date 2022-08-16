@@ -38,7 +38,11 @@ function Signup() {
       axios
         .request(options)
         .then((res) => {
-          navigate("/login", { replace: true });
+          toast.success("Account Created Successfully!",{position:"top-center"
+        });
+          setTimeout(() => {
+            navigate("/login", { replace: true });
+          }, 1000);
         })
         .catch((error) => {
           toast.error(error.response.data.message);
