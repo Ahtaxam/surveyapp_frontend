@@ -4,6 +4,7 @@ import Path from "./Path";
 import Home from "./Components/HomeComponent/Home";
 import Login from "./Components/LoginComponent/Login";
 import Signup from "./Components/SignupComponent/Signup";
+import PrivateRoutes from "./PrivateRoutes";
 function App() {
   return (
     <div className="App">
@@ -11,7 +12,9 @@ function App() {
         <Route path={Path.home} element={<Home />} />
         <Route path={Path.login} element={<Login />} />
         <Route path={Path.signup} element={<Signup />} />
-        <Route path={Path.dashboard} element={<DashBoard />} />
+        <Route element={<PrivateRoutes />}>
+          <Route path={Path.dashboard} element={<DashBoard />} />
+        </Route>
       </Routes>
     </div>
   );
