@@ -24,8 +24,8 @@ function DashBoard({ PreviousSurveys, userSurvey }) {
         Your Surveys
       </Typography>
       <div className="recentSurvey">
-        {userSurvey.map((survey) => (
-          <Card>
+        {userSurvey.map((survey , index) => (
+          <Card key={index}>
             <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
             <p className="recentSurvey__response">
               Responses: {survey.responses}{" "}
@@ -46,8 +46,8 @@ function DashBoard({ PreviousSurveys, userSurvey }) {
           Other Surveys
         </Typography>
         <div className="previousSurvey">
-          {PreviousSurveys.map((obj) => (
-            <Card>
+          {PreviousSurveys.map((obj , index) => (
+            <Card key={index}>
               <h4 className="previousSurvey__heading">{obj.name}</h4>
               <p className="previousSurvey__response">
                 {" "}
