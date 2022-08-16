@@ -1,48 +1,52 @@
-import React, { useState } from "react";
-import login from "./login.css";
+import React from "react";
 import LockIcon from "@mui/icons-material/Lock";
 import { Link } from "react-router-dom";
-import { userSchema } from "../Validations/UserLoginValidation";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useFormik } from "formik";
+
+import { userSchema } from "../Validations/UserLoginValidation";
+import "./login.css";
 
 function Login() {
   axios.defaults.withCredentials = true;
-  const [user, setData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
-  const inputValue = (e) => {
-    setData({ ...user, [e.target.name]: e.target.value });
-  };
-  const submitForm = async (e) => {
-    e.preventDefault();
-    if (user.email === "") {
-      toast.warn("Email is required !");
-    }
-    if (user.password === "") {
-      toast.warn("Password is required !");
-    }
+  const submit = () => {
+    console.log("Logged");
+    const options = {
+      method: "POST",
+      url: "http://localhost:3000/login",
+      data: values,
+    };
 
-    const isValid = await userSchema.isValid(user);
-    if (isValid) {
-      const options = {
-        method: "POST",
-        url: "http://localhost:3000/login",
-        data: user,
-      };
-
-      axios
-        .request(options)
-        .then((response) => {
+    axios
+      .request(options)
+      .then((response) => {
+        toast.success(response.data.message);
+        setTimeout(() => {
           navigate("/dashboard", { replace: true });
-        })
-        .catch((error) => {
-          console.log(error);
-          toast.error(error.response.data);
-        });
-    }
+        }, 1000);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.response.data);
+      });
+  };
+  const { values, errors, handleChange, handleSubmit } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: userSchema,
+    onSubmit: submit,
+  });
+
+  const handleError = () => {
+    toast.error(errors.email);
+    toast.error(errors.password);
   };
 
   return (
@@ -52,7 +56,7 @@ function Login() {
           <LockIcon className="header__icon"></LockIcon>
           <h1 className="header__heading">Login </h1>
         </div>
-        <form onSubmit={submitForm}>
+        <form onSubmit={handleSubmit}>
           <div className="form">
             <div className="form__div">
               <label className="form__label">Email</label>
@@ -62,8 +66,8 @@ function Login() {
                 className="form__input"
                 name="email"
                 autoComplete="off"
-                value={user.email}
-                onChange={inputValue}
+                value={values.email}
+                onChange={handleChange}
               ></input>
             </div>
             <div className="form__div">
@@ -74,11 +78,11 @@ function Login() {
                 className="form__input"
                 name="password"
                 autoComplete="off"
-                value={user.password}
-                onChange={inputValue}
+                value={values.password}
+                onChange={handleChange}
               ></input>
             </div>
-            <button className="loginbtn" type="submit">
+            <button onClick={handleError} className="loginbtn" type="submit">
               Login
             </button>
           </div>
