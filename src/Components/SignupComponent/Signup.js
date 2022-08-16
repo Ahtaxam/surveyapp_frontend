@@ -1,53 +1,49 @@
-import React, { useState } from "react";
+import React from "react";
 import PersonIcon from "@mui/icons-material/Person";
-import { userSchema } from "../Validations/UserSignupValidation";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useFormik } from "formik";
+
+import { userSchema } from "../Validations/UserSignupValidation";
+
 function Signup() {
-  const [user, setUser] = useState({ name: "", email: "", password: "" });
   const navigate = useNavigate();
-  const inputValue = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+
+  const submit = () => {
+    const options = {
+      method: "POST",
+      url: "http://localhost:3000/signup",
+      data: values,
+    };
+
+    axios
+      .request(options)
+      .then((response) => {
+        toast.success("Account created!");
+        setTimeout(() => {
+          navigate("/login", { replace: true });
+        }, 1000);
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
   };
 
-  const submitForm = async (e) => {
-    e.preventDefault();
-    if (user.name === "") {
-      toast.warn("Name is required");
-    }
-    if (user.email === "") {
-      toast.warn("Email is required");
-    }
-    if (user.password === "") {
-      toast.warn("Password is required");
-    }
-    if (user.password !== "" && user.password.length < 8) {
-      toast.warn("password should be 8 character long");
-    }
-
-    const isValid = await userSchema.isValid(user);
-    if (isValid) {
-      const options = {
-        method: "POST",
-        url: "http://localhost:3000/signup",
-        data: user,
-      };
-
-      axios
-        .request(options)
-        .then((res) => {
-          toast.success("Account Created Successfully!",{position:"top-center"
-        });
-          setTimeout(() => {
-            navigate("/login", { replace: true });
-          }, 1000);
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message);
-        });
-    }
+  const { values, errors, handleChange, handleSubmit } = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+    validationSchema: userSchema,
+    onSubmit: submit,
+  });
+  const handleError = () => {
+    toast.error(errors.name);
+    toast.error(errors.email);
+    toast.error(errors.password);
   };
 
   return (
@@ -57,7 +53,7 @@ function Signup() {
           <PersonIcon style={{ fontSize: "40px" }} />
           <h1 className="header__heading">Create Account </h1>
         </div>
-        <form onSubmit={submitForm}>
+        <form onSubmit={handleSubmit}>
           <div className="form">
             <div className="form__div">
               <label className="form__label">Username</label>
@@ -65,21 +61,24 @@ function Signup() {
               <input
                 type="text"
                 className="form__input"
+                id="name"
                 name="name"
-                value={user.name}
-                onChange={inputValue}
-              ></input>
+                value={values.name}
+                onChange={handleChange}
+              />
             </div>
+
             <div className="form__div">
               <label className="form__label">Email</label>
               <br></br>
               <input
                 type="email"
+                id="email"
                 className="form__input"
                 name="email"
-                value={user.email}
-                onChange={inputValue}
-              ></input>
+                value={values.email}
+                onChange={handleChange}
+              />
             </div>
             <div className="form__div">
               <label className="form__label">Password</label>
@@ -87,12 +86,13 @@ function Signup() {
               <input
                 type="password"
                 className="form__input"
+                id="password"
                 name="password"
-                value={user.password}
-                onChange={inputValue}
-              ></input>
+                value={values.password}
+                onChange={handleChange}
+              />
             </div>
-            <button className="loginbtn" type="submit">
+            <button className="loginbtn" onClick={handleError} type="submit">
               Signup
             </button>
           </div>
