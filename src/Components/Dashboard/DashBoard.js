@@ -1,13 +1,14 @@
 import React from "react";
-import MenuComponent from "./MenuComponent";
-import dashbord from "./dashbord.css";
-import { Button,  styled, Typography } from "@mui/material";
+import { Button, styled, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Card as MuiCard } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Add } from "@mui/icons-material";
 
-function DashBoard({ PreviousSurveys, recentSurvey }) {
+import MenuComponent from "./MenuComponent";
+import "./dashbord.css";
+
+function DashBoard({ PreviousSurveys, userSurvey }) {
   return (
     <div>
       <div className="dashboardnav">
@@ -19,30 +20,30 @@ function DashBoard({ PreviousSurveys, recentSurvey }) {
       <Button sx={{ m: 8 }} startIcon={<Add />} color="primary">
         Create Your Survey
       </Button>
-      <Typography style={{ textAlign: "center" }} variant="h4">
-        Your Created Surveys
+      <Typography className="createdsurveys-heading" variant="h4">
+        Your Surveys
       </Typography>
       <div className="recentSurvey">
-        {recentSurvey.map((survey) => (
-            <Card>
-              <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
-              <p className="recentSurvey__response">
-                Responses: {survey.responses}{" "}
-              </p>
-              <div style={{ display: "flex", gap: "15px" }}>
-                <Button variant="contained">Edit</Button>
-                <Button variant="danger" startIcon={<DeleteIcon />}>
-                  Delete
-                </Button>
-              </div>
-            </Card>
+        {userSurvey.map((survey) => (
+          <Card>
+            <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
+            <p className="recentSurvey__response">
+              Responses: {survey.responses}{" "}
+            </p>
+            <div style={{ display: "flex", gap: "15px" }}>
+              <Button variant="contained">Edit</Button>
+              <Button variant="danger" startIcon={<DeleteIcon />}>
+                Delete
+              </Button>
+            </div>
+          </Card>
         ))}
       </div>
 
       <hr style={{ width: "80%", marginLeft: "8%" }} />
       <div className="createdSurveys">
-        <Typography style={{ textAlign: "center" }} variant="h4">
-          Previous Surveys
+        <Typography className="othersurveys-heading" variant="h4">
+          Other Surveys
         </Typography>
         <div className="previousSurvey">
           {PreviousSurveys.map((obj) => (
@@ -74,7 +75,7 @@ DashBoard.defaultProps = {
     { name: "Student Politices", responses: 56 },
   ],
 
-  recentSurvey: [
+  userSurvey: [
     {
       name: "Work Place",
       responses: 89,
