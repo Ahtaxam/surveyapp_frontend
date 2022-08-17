@@ -25,6 +25,13 @@ function Login() {
       .request(options)
       .then((response) => {
         toast.success(response.data.message);
+        localStorage.setItem(
+          "loggedUser",
+          JSON.stringify({
+            name: response.data.name,
+            email: response.data.email,
+          })
+        );
         setTimeout(() => {
           navigate("/dashboard", { replace: true });
         }, 1000);
