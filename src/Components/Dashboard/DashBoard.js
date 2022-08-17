@@ -17,14 +17,19 @@ function DashBoard({ PreviousSurveys, userSurvey }) {
         <MenuComponent />
       </div>
 
-      <Button sx={{ m: 8 }} startIcon={<Add />} color="primary">
+      <Button
+        sx={{ m: 8 }}
+        startIcon={<Add />}
+        color="primary"
+        variant="contained"
+      >
         Create Your Survey
       </Button>
       <Typography className="createdsurveys-heading" variant="h4">
         Your Surveys
       </Typography>
       <div className="recentSurvey">
-        {userSurvey.map((survey , index) => (
+        {userSurvey.map((survey, index) => (
           <Card key={index}>
             <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
             <p className="recentSurvey__response">
@@ -32,7 +37,11 @@ function DashBoard({ PreviousSurveys, userSurvey }) {
             </p>
             <div style={{ display: "flex", gap: "15px" }}>
               <Button variant="contained">Edit</Button>
-              <Button variant="danger" startIcon={<DeleteIcon />}>
+              <Button
+                variant="danger"
+                startIcon={<DeleteIcon />}
+                style={{ color: "red" }}
+              >
                 Delete
               </Button>
             </div>
@@ -46,7 +55,7 @@ function DashBoard({ PreviousSurveys, userSurvey }) {
           Other Surveys
         </Typography>
         <div className="previousSurvey">
-          {PreviousSurveys.map((obj , index) => (
+          {PreviousSurveys.map((obj, index) => (
             <Card key={index}>
               <h4 className="previousSurvey__heading">{obj.name}</h4>
               <p className="previousSurvey__response">
