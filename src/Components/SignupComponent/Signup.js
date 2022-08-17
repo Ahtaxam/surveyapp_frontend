@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 
 import { userSchema } from "../Validations/UserSignupValidation";
-
+import PATH from "../../Path";
 function Signup() {
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ function Signup() {
       .then((response) => {
         toast.success("Account created!");
         setTimeout(() => {
-          navigate("/login", { replace: true });
+          navigate(PATH.login, { replace: true });
         }, 1000);
       })
       .catch((error) => {
@@ -63,6 +63,7 @@ function Signup() {
                 className="form__input"
                 id="name"
                 name="name"
+                autoComplete="off"
                 value={values.name}
                 onChange={handleChange}
               />
@@ -76,6 +77,7 @@ function Signup() {
                 id="email"
                 className="form__input"
                 name="email"
+                autoComplete="off"
                 value={values.email}
                 onChange={handleChange}
               />
@@ -88,6 +90,7 @@ function Signup() {
                 className="form__input"
                 id="password"
                 name="password"
+                autoComplete="off"
                 value={values.password}
                 onChange={handleChange}
               />
@@ -97,6 +100,12 @@ function Signup() {
             </button>
           </div>
         </form>
+        <button
+          onClick={() => navigate(PATH.login, { replace: true })}
+          className="loginbtn"
+        >
+          Login
+        </button>
       </div>
       <ToastContainer />
     </div>
