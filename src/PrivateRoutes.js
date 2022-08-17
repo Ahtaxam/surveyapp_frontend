@@ -1,9 +1,14 @@
 import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import PATH from "./Path";
-function PrivateRoutes() {
+
+function PrivateRoutes({ component: Component, ...restOfProps }) {
   const token = document.cookie.split("=")[1];
-  return <div>{token ? <Outlet /> : <Navigate to={PATH.login} />}</div>;
+  if (!token) {
+    return <Navigate to={PATH.login} />;
+  } else {
+    return <Component />;
+  }
 }
 
 export default PrivateRoutes;
