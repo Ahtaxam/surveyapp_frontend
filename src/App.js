@@ -12,9 +12,10 @@ function App() {
         <Route path={Path.home} element={<Home />} />
         <Route path={Path.login} element={<Login />} />
         <Route path={Path.signup} element={<Signup />} />
-        <Route element={<PrivateRoutes />}>
-          <Route path={Path.dashboard} element={<DashBoard />} />
-        </Route>
+        <Route
+          path={Path.dashboard}
+          element={<PrivateRoutes component={DashBoard} />}
+        />
       </Routes>
     </div>
   );
