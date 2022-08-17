@@ -127,11 +127,12 @@
   .navbar__text {
     font-size: 30px;
   }
+  .ImageDiv {
+    margin: auto;
+  }
   .image {
     width: 90%;
     height: 400px;
-    margin: 0px auto;
-    display: block;
   }
   .featureimage {
     max-width: 75%;
