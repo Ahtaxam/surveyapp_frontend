@@ -15,7 +15,6 @@ function Login() {
   const navigate = useNavigate();
 
   const submit = () => {
-    console.log("Logged");
     const options = {
       method: "POST",
       url: "http://localhost:3000/login",
@@ -31,7 +30,7 @@ function Login() {
         }, 1000);
       })
       .catch((error) => {
-        toast.error(error.response.data);
+        toast.error(error.response.data || error.message);
       });
   };
   const { values, errors, handleChange, handleSubmit } = useFormik({
