@@ -14,7 +14,7 @@ function Signup() {
   const submit = () => {
     const options = {
       method: "POST",
-      url: "http://localhost:3000/signup",
+      url: `${process.env.REACT_APP_BASE_URL}/signup`,
       data: values,
     };
 
