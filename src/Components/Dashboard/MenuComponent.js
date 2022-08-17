@@ -5,14 +5,29 @@ import MuiMenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-
+import { useNavigate } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import Person from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
 import { styled } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+
+import PATH from "../../Path";
 
 function MenuComponent() {
+  const { name, email } = JSON.parse(localStorage.getItem("loggedUser"));
+
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate();
+  const logoutUser = () => {
+    const express = document.cookie.split("=")[0];
+    document.cookie = express + "=; Max-Age=0";
+    toast.success("Successfully Logout !");
+    setTimeout(() => {
+      navigate(PATH.home, { replace: true });
+    }, 1300);
+  };
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -48,17 +63,18 @@ function MenuComponent() {
           },
         }}
       >
-        <MenuItem>Ahtasham Ali</MenuItem>
-        <MenuItem>ahtashamali2727@gmail.com</MenuItem>
+        <MenuItem>{name}</MenuItem>
+        <MenuItem>{email}</MenuItem>
         <Divider />
 
-        <MenuItem>
+        <MenuItem onClick={logoutUser}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
           Logout
         </MenuItem>
       </Menu>
+      <ToastContainer />
     </div>
   );
 }
