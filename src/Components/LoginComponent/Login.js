@@ -17,7 +17,7 @@ function Login() {
   const submit = () => {
     const options = {
       method: "POST",
-      url: "http://localhost:3000/login",
+      url: `${process.env.REACT_APP_BASE_URL}/login`,
       data: values,
     };
 
