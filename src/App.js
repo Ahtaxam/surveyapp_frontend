@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import DashBoard from "./Components/Dashboard/DashBoard";
-import PATH from "./Path";
+import PATH from "./Constants/Path";
 import Home from "./Components/HomeComponent/Home";
 import Login from "./Components/LoginComponent/Login";
 import Signup from "./Components/SignupComponent/Signup";
@@ -12,15 +12,15 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path={PATH.home} element={<Home />} />
-        <Route path={PATH.login} element={<Login />} />
-        <Route path={PATH.signup} element={<Signup />} />
+        <Route path={PATH.HOME} element={<Home />} />
+        <Route path={PATH.LOGIN} element={<Login />} />
+        <Route path={PATH.SIGNUP} element={<Signup />} />
         <Route
-          path={PATH.dashboard}
+          path={PATH.DASHBOARD}
           element={<PrivateRoutes component={DashBoard} />}
         />
         <Route
-          path={PATH.createsurvey}
+          path={PATH.CREATESURVEY}
           element={<PrivateRoutes component={CreateSurvey} />}
         />
       </Routes>
