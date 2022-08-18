@@ -6,6 +6,8 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 import graph from "../../../src/Images/graph.jpg";
 import "./home.css";
+import PATH from "../../Constants/Path";
+
 function Home() {
   return (
     <div className="wrapper">
@@ -15,11 +17,11 @@ function Home() {
             <p className="navbar__text">Nex Research</p>
           </div>
           <div>
-            <Link to="/login">
+            <Link to={PATH.LOGIN}>
               <button className="navbar__button">Login</button>
             </Link>
 
-            <Link to="/signup">
+            <Link to={PATH.SIGNUP}>
               <button className="navbar__button">Signup</button>
             </Link>
           </div>
@@ -45,7 +47,7 @@ function Home() {
             to Their needs. Try it for Free
           </p>
 
-          <Link to="/login" style={{ textDecoration: "none" }}>
+          <Link to={PATH.LOGIN} style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
               style={{ margin: "10px auto", display: "block" }}
