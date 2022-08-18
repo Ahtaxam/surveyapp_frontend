@@ -9,6 +9,7 @@ import { useFormik } from "formik";
 
 import { userSchema } from "../Validations/UserLoginValidation";
 import "./login.css";
+import PATH from "../../Path";
 
 function Login() {
   axios.defaults.withCredentials = true;
@@ -20,7 +21,6 @@ function Login() {
       url: `${process.env.REACT_APP_BASE_URL}/login`,
       data: values,
     };
-
     axios
       .request(options)
       .then((response) => {
@@ -33,7 +33,7 @@ function Login() {
           })
         );
         setTimeout(() => {
-          navigate("/dashboard", { replace: true });
+          navigate(PATH.dashboard);
         }, 1000);
       })
       .catch((error) => {
