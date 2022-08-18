@@ -28,6 +28,11 @@
   float: right;
   margin-bottom: 10px;
 }
+#submit-button {
+  display: block;
+  margin: auto;
+  margin-top: 100px;
+}
 .survey-questions {
   width: 100%;
   height: auto;
