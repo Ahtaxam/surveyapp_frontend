@@ -4,11 +4,17 @@ import { Link } from "react-router-dom";
 import { Card as MuiCard } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Add } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 import MenuComponent from "./MenuComponent";
 import "./dashbord.css";
+import PATH from "../../Path"
 
 function DashBoard({ PreviousSurveys, userSurvey }) {
+  const navigate = useNavigate()
+  const createSurvey = () =>{
+    navigate(PATH.createsurvey , {replace:true})
+  }
   return (
     <div>
       <div className="dashboardnav">
@@ -18,6 +24,7 @@ function DashBoard({ PreviousSurveys, userSurvey }) {
       </div>
 
       <Button
+      onClick={createSurvey}
         sx={{ m: 8 }}
         startIcon={<Add />}
         color="primary"
