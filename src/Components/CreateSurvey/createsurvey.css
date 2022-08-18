@@ -17,6 +17,7 @@
   padding: 10px;
   border: none;
   outline: none;
+  font-weight: bold;
   border-bottom: 1px solid gray;
   font-size: 25px;
 }
@@ -26,12 +27,18 @@
 }
 #addquestion-btn {
   float: right;
-  margin-bottom: 10px;
+  margin-right: 10px;
 }
 #submit-button {
   display: block;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+#back-button {
+  display: block;
+  margin: auto;
+  margin-bottom: 20px;
 }
 .survey-questions {
   width: 100%;
@@ -56,6 +63,10 @@
     width: 80%;
     margin: auto;
   }
+  .surveyheader__input {
+    font-size: 30px;
+  }
+
   .survey-questions {
     width: 80%;
     margin: auto;
@@ -81,10 +92,14 @@
     width: 60%;
     margin: auto;
   }
+  .surveyheader__input {
+    font-size: 35px;
+  }
   .survey-questions {
     width: 60%;
     margin: auto;
   }
+
   #cardContent {
     display: flex;
     flex-direction: row;
