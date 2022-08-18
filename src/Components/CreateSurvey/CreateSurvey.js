@@ -33,16 +33,24 @@ function CreateSurvey() {
       </section>
       <Button
         id="submit-button"
-        variant="contained"
-        style={{ textAlign: "center", width: "180px" }}
+        style={{
+          textAlign: "center",
+          width: "180px",
+          backgroundColor: "	#FF69B4",
+          color: "white",
+        }}
       >
-        Submit
+        Save
       </Button>
 
       <Button
         id="back-button"
-        variant="contained"
-        style={{ textAlign: "center", width: "180px" }}
+        style={{
+          textAlign: "center",
+          width: "180px",
+          color: "white",
+          backgroundColor: "#ef5350",
+        }}
         onClick={backToDashBoard}
       >
         Back
