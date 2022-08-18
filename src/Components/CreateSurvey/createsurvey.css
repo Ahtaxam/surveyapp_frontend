@@ -1,0 +1,91 @@
+* {
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+}
+.surveyheader {
+  width: 100%;
+  height: auto;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+.surveyheader__input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid gray;
+  font-size: 25px;
+}
+.surveyheader__desc {
+  outline: none;
+  border: 1px solid gray;
+}
+#addquestion-btn {
+  float: right;
+  margin-bottom: 10px;
+}
+.survey-questions {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+
+#cardContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+#cardbutton {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+@media screen and (min-width: 768px) {
+  .surveyheader {
+    width: 80%;
+    margin: auto;
+  }
+  .survey-questions {
+    width: 80%;
+    margin: auto;
+  }
+  #cardContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  #filled-textarea {
+    width: 400px;
+  }
+  #cardbutton {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .surveyheader {
+    width: 60%;
+    margin: auto;
+  }
+  .survey-questions {
+    width: 60%;
+    margin: auto;
+  }
+  #cardContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  #filled-textarea {
+    width: 500px;
+  }
+}
