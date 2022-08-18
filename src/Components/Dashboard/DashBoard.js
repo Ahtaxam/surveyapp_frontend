@@ -8,13 +8,13 @@ import { useNavigate } from "react-router-dom";
 
 import MenuComponent from "./MenuComponent";
 import "./dashbord.css";
-import PATH from "../../Path"
+import PATH from "../../Path";
 
 function DashBoard({ PreviousSurveys, userSurvey }) {
-  const navigate = useNavigate()
-  const createSurvey = () =>{
-    navigate(PATH.createsurvey , {replace:true})
-  }
+  const navigate = useNavigate();
+  const createSurvey = () => {
+    navigate(PATH.createsurvey);
+  };
   return (
     <div>
       <div className="dashboardnav">
@@ -24,7 +24,7 @@ function DashBoard({ PreviousSurveys, userSurvey }) {
       </div>
 
       <Button
-      onClick={createSurvey}
+        onClick={createSurvey}
         sx={{ m: 8 }}
         startIcon={<Add />}
         color="primary"
