@@ -53,16 +53,6 @@ function SurveyQuestions({ questions }) {
       >
         <AddIcon />
       </Fab>
-
-      <Button
-        id="submit-button"
-        size="md"
-        variant="contained"
-        color="success"
-        style={{ textAlign: "center" }}
-      >
-        Submit
-      </Button>
     </div>
   );
 }
