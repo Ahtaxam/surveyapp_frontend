@@ -7,14 +7,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 
 import { userSchema } from "../Validations/UserSignupValidation";
-import PATH from "../../Path";
+import PATH from "../../Constants/Path";
 function Signup() {
   const navigate = useNavigate();
 
   const submit = () => {
     const options = {
       method: "POST",
-      url: `${process.env.REACT_APP_BASE_URL}/signup`,
+      url: `${process.env.REACT_APP_BASE_URL}${PATH.SIGNUP}`,
       data: values,
     };
 
@@ -23,7 +23,7 @@ function Signup() {
       .then((response) => {
         toast.success("Account created!");
         setTimeout(() => {
-          navigate(PATH.login);
+          navigate(PATH.LOGIN);
         }, 1000);
       })
       .catch((error) => {
@@ -100,7 +100,7 @@ function Signup() {
             </button>
           </div>
         </form>
-        <button onClick={() => navigate(PATH.login)} className="loginbtn">
+        <button onClick={() => navigate(PATH.LOGIN)} className="loginbtn">
           Login
         </button>
       </div>
