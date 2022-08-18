@@ -6,23 +6,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-import MenuComponent from "./MenuComponent";
 import "./dashbord.css";
-import PATH from "../../Path";
+import PATH from "../../Constants/Path";
+import Navbar from "../Navbar/Navbar";
 
 function DashBoard({ PreviousSurveys, userSurvey }) {
   const navigate = useNavigate();
   const createSurvey = () => {
-    navigate(PATH.createsurvey);
+    navigate(PATH.CREATESURVEY);
   };
   return (
     <div>
-      <div className="dashboardnav">
-        <p className="dashboardnav__heading">Nex Research</p>
-
-        <MenuComponent />
-      </div>
-
+      <Navbar />
       <Button
         onClick={createSurvey}
         sx={{ m: 8 }}
@@ -82,7 +77,7 @@ function DashBoard({ PreviousSurveys, userSurvey }) {
 const Card = styled(MuiCard)`
   width: 280px;
   height: auto;
-  padding: 40px;
+  padding: 30px;
 `;
 DashBoard.defaultProps = {
   PreviousSurveys: [
