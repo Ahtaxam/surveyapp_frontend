@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {  Card, CardContent, Button, TextField } from "@mui/material";
+import { Card, CardContent, Button, TextField } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -53,6 +53,16 @@ function SurveyQuestions({ questions }) {
       >
         <AddIcon />
       </Fab>
+
+      <Button
+        id="submit-button"
+        size="md"
+        variant="contained"
+        color="success"
+        style={{ textAlign: "center" }}
+      >
+        Submit
+      </Button>
     </div>
   );
 }
