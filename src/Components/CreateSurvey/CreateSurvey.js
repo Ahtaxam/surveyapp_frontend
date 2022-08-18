@@ -5,15 +5,17 @@ import React from "react";
 
 import "./createsurvey.css";
 import SurveyQuestions from "./SurveyQuestions";
-import PATH from "../../Path";
+import PATH from "../../Constants/Path";
+import Navbar from "../Navbar/Navbar";
 
 function CreateSurvey() {
   const navigate = useNavigate();
   const backToDashBoard = () => {
-    navigate(PATH.dashboard);
+    navigate(PATH.DASHBOARD);
   };
   return (
     <div>
+      <Navbar />
       <section className="surveyheader">
         <input
           type="text"
@@ -36,7 +38,7 @@ function CreateSurvey() {
         style={{
           textAlign: "center",
           width: "180px",
-          backgroundColor: "	#FF69B4",
+          backgroundColor: "#f50057",
           color: "white",
         }}
       >
@@ -45,11 +47,11 @@ function CreateSurvey() {
 
       <Button
         id="back-button"
+        variant="outlined"
         style={{
           textAlign: "center",
           width: "180px",
-          color: "white",
-          backgroundColor: "#ef5350",
+          color: "#ab003c",
         }}
         onClick={backToDashBoard}
       >
