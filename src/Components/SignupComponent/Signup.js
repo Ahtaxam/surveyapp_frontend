@@ -23,7 +23,7 @@ function Signup() {
       .then((response) => {
         toast.success("Account created!");
         setTimeout(() => {
-          navigate(PATH.login, { replace: true });
+          navigate(PATH.login);
         }, 1000);
       })
       .catch((error) => {
@@ -100,10 +100,7 @@ function Signup() {
             </button>
           </div>
         </form>
-        <button
-          onClick={() => navigate(PATH.login, { replace: true })}
-          className="loginbtn"
-        >
+        <button onClick={() => navigate(PATH.login)} className="loginbtn">
           Login
         </button>
       </div>
