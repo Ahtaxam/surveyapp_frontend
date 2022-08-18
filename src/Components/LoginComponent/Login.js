@@ -9,7 +9,7 @@ import { useFormik } from "formik";
 
 import { userSchema } from "../Validations/UserLoginValidation";
 import "./login.css";
-import PATH from "../../Path";
+import PATH from "../../Constants/Path";
 
 function Login() {
   axios.defaults.withCredentials = true;
@@ -18,7 +18,7 @@ function Login() {
   const submit = () => {
     const options = {
       method: "POST",
-      url: `${process.env.REACT_APP_BASE_URL}/login`,
+      url: `${process.env.REACT_APP_BASE_URL}${PATH.LOGIN}`,
       data: values,
     };
     axios
@@ -33,11 +33,11 @@ function Login() {
           })
         );
         setTimeout(() => {
-          navigate(PATH.dashboard);
+          navigate(PATH.DASHBOARD);
         }, 1000);
       })
       .catch((error) => {
-        toast.error(error.response.data || error.message);
+        toast.error(error.response?.data || error.message);
       });
   };
   const { values, errors, handleChange, handleSubmit } = useFormik({
