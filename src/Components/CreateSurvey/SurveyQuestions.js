@@ -8,31 +8,81 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
+import { ToastContainer, toast } from "react-toastify";
+
+import QUESTION_TYPE from "../../Constants/QUESTIONS_TYPES";
+import Options from "./Options";
 
 function SurveyQuestions({ questions }) {
-  const [surQuestions, setsurQuestions] = useState([...questions]);
-  const addQuestion = () => {
-    setsurQuestions([...surQuestions, "write your question"]);
+  const [selectedType, setSelectedType] = useState(
+    QUESTION_TYPE.MULTIPLECHOICE
+  );
+  const [SurveyQuestions, setSurveyQuestions] = useState(questions);
+
+  const getInputValue = (e, index) => {
+    const surQuestions = [...SurveyQuestions];
+    surQuestions[index].title = e.target.value;
+    setSurveyQuestions(surQuestions);
   };
+
+  const setSelectedOption = (selected) => {
+    const surQuestions = [...SurveyQuestions];
+    surQuestions[surQuestions.length - 1].type = selected;
+    setSurveyQuestions(surQuestions);
+    setSelectedType(selected);
+  };
+
+  const setInputValue = (values) => {
+    const surQuestions = [...SurveyQuestions];
+    surQuestions[surQuestions.length - 1].options[values.index] = values.value;
+    setSurveyQuestions(surQuestions);
+  };
+
+  const setAddOption = () => {
+    const surQuestions = [...SurveyQuestions];
+    surQuestions[surQuestions.length - 1].options.push("");
+    setSurveyQuestions(surQuestions);
+  };
+
+  const addQuestion = () => {
+    console.log(SurveyQuestions);
+  };
+
   return (
     <div className="survey-questions">
-      {surQuestions.map((question) => (
+      {SurveyQuestions.map((question, index) => (
         <Card
-          key={Math.random()}
+          key={index}
           style={{ borderLeft: "3px solid blue", marginBottom: "40px" }}
         >
           <CardContent id="cardContent">
             <TextField
               id="filled-textarea"
-              label={question}
+              label="write your question"
               placeholder=""
               multiline
               variant="filled"
+              onChange={(e) => {
+                getInputValue(e, index);
+              }}
+              value={question.title}
             />
-            <SelectVariants />
+            <SelectVariants
+              selectedType={selectedType}
+              onSelectOption={setSelectedOption}
+            />
           </CardContent>
+          <CardContent id="question-option">
+            <Options
+              selectedType={selectedType}
+              options={question.options}
+              setInputValue={setInputValue}
+              setAddOption={setAddOption}
+            />
+          </CardContent>
+
           <CardContent id="cardbutton">
-            <Button variant="contained" startIcon={<EditIcon />}>
+            <Button value={index} variant="contained" startIcon={<EditIcon />}>
               Edit
             </Button>
             <Button
@@ -45,32 +95,29 @@ function SurveyQuestions({ questions }) {
           </CardContent>
         </Card>
       ))}
-      <Fab
-        color="primary"
-        aria-label="add"
-        id="addquestion-btn"
-        onClick={addQuestion}
-      >
-        <AddIcon />
+      <Fab color="primary" aria-label="add" id="addquestion-btn">
+        <AddIcon onClick={addQuestion} />
       </Fab>
+      <ToastContainer />
     </div>
   );
 }
 
 SurveyQuestions.defaultProps = {
   questions: [
-    "write your question",
-    "write your question",
-    "write your question",
+    {
+      title: "",
+      type: QUESTION_TYPE.MULTIPLECHOICE,
+      options: [""],
+    },
   ],
 };
+
 export default SurveyQuestions;
 
-function SelectVariants() {
-  const [choice, setChoice] = useState("");
-
+function SelectVariants({ selectedType, onSelectOption }) {
   const handleChange = (event) => {
-    setChoice(event.target.value);
+    onSelectOption(event.target.value);
   };
 
   return (
@@ -80,14 +127,16 @@ function SelectVariants() {
         <Select
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
-          value={choice}
+          value={selectedType}
           onChange={handleChange}
           label="Choice"
         >
-          <MenuItem value="check box">Check box</MenuItem>
-          <MenuItem value="Multiple choice">Multiple choice</MenuItem>
-          <MenuItem value="Text">Text</MenuItem>
-          <MenuItem value="Number">Number</MenuItem>
+          <MenuItem value={QUESTION_TYPE.CHECKBOX}>checkbox</MenuItem>
+          <MenuItem value={QUESTION_TYPE.MULTIPLECHOICE}>
+            multiple choice
+          </MenuItem>
+          <MenuItem value={QUESTION_TYPE.TEXT}>text</MenuItem>
+          <MenuItem value={QUESTION_TYPE.NUMBER}>number</MenuItem>
         </Select>
       </FormControl>
     </div>
