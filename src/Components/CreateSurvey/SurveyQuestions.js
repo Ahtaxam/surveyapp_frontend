@@ -51,6 +51,13 @@ function SurveyQuestions({ questions }) {
     setSurveyQuestions(surQuestions);
   };
 
+  const deleteOption = (index) => {
+    const surQuestions = [...SurveyQuestions];
+    surQuestions[surQuestions.length - 1].options.splice(index, 1);
+
+    setSurveyQuestions(surQuestions);
+  };
+
   const addQuestion = () => {
     console.log(SurveyQuestions);
   };
@@ -85,6 +92,7 @@ function SurveyQuestions({ questions }) {
               options={question.options}
               setInputValue={setInputValue}
               setAddOption={setAddOption}
+              deleteOption={deleteOption}
             />
           </CardContent>
 
