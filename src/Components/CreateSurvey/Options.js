@@ -1,14 +1,16 @@
 import React from "react";
 import { Add } from "@mui/icons-material";
 import { Button } from "@mui/material";
+import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 
 function Options({ selectedType, options, setInputValue, setAddOption }) {
   const getInputValue = (e, index) => {
     setInputValue({ value: e.target.value, index: index });
   };
   const addOptions = () => {
-    setAddOption("");
+    setAddOption(options.length);
   };
+
   return (
     <div>
       {options.map((option, index) => (
@@ -21,12 +23,11 @@ function Options({ selectedType, options, setInputValue, setAddOption }) {
           &nbsp;&nbsp;&nbsp;
           <input
             type="text"
-            placeholder={`option ${index + 1}`}
             className="option-input"
             onChange={(e) => {
               getInputValue(e, index);
             }}
-            value={option}
+            value={`${options[index]}`}
           />
         </div>
       ))}
