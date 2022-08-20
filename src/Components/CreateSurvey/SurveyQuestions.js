@@ -28,6 +28,13 @@ function SurveyQuestions({ questions }) {
   const setSelectedOption = (selected) => {
     const surQuestions = [...SurveyQuestions];
     surQuestions[surQuestions.length - 1].type = selected;
+    if (selected === QUESTION_TYPE.NUMBER) {
+      surQuestions[surQuestions.length - 1].options = [12];
+    } else if (selected === QUESTION_TYPE.TEXT) {
+      surQuestions[surQuestions.length - 1].options = ["short text"];
+    } else {
+      surQuestions[surQuestions.length - 1].options = ["option1"];
+    }
     setSurveyQuestions(surQuestions);
     setSelectedType(selected);
   };
@@ -38,9 +45,9 @@ function SurveyQuestions({ questions }) {
     setSurveyQuestions(surQuestions);
   };
 
-  const setAddOption = () => {
+  const setAddOption = (length) => {
     const surQuestions = [...SurveyQuestions];
-    surQuestions[surQuestions.length - 1].options.push("");
+    surQuestions[surQuestions.length - 1].options.push("option" + (length + 1));
     setSurveyQuestions(surQuestions);
   };
 
@@ -108,7 +115,7 @@ SurveyQuestions.defaultProps = {
     {
       title: "",
       type: QUESTION_TYPE.MULTIPLECHOICE,
-      options: [""],
+      options: ["option1"],
     },
   ],
 };
