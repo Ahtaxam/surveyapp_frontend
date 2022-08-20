@@ -1,9 +1,15 @@
 import React from "react";
 import { Add } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 
-function Options({ selectedType, options, setInputValue, setAddOption }) {
+function Options({
+  selectedType,
+  options,
+  setInputValue,
+  setAddOption,
+  deleteOption,
+}) {
   const getInputValue = (e, index) => {
     setInputValue({ value: e.target.value, index: index });
   };
@@ -11,17 +17,22 @@ function Options({ selectedType, options, setInputValue, setAddOption }) {
     setAddOption(options.length);
   };
 
+  const deleteOptionIndex = (index) => {
+    deleteOption(index);
+  };
   return (
     <div>
       {options.map((option, index) => (
-        <div key={index}>
+        <div key={index} style={{ display: "flex", gap: "10px" }}>
           {["checkbox", "multiplechoice"].includes(selectedType) && (
             <input
               type={selectedType === "multiplechoice" ? "radio" : selectedType}
+              style={{ marginTop: "10px" }}
             />
           )}
           &nbsp;&nbsp;&nbsp;
-          <input
+          <TextField
+            variant="standard"
             type="text"
             className="option-input"
             onChange={(e) => {
@@ -29,6 +40,12 @@ function Options({ selectedType, options, setInputValue, setAddOption }) {
             }}
             value={`${options[index]}`}
           />
+          {index > 0 && (
+            <DeleteForeverRoundedIcon
+              id="delete-option"
+              onClick={() => deleteOptionIndex(index)}
+            />
+          )}
         </div>
       ))}
 
@@ -39,7 +56,7 @@ function Options({ selectedType, options, setInputValue, setAddOption }) {
           startIcon={<Add />}
           variant="contained"
         >
-          Add option
+          Add
         </Button>
       )}
     </div>
