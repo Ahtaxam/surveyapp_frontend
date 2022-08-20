@@ -57,6 +57,24 @@
   justify-content: flex-end;
   gap: 15px;
 }
+.option-input {
+  border: none;
+  border-bottom: 1px solid blue;
+  outline: none;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+#question-option {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  gap: 20px;
+}
+#question-option-add-button {
+  width: 150px;
+  margin-left: 120px;
+  margin-top: 10px;
+}
 
 @media screen and (min-width: 768px) {
   .surveyheader {
@@ -84,6 +102,11 @@
     justify-content: flex-end;
     gap: 15px;
     margin-top: 10px;
+  }
+  #question-option-add-button {
+    width: 150px;
+    margin-left: 150px;
+    margin-top: 20px;
   }
 }
 
