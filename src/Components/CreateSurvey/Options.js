@@ -9,17 +9,24 @@ function Options({
   setInputValue,
   setAddOption,
   deleteOption,
+  cardNo,
 }) {
-  const getInputValue = (e, index) => {
-    setInputValue({ value: e.target.value, index: index });
-  };
-  const addOptions = () => {
-    setAddOption(options.length);
+  // this function set value of option for a particular question and pass that data to parent component
+  const setOptionInputValue = (e, index, cardNo) => {
+    setInputValue({ value: e.target.value, index: index, cardNo: cardNo });
   };
 
-  const deleteOptionIndex = (index) => {
-    deleteOption(index);
+  // this function is used to add new option for a particular question and pass that data to parent component
+  const addOptions = () => {
+    setAddOption(cardNo, options.length);
   };
+
+  // this function is used to delete a specific option for a particular question and pass that data to parent component
+  const deleteOptionIndex = (index, cardNo) => {
+    deleteOption(index, cardNo);
+  };
+
+  //component to render options for a particular question
   return (
     <div>
       {options.map((option, index) => (
@@ -36,14 +43,14 @@ function Options({
             type="text"
             className="option-input"
             onChange={(e) => {
-              getInputValue(e, index);
+              setOptionInputValue(e, index, cardNo);
             }}
             value={`${options[index]}`}
           />
           {index > 0 && (
             <DeleteForeverRoundedIcon
               id="delete-option"
-              onClick={() => deleteOptionIndex(index)}
+              onClick={() => deleteOptionIndex(index, cardNo)}
             />
           )}
         </div>
