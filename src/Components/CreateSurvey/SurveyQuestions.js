@@ -5,63 +5,72 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-import { ToastContainer, toast } from "react-toastify";
 
 import QUESTION_TYPE from "../../Constants/QUESTIONS_TYPES";
 import Options from "./Options";
 
 function SurveyQuestions({ questions }) {
-  const [selectedType, setSelectedType] = useState(
-    QUESTION_TYPE.MULTIPLECHOICE
-  );
   const [SurveyQuestions, setSurveyQuestions] = useState(questions);
 
-  const getInputValue = (e, index) => {
+  // this function is used to add new question to the survey
+  const setQuestionValue = (e, index) => {
     const surQuestions = [...SurveyQuestions];
     surQuestions[index].title = e.target.value;
     setSurveyQuestions(surQuestions);
   };
 
-  const setSelectedOption = (selected) => {
+  // this function set options selected type for each question
+  const setSelectedOption = (cardNo, selected) => {
+    console.log(cardNo, selected);
     const surQuestions = [...SurveyQuestions];
-    surQuestions[surQuestions.length - 1].type = selected;
+    surQuestions[cardNo].type = selected;
     if (selected === QUESTION_TYPE.NUMBER) {
-      surQuestions[surQuestions.length - 1].options = [12];
+      surQuestions[cardNo].options = [12];
     } else if (selected === QUESTION_TYPE.TEXT) {
-      surQuestions[surQuestions.length - 1].options = ["short text"];
+      surQuestions[cardNo].options = ["short text"];
     } else {
-      surQuestions[surQuestions.length - 1].options = ["option1"];
+      surQuestions[cardNo].options = ["option1"];
     }
     setSurveyQuestions(surQuestions);
-    setSelectedType(selected);
+    // setSelectedType(selected);
   };
 
+  // this is callback back that is invoked by child to set options value for a particular questio
   const setInputValue = (values) => {
     const surQuestions = [...SurveyQuestions];
-    surQuestions[surQuestions.length - 1].options[values.index] = values.value;
+    surQuestions[values.cardNo].options[values.index] = values.value;
     setSurveyQuestions(surQuestions);
   };
 
-  const setAddOption = (length) => {
+  // this is callback back that is invoked by child to add new option for a particular question
+  const setAddOption = (cardNo, length) => {
     const surQuestions = [...SurveyQuestions];
-    surQuestions[surQuestions.length - 1].options.push("option" + (length + 1));
+    surQuestions[cardNo].options.push("option" + (length + 1));
     setSurveyQuestions(surQuestions);
   };
 
-  const deleteOption = (index) => {
+  // this is callback back that is invoked by child to delete a specific option for a particular question
+  const deleteOption = (index, cardNo) => {
     const surQuestions = [...SurveyQuestions];
-    surQuestions[surQuestions.length - 1].options.splice(index, 1);
+    surQuestions[cardNo].options.splice(index, 1);
 
     setSurveyQuestions(surQuestions);
   };
 
+  // this function is used to add new question to the survey
   const addQuestion = () => {
-    console.log(SurveyQuestions);
+    const surQuestions = [...SurveyQuestions];
+    surQuestions.push({
+      title: "",
+      type: QUESTION_TYPE.MULTIPLECHOICE,
+      options: ["option1"],
+    });
+    setSurveyQuestions(surQuestions);
   };
 
+  // component render function
   return (
     <div className="survey-questions">
       {SurveyQuestions.map((question, index) => (
@@ -77,29 +86,28 @@ function SurveyQuestions({ questions }) {
               multiline
               variant="filled"
               onChange={(e) => {
-                getInputValue(e, index);
+                setQuestionValue(e, index);
               }}
               value={question.title}
             />
             <SelectVariants
-              selectedType={selectedType}
+              selectedType={question.type}
               onSelectOption={setSelectedOption}
+              cardNo={index}
             />
           </CardContent>
           <CardContent id="question-option">
             <Options
-              selectedType={selectedType}
+              selectedType={question.type}
               options={question.options}
               setInputValue={setInputValue}
               setAddOption={setAddOption}
               deleteOption={deleteOption}
+              cardNo={index}
             />
           </CardContent>
 
           <CardContent id="cardbutton">
-            <Button value={index} variant="contained" startIcon={<EditIcon />}>
-              Edit
-            </Button>
             <Button
               sx={{ color: "red" }}
               variant="outlined"
@@ -113,11 +121,11 @@ function SurveyQuestions({ questions }) {
       <Fab color="primary" aria-label="add" id="addquestion-btn">
         <AddIcon onClick={addQuestion} />
       </Fab>
-      <ToastContainer />
     </div>
   );
 }
 
+// component default props
 SurveyQuestions.defaultProps = {
   questions: [
     {
@@ -130,9 +138,10 @@ SurveyQuestions.defaultProps = {
 
 export default SurveyQuestions;
 
-function SelectVariants({ selectedType, onSelectOption }) {
+// this function is used to select a particulat QUESTION TYPE for a particular question and it receive three props and it set Question type for each question accordingly
+function SelectVariants({ selectedType, onSelectOption, cardNo }) {
   const handleChange = (event) => {
-    onSelectOption(event.target.value);
+    onSelectOption(cardNo, event.target.value);
   };
 
   return (
