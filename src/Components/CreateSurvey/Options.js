@@ -32,14 +32,22 @@ function Options({
     <div>
       {options.map((option, index) => (
         <div key={index} style={{ display: "flex", gap: "10px" }}>
-          {["checkbox", "multiplechoice"].includes(selectedType) && (
+          {[QUESTIONS_TYPE.CHECKBOX, QUESTIONS_TYPE.MULTIPLECHOICE].includes(
+            selectedType
+          ) && (
             <input
-              type={selectedType === "multiplechoice" ? "radio" : selectedType}
+              type={
+                selectedType === QUESTIONS_TYPE.MULTIPLECHOICE
+                  ? "radio"
+                  : selectedType
+              }
               style={{ marginTop: "10px" }}
             />
           )}
           &nbsp;&nbsp;&nbsp;
-          {["checkbox", "multiplechoice"].includes(selectedType) ? (
+          {[QUESTIONS_TYPE.CHECKBOX, QUESTIONS_TYPE.MULTIPLECHOICE].includes(
+            selectedType
+          ) ? (
             <TextField
               variant="standard"
               multiline
@@ -62,7 +70,9 @@ function Options({
         </div>
       ))}
 
-      {["checkbox", "multiplechoice"].includes(selectedType) && (
+      {[QUESTIONS_TYPE.CHECKBOX, QUESTIONS_TYPE.MULTIPLECHOICE].includes(
+        selectedType
+      ) && (
         <Button
           onClick={addOptions}
           id="question-option-add-button"
