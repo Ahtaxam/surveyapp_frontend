@@ -7,8 +7,9 @@ import "./createsurvey.css";
 import SurveyQuestions from "./SurveyQuestions";
 import PATH from "../../Constants/Path";
 import Navbar from "../Navbar/Navbar";
-
 import QUESTION_TYPE from "../../Constants/QUESTIONS_TYPES";
+import { validateSurveyQuestions } from "./validateSurveyQuestions";
+import { toast, ToastContainer } from "react-toastify";
 
 function CreateSurvey() {
   const [title, setTitle] = useState("");
@@ -25,8 +26,15 @@ function CreateSurvey() {
     navigate(PATH.DASHBOARD);
   };
 
-  const submitSurvey = (questions) => {
-    console.log("submit survey");
+  const submitSurvey = () => {
+    const [titles, options] = validateSurveyQuestions(userForms);
+
+    if (titles && options) {
+      console.log(userForms);
+      toast.success("Survey created successfully");
+    } else {
+      toast.error("Question must be valid");
+    }
   };
 
   // this function is used to add question title to the survey
@@ -40,11 +48,10 @@ function CreateSurvey() {
   const handleQuestionType = (selectedType, questionNo) => {
     const userForm = [...userForms];
     userForm[questionNo].type = selectedType;
-    if (selectedType === QUESTION_TYPE) {
-      userForm[questionNo].options = ["number"];
-    } else if (selectedType === QUESTION_TYPE.TEXT) {
-      userForm[questionNo].options = ["short text"];
-    } else {
+
+    if (selectedType === QUESTION_TYPE.TEXT) {
+      userForm[questionNo].options = ["option1"];
+    } else if (selectedType === QUESTION_TYPE.NUMBER) {
       userForm[questionNo].options = ["option1"];
     }
     setUserForms(userForm);
@@ -160,6 +167,7 @@ function CreateSurvey() {
       >
         Back
       </Button>
+      <ToastContainer />
     </div>
   );
 }
