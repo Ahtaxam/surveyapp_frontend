@@ -40,6 +40,7 @@ function Options({
           &nbsp;&nbsp;&nbsp;
           <TextField
             variant="standard"
+            multiline
             type="text"
             className="option-input"
             onChange={(e) => {
