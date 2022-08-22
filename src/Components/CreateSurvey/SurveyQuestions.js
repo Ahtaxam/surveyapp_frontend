@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent, Button, TextField } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -14,88 +14,53 @@ import IconButton from "@mui/material/IconButton";
 import QUESTION_TYPE from "../../Constants/QUESTIONS_TYPES";
 import Options from "./Options";
 
-function SurveyQuestions({ questions }) {
-  const [SurveyQuestions, setSurveyQuestions] = useState(questions);
-
-  // this function is used to add new question to the survey
+function SurveyQuestions({
+  questions,
+  handleQuestion,
+  handleQuestionType,
+  handleAddOption,
+  handleOptionValue,
+  handleDeleteOption,
+  handleDeleteQuestion,
+  handleAddQuestion,
+  copyQuestion,
+}) {
   const setQuestionValue = (e, index) => {
-    const surQuestions = [...SurveyQuestions];
-    surQuestions[index].title = e.target.value;
-    setSurveyQuestions(surQuestions);
+    handleQuestion(e.target.value, index);
   };
 
-  // this function set options selected type for each question
-  const setSelectedOption = (cardNo, selected, previousType) => {
-    const surQuestions = [...SurveyQuestions];
-    surQuestions[cardNo].type = selected;
-    if (selected === QUESTION_TYPE.NUMBER) {
-      surQuestions[cardNo].options = [0];
-    } else if (selected === QUESTION_TYPE.TEXT) {
-      surQuestions[cardNo].options = ["short text"];
-    } else {
-      SurveyQuestions[cardNo].options = ["option1"];
-    }
-
-    setSurveyQuestions(surQuestions);
+  const setSelectedOption = (cardNo, selected) => {
+    handleQuestionType(selected, cardNo);
   };
 
-  // this is callback back that is invoked by child to set options value for a particular questio
   const setInputValue = (values) => {
-    const surQuestions = [...SurveyQuestions];
-    surQuestions[values.cardNo].options[values.index] = values.value;
-    setSurveyQuestions(surQuestions);
+    handleOptionValue(values);
   };
 
-  // this is callback back that is invoked by child to add new option for a particular question
   const setAddOption = (cardNo, length) => {
-    const surQuestions = [...SurveyQuestions];
-    surQuestions[cardNo].options.push("option" + (length + 1));
-    setSurveyQuestions(surQuestions);
+    handleAddOption(cardNo, length);
   };
 
-  // this is callback back that is invoked by child to delete a specific option for a particular question
   const deleteOption = (index, cardNo) => {
-    const surQuestions = [...SurveyQuestions];
-    surQuestions[cardNo].options.splice(index, 1);
-
-    setSurveyQuestions(surQuestions);
+    handleDeleteOption(index, cardNo);
   };
 
-  // this function is used to copy a particular question on which user clicked and add it to the survey
-  const copyQuestion = (QuestionIndex) => {
-    const surQuestions = [...SurveyQuestions];
-    surQuestions.splice(QuestionIndex + 1, 0, {
-      ...surQuestions[QuestionIndex],
-    });
-    surQuestions[QuestionIndex + 1].options = [
-      ...surQuestions[QuestionIndex].options,
-    ];
-
-    setSurveyQuestions(surQuestions);
+  const copySurveyQuestion = (questionIndex) => {
+    copyQuestion(questionIndex);
   };
 
-  // this function is used to delete a particular question on which user clicked and delete it from the survey
-  const deleteQuestion = (QuestionIndex) => {
-    const surQuestions = [...SurveyQuestions];
-    surQuestions.splice(QuestionIndex, 1);
-    setSurveyQuestions(surQuestions);
+  const deleteQuestion = (questionIndex) => {
+    handleDeleteQuestion(questionIndex);
   };
 
-  // this function is used to add new question to the survey
   const addQuestion = () => {
-    const surQuestions = [...SurveyQuestions];
-    surQuestions.push({
-      title: "",
-      type: QUESTION_TYPE.MULTIPLECHOICE,
-      options: ["option1"],
-    });
-    setSurveyQuestions(surQuestions);
+    handleAddQuestion();
   };
 
   // component render function
   return (
     <div className="survey-questions">
-      {SurveyQuestions.map((question, index) => (
+      {questions.map((question, index) => (
         <Card
           key={index}
           style={{ borderLeft: "3px solid blue", marginBottom: "40px" }}
@@ -131,7 +96,7 @@ function SurveyQuestions({ questions }) {
 
           <CardContent id="cardbutton">
             <Tooltip title="copy">
-              <IconButton onClick={() => copyQuestion(index)}>
+              <IconButton onClick={() => copySurveyQuestion(index)}>
                 <ContentCopyIcon></ContentCopyIcon>
               </IconButton>
             </Tooltip>
