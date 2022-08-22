@@ -7,6 +7,9 @@ import Select from "@mui/material/Select";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
 
 import QUESTION_TYPE from "../../Constants/QUESTIONS_TYPES";
 import Options from "./Options";
@@ -22,19 +25,18 @@ function SurveyQuestions({ questions }) {
   };
 
   // this function set options selected type for each question
-  const setSelectedOption = (cardNo, selected) => {
-    console.log(cardNo, selected);
+  const setSelectedOption = (cardNo, selected, previousType) => {
     const surQuestions = [...SurveyQuestions];
     surQuestions[cardNo].type = selected;
     if (selected === QUESTION_TYPE.NUMBER) {
-      surQuestions[cardNo].options = [12];
+      surQuestions[cardNo].options = [0];
     } else if (selected === QUESTION_TYPE.TEXT) {
       surQuestions[cardNo].options = ["short text"];
     } else {
-      surQuestions[cardNo].options = ["option1"];
+      SurveyQuestions[cardNo].options = ["option1"];
     }
+
     setSurveyQuestions(surQuestions);
-    // setSelectedType(selected);
   };
 
   // this is callback back that is invoked by child to set options value for a particular questio
@@ -56,6 +58,26 @@ function SurveyQuestions({ questions }) {
     const surQuestions = [...SurveyQuestions];
     surQuestions[cardNo].options.splice(index, 1);
 
+    setSurveyQuestions(surQuestions);
+  };
+
+  // this function is used to copy a particular question on which user clicked and add it to the survey
+  const copyQuestion = (QuestionIndex) => {
+    const surQuestions = [...SurveyQuestions];
+    surQuestions.splice(QuestionIndex + 1, 0, {
+      ...surQuestions[QuestionIndex],
+    });
+    surQuestions[QuestionIndex + 1].options = [
+      ...surQuestions[QuestionIndex].options,
+    ];
+
+    setSurveyQuestions(surQuestions);
+  };
+
+  // this function is used to delete a particular question on which user clicked and delete it from the survey
+  const deleteQuestion = (QuestionIndex) => {
+    const surQuestions = [...SurveyQuestions];
+    surQuestions.splice(QuestionIndex, 1);
     setSurveyQuestions(surQuestions);
   };
 
@@ -108,10 +130,16 @@ function SurveyQuestions({ questions }) {
           </CardContent>
 
           <CardContent id="cardbutton">
+            <Tooltip title="copy">
+              <IconButton onClick={() => copyQuestion(index)}>
+                <ContentCopyIcon></ContentCopyIcon>
+              </IconButton>
+            </Tooltip>
             <Button
               sx={{ color: "red" }}
               variant="outlined"
               startIcon={<DeleteIcon />}
+              onClick={() => deleteQuestion(index)}
             >
               Delete
             </Button>
@@ -141,7 +169,7 @@ export default SurveyQuestions;
 // this function is used to select a particulat QUESTION TYPE for a particular question and it receive three props and it set Question type for each question accordingly
 function SelectVariants({ selectedType, onSelectOption, cardNo }) {
   const handleChange = (event) => {
-    onSelectOption(cardNo, event.target.value);
+    onSelectOption(cardNo, event.target.value, selectedType);
   };
 
   return (
