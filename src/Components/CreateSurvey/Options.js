@@ -2,6 +2,7 @@ import React from "react";
 import { Add } from "@mui/icons-material";
 import { Button, TextField } from "@mui/material";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
+import QUESTIONS_TYPE from "../../Constants/QUESTIONS_TYPES";
 
 function Options({
   selectedType,
@@ -38,16 +39,20 @@ function Options({
             />
           )}
           &nbsp;&nbsp;&nbsp;
-          <TextField
-            variant="standard"
-            multiline
-            type="text"
-            className="option-input"
-            onChange={(e) => {
-              setOptionInputValue(e, index, cardNo);
-            }}
-            value={`${options[index]}`}
-          />
+          {["checkbox", "multiplechoice"].includes(selectedType) ? (
+            <TextField
+              variant="standard"
+              multiline
+              type="text"
+              className="option-input"
+              onChange={(e) => {
+                setOptionInputValue(e, index, cardNo);
+              }}
+              value={`${options[index]}`}
+            />
+          ) : (
+            "Give answer"
+          )}
           {index > 0 && (
             <DeleteForeverRoundedIcon
               id="delete-option"
