@@ -10,7 +10,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Person from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
 import { styled } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import PATH from "../../Constants/Path";
 
@@ -74,7 +74,6 @@ function MenuComponent() {
           Logout
         </MenuItem>
       </Menu>
-      <ToastContainer />
     </div>
   );
 }
