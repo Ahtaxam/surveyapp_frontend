@@ -12,7 +12,7 @@ import { validateSurveyQuestions } from "./validateSurveyQuestions";
 import { toast, ToastContainer } from "react-toastify";
 
 function CreateSurvey() {
-  const [title, setTitle] = useState("UNTITLED SURVEY");//survey title 
+  const [name, setName] = useState("UNTITLED SURVEY");//survey title 
   const [description, setDescription] = useState("");//survey description
   const [userForms, setUserForms] = useState([
     {
@@ -27,7 +27,7 @@ function CreateSurvey() {
   };
 
   const submitSurvey = () => {
-    if (title.length === 0 || description.length === 0) {
+    if (name.length === 0 || description.length === 0) {
       toast.error("Please Make Sure You Have A Title And Description");
       return;
     }
@@ -127,8 +127,8 @@ function CreateSurvey() {
           type="text"
           className="surveyheader__input"
           placeholder="UNTITLED SURVEY"
-          value={title}
-          onChange={(e) => setTitle(e.target.value.toUpperCase())}
+          value={name}
+          onChange={(e) => setName(e.target.value.toUpperCase())}
         />
         <TextField
           id="filled-textarea"
