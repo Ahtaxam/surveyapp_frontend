@@ -29,8 +29,8 @@ function SurveyQuestions({
     handleQuestion(e.target.value, index);
   };
 
-  const setSelectedOption = (cardNo, selected) => {
-    handleQuestionType(selected, cardNo);
+  const setSelectedOption = (cardNo, selected , previous) => {
+    handleQuestionType(selected, cardNo,previous);
   };
 
   const setInputValue = (values) => {
