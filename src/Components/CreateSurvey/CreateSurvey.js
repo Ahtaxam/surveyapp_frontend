@@ -12,8 +12,8 @@ import { validateSurveyQuestions } from "./validateSurveyQuestions";
 import { toast, ToastContainer } from "react-toastify";
 
 function CreateSurvey() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("UNTITLED SURVEY");//survey title 
+  const [description, setDescription] = useState("");//survey description
   const [userForms, setUserForms] = useState([
     {
       title: "",
@@ -27,6 +27,10 @@ function CreateSurvey() {
   };
 
   const submitSurvey = () => {
+    if (title.length === 0 || description.length === 0) {
+      toast.error("Please Make Sure You Have A Title And Description");
+      return;
+    }
     const [titles, options] = validateSurveyQuestions(userForms);
 
     if (titles && options) {
@@ -45,13 +49,20 @@ function CreateSurvey() {
   };
 
   // this function set options selected type for each question
-  const handleQuestionType = (selectedType, questionNo) => {
+  const handleQuestionType = (selectedType, questionNo, previous) => {
     const userForm = [...userForms];
     userForm[questionNo].type = selectedType;
 
     if (selectedType === QUESTION_TYPE.TEXT) {
-      userForm[questionNo].options = ["option1"];
+      userForm[questionNo].options = [""];
     } else if (selectedType === QUESTION_TYPE.NUMBER) {
+      userForm[questionNo].options = [""];
+    } else if (
+      ((selectedType === QUESTION_TYPE.CHECKBOX ||
+        selectedType === QUESTION_TYPE.MULTIPLECHOICE) &&
+        previous === QUESTION_TYPE.TEXT) ||
+      previous === QUESTION_TYPE.NUMBER
+    ) {
       userForm[questionNo].options = ["option1"];
     }
     setUserForms(userForm);
