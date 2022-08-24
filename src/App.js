@@ -20,7 +20,7 @@ function App() {
           element={<PrivateRoutes component={DashBoard} />}
         />
         <Route
-          path={PATH.CREATESURVEY}
+          path={PATH.SURVEY}
           element={<PrivateRoutes component={CreateSurvey} />}
         />
       </Routes>
