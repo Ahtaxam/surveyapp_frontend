@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, styled, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Card as MuiCard } from "@mui/material";
@@ -8,19 +8,36 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+
 import "./dashbord.css";
 import PATH from "../../Constants/Path";
 import Navbar from "../Navbar/Navbar";
+import Progress from "../Progress/Progress";
 
 function DashBoard({ PreviousSurveys }) {
   const [userSurveys, setUserSurveys] = useState();
+  const [deleteId, setDeleteId] = useState();
+  const authToken = document.cookie.split("=")[1];
+  const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const handleClickOpen = (id) => {
+    setOpen(true);
+    setDeleteId(id);
+  };
   const navigate = useNavigate();
   const createSurvey = () => {
     navigate(PATH.SURVEY);
   };
 
-  useEffect(() => {
-    const authToken = document.cookie.split("=")[1];
+  const fetchSurvey = useCallback(() => {
     const options = {
       method: "GET",
       url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}`,
@@ -36,7 +53,36 @@ function DashBoard({ PreviousSurveys }) {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [authToken]);
+
+  const handleClose = (message) => {
+    setOpen(false);
+    if (message === "agree") {
+      const options = {
+        method: "DELETE",
+        url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${deleteId}`,
+        headers: {
+          token: authToken,
+        },
+      };
+      axios
+        .request(options)
+        .then((response) => {
+          toast.success("Survey deleted successfully");
+          fetchSurvey();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchSurvey();
+    }, 1000);
+  }, [fetchSurvey]);
+
   return (
     <div>
       <Navbar />
@@ -53,24 +99,78 @@ function DashBoard({ PreviousSurveys }) {
         Your Surveys
       </Typography>
       <div className="recentSurvey">
-        {userSurveys && userSurveys.map((survey, index) => (
-          <Card key={index}>
-            <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
-            <p className="recentSurvey__response">
-              Responses: {survey.responses}{" "}
-            </p>
-            <div style={{ display: "flex", gap: "15px" }}>
-              <Button variant="contained">Edit</Button>
-              <Button
-                variant="danger"
-                startIcon={<DeleteIcon />}
-                style={{ color: "red" }}
-              >
-                Delete
-              </Button>
-            </div>
-          </Card>
-        ))}
+        {userSurveys ? (
+          userSurveys.map((survey, index) => (
+            <Card key={index}>
+              <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
+              <p className="recentSurvey__response">
+                Responses: {survey.responses}{" "}
+              </p>
+              <div style={{ display: "flex", gap: "45px" }}>
+                <Button variant="contained">
+                  <Link
+                    style={{ textDecoration: "none", color: "white" }}
+                    to={`${PATH.EDITSURVEY}/${survey._id}`}
+                  >
+                    Edit
+                  </Link>
+                </Button>
+
+                <Button
+                  onClick={() => handleClickOpen(survey._id)}
+                  variant="danger"
+                  startIcon={<DeleteIcon />}
+                  style={{ color: "red" }}
+                >
+                  Delete
+                </Button>
+                <Dialog
+                  fullScreen={fullScreen}
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="responsive-dialog-title"
+                >
+                  <DialogTitle
+                    id="responsive-dialog-title"
+                    style={{ color: "red" }}
+                  >
+                    {"Survey will be deleted ?"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      Are you sure you want to delete this survey?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Button
+                      autoFocus
+                      variant="outlined"
+                      onClick={() => handleClose("disagree")}
+                    >
+                      No
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={() => handleClose("agree")}
+                      autoFocus
+                      style={{ backgroundColor: "#f44336" }}
+                    >
+                      Yes
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </div>
+            </Card>
+          ))
+        ) : (
+          <Progress />
+        )}
       </div>
       <hr style={{ width: "80%", marginLeft: "8%" }} />
       <div className="createdSurveys">
