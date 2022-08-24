@@ -7,6 +7,7 @@ import Login from "./Components/LoginComponent/Login";
 import Signup from "./Components/SignupComponent/Signup";
 import PrivateRoutes from "./PrivateRoutes";
 import CreateSurvey from "./Components/CreateSurvey/CreateSurvey";
+import EditSurvey from "./Components/EditSurvey/EditSurvey";
 
 function App() {
   return (
@@ -22,6 +23,11 @@ function App() {
         <Route
           path={PATH.SURVEY}
           element={<PrivateRoutes component={CreateSurvey} />}
+        />
+
+        <Route
+          path={`${PATH.EDITSURVEY}/:surveyId`}
+          element={<PrivateRoutes component={EditSurvey} />}
         />
       </Routes>
     </div>
