@@ -3,6 +3,6 @@ const PATH = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   DASHBOARD: "/dashboard",
-  CREATESURVEY: "/createsurvey",
+  SURVEY: "/survey",
 };
 export default PATH;
