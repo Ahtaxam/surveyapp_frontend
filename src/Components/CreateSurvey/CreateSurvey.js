@@ -1,7 +1,10 @@
-import { TextField } from "@mui/material";
+import { TextField, Tooltip } from "@mui/material";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import Switch from "@mui/material/Switch";
 
 import "./createsurvey.css";
 import SurveyQuestions from "./SurveyQuestions";
@@ -9,11 +12,11 @@ import PATH from "../../Constants/Path";
 import Navbar from "../Navbar/Navbar";
 import QUESTION_TYPE from "../../Constants/QUESTIONS_TYPES";
 import { validateSurveyQuestions } from "./validateSurveyQuestions";
-import { toast, ToastContainer } from "react-toastify";
 
 function CreateSurvey() {
-  const [name, setName] = useState("UNTITLED SURVEY");//survey title 
-  const [description, setDescription] = useState("");//survey description
+  const [isPublic, setPublic] = useState(true);
+  const [name, setName] = useState("UNTITLED SURVEY"); //survey title
+  const [description, setDescription] = useState(""); //survey description
   const [userForms, setUserForms] = useState([
     {
       title: "",
@@ -27,6 +30,8 @@ function CreateSurvey() {
   };
 
   const submitSurvey = () => {
+    const authToken = document.cookie.split("=")[1];
+    console.log(name, description, isPublic);
     if (name.length === 0 || description.length === 0) {
       toast.error("Please Make Sure You Have A Title And Description");
       return;
@@ -34,8 +39,29 @@ function CreateSurvey() {
     const [titles, options] = validateSurveyQuestions(userForms);
 
     if (titles && options) {
-      console.log(userForms);
-      toast.success("Survey created successfully");
+      console.log("Alright");
+      const options = {
+        method: "POST",
+        url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}`,
+        headers: {
+          token: authToken,
+        },
+        data: {
+          name: name,
+          description: description,
+          isPublic: isPublic,
+          questions: userForms,
+        },
+      };
+
+      axios
+        .request(options)
+        .then((response) => {
+          toast.success(response.data.message);
+        })
+        .catch((error) => {
+          toast.error(error.message);
+        });
     } else {
       toast.error("Question must be valid");
     }
@@ -54,9 +80,9 @@ function CreateSurvey() {
     userForm[questionNo].type = selectedType;
 
     if (selectedType === QUESTION_TYPE.TEXT) {
-      userForm[questionNo].options = [""];
+      userForm[questionNo].options = [];
     } else if (selectedType === QUESTION_TYPE.NUMBER) {
-      userForm[questionNo].options = [""];
+      userForm[questionNo].options = [];
     } else if (
       ((selectedType === QUESTION_TYPE.CHECKBOX ||
         selectedType === QUESTION_TYPE.MULTIPLECHOICE) &&
@@ -122,6 +148,17 @@ function CreateSurvey() {
   return (
     <div>
       <Navbar />
+      <p className="switch-button">
+        <Tooltip title="isPublic">
+          <Switch
+            checked={isPublic}
+            style={{ color: "purple", width: "50px" }}
+            onChange={() => setPublic(!isPublic)}
+            name="isPublic"
+            color="secondary"
+          />
+        </Tooltip>
+      </p>
       <section className="surveyheader">
         <input
           type="text"
