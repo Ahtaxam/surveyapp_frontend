@@ -42,6 +42,7 @@ function Options({
                   : selectedType
               }
               style={{ marginTop: "10px" }}
+              name="name"
             />
           )}
           &nbsp;&nbsp;&nbsp;
