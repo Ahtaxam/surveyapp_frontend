@@ -31,7 +31,6 @@ function CreateSurvey() {
 
   const submitSurvey = () => {
     const authToken = document.cookie.split("=")[1];
-    console.log(name, description, isPublic);
     if (name.length === 0 || description.length === 0) {
       toast.error("Please Make Sure You Have A Title And Description");
       return;
@@ -39,7 +38,6 @@ function CreateSurvey() {
     const [titles, options] = validateSurveyQuestions(userForms);
 
     if (titles && options) {
-      console.log("Alright");
       const options = {
         method: "POST",
         url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}`,
@@ -58,6 +56,9 @@ function CreateSurvey() {
         .request(options)
         .then((response) => {
           toast.success(response.data.message);
+          setTimeout(() => {
+            navigate(PATH.DASHBOARD);
+          }, 1000);
         })
         .catch((error) => {
           toast.error(error.message);
@@ -148,17 +149,7 @@ function CreateSurvey() {
   return (
     <div>
       <Navbar />
-      <p className="switch-button">
-        <Tooltip title="isPublic">
-          <Switch
-            checked={isPublic}
-            style={{ color: "purple", width: "50px" }}
-            onChange={() => setPublic(!isPublic)}
-            name="isPublic"
-            color="secondary"
-          />
-        </Tooltip>
-      </p>
+
       <section className="surveyheader">
         <input
           type="text"
@@ -175,6 +166,15 @@ function CreateSurvey() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+        <p className="switch-button">
+          Public
+          <Switch
+            checked={isPublic}
+            onChange={() => setPublic(!isPublic)}
+            name="isPublic"
+            color="secondary"
+          />
+        </p>
       </section>
 
       <section>
