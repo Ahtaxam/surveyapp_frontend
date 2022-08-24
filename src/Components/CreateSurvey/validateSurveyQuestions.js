@@ -1,7 +1,6 @@
 import QUESTIONS_TYPE from "../../Constants/QUESTIONS_TYPES";
 
 export function validateSurveyQuestions(surQuestions) {
-  console.log("surQuestions", surQuestions);
   const titles = [];
   const option = [];
   surQuestions.forEach((question) => {
