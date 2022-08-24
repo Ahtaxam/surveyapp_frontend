@@ -1,20 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, styled, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Card as MuiCard } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 import "./dashbord.css";
 import PATH from "../../Constants/Path";
 import Navbar from "../Navbar/Navbar";
 
-function DashBoard({ PreviousSurveys, userSurvey }) {
+function DashBoard({ PreviousSurveys }) {
+  const [userSurveys, setUserSurveys] = useState();
   const navigate = useNavigate();
   const createSurvey = () => {
-    navigate(PATH.CREATESURVEY);
+    navigate(PATH.SURVEY);
   };
+
+  useEffect(() => {
+    const authToken = document.cookie.split("=")[1];
+    const options = {
+      method: "GET",
+      url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}`,
+      headers: {
+        token: authToken,
+      },
+    };
+    axios
+      .request(options)
+      .then((response) => {
+        setUserSurveys(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <div>
       <Navbar />
@@ -31,7 +53,7 @@ function DashBoard({ PreviousSurveys, userSurvey }) {
         Your Surveys
       </Typography>
       <div className="recentSurvey">
-        {userSurvey.map((survey, index) => (
+        {userSurveys && userSurveys.map((survey, index) => (
           <Card key={index}>
             <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
             <p className="recentSurvey__response">
@@ -50,7 +72,6 @@ function DashBoard({ PreviousSurveys, userSurvey }) {
           </Card>
         ))}
       </div>
-
       <hr style={{ width: "80%", marginLeft: "8%" }} />
       <div className="createdSurveys">
         <Typography className="othersurveys-heading" variant="h4">
@@ -71,6 +92,7 @@ function DashBoard({ PreviousSurveys, userSurvey }) {
           ))}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
@@ -86,7 +108,7 @@ DashBoard.defaultProps = {
     { name: "Student Politices", responses: 56 },
   ],
 
-  userSurvey: [
+  userSurveys: [
     {
       name: "Work Place",
       responses: 89,
