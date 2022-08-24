@@ -3,15 +3,20 @@
   padding: 0%;
   box-sizing: border-box;
 }
+.switch-button{
+  text-align: right;
+  margin-right: 20px;
+}
 .surveyheader {
   width: 100%;
   height: auto;
-  margin-top: 50px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 20px;
 }
+
 .surveyheader__input {
   width: 100%;
   padding: 10px;
