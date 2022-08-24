@@ -8,7 +8,7 @@ function Navbar() {
       <p className="dashboardnav__heading">Nex Research</p>
 
       <div style={{ display: "flex", gap: "20px" }}>
-        <Button variant="outline" style={{ color: "#d500f9" }}>
+        <Button variant="outline" style={{ color: "white" }}>
           join{" "}
         </Button>
         <MenuComponent id="navmenu" />
