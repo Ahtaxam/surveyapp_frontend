@@ -7,7 +7,6 @@ import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import LoadingBar from "react-top-loading-bar";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -24,7 +23,6 @@ import Progress from "../Progress/Progress";
 function DashBoard({ PreviousSurveys }) {
   const [userSurveys, setUserSurveys] = useState();
   const [deleteId, setDeleteId] = useState();
-  const [progress, setProgress] = useState(30);
 
   const authToken = document.cookie.split("=")[1];
   const [open, setOpen] = useState(false);
@@ -40,7 +38,6 @@ function DashBoard({ PreviousSurveys }) {
   };
 
   const fetchSurvey = useCallback(() => {
-    setProgress(50);
     const options = {
       method: "GET",
       url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}`,
@@ -51,13 +48,11 @@ function DashBoard({ PreviousSurveys }) {
     axios
       .request(options)
       .then((response) => {
-        handleProgress(80);
         setUserSurveys(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-    handleProgress(100);
   }, [authToken]);
 
   const handleClose = (message) => {
@@ -82,10 +77,6 @@ function DashBoard({ PreviousSurveys }) {
     }
   };
 
-  const handleProgress = (progress) => {
-    setProgress(progress);
-  };
-
   useEffect(() => {
     setTimeout(() => {
       fetchSurvey();
@@ -94,11 +85,6 @@ function DashBoard({ PreviousSurveys }) {
 
   return (
     <div>
-      <LoadingBar
-        color="#f11946"
-        progress={progress}
-        onLoaderFinished={handleProgress}
-      />
       <Navbar />
       <Button
         onClick={createSurvey}
