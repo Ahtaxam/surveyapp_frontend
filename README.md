@@ -36,7 +36,7 @@ Go to the repository readme for complete guidence
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file. That is also mentioned in .env.exampl file
+To run this project, you will need to add the following environment variables to your .env file. That is also mentioned in .env.example file
 
 REACT_APP_BASE_URL
 
