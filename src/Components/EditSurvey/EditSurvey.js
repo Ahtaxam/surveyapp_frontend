@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { TextField } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { Card, CardContent, Button } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -31,13 +31,14 @@ function EditSurvey() {
   const [description, setDescription] = useState("");
   const [isPublic, setPublic] = useState(Boolean);
   const [questions, setQuestions] = useState();
+  const [surveyExist, setSurveyExist] = useState(true);
   const { surveyId } = useParams();
   const authToken = document.cookie.split("=")[1];
 
   const navigate = useNavigate();
 
   const updateSurvey = () => {
-    if (name.length === 0 || description.length === 0) {
+    if (name.length === 0) {
       toast.error("Please Make Sure You Have A Title And Description");
       return;
     }
@@ -91,9 +92,9 @@ function EditSurvey() {
           setQuestions(response.data.questions);
         })
         .catch((error) => {
-          console.log(error);
+          setSurveyExist(false);
         });
-    }, 2000);
+    }, 1000);
   }, [authToken, surveyId]);
 
   const setQuestionValue = (e, index) => {
@@ -111,7 +112,7 @@ function EditSurvey() {
       userQuestions[questionNo].options = [];
     } else if (
       ((selectedType === QUESTION_TYPE.CHECKBOX ||
-        selectedType === QUESTION_TYPE.MULTIPLECHOICE) &&
+        selectedType === QUESTION_TYPE.MULTIPLE_CHOICE) &&
         previousValue === QUESTION_TYPE.TEXT) ||
       previousValue === QUESTION_TYPE.NUMBER
     ) {
@@ -142,7 +143,7 @@ function EditSurvey() {
     const userQuestions = [...questions];
     userQuestions.push({
       title: "",
-      type: QUESTION_TYPE.MULTIPLECHOICE,
+      type: QUESTION_TYPE.MULTIPLE_CHOICE,
       options: ["option1"],
     });
     setQuestions(userQuestions);
@@ -193,66 +194,72 @@ function EditSurvey() {
           />
         </p>
       </section>
-      <div className="survey-questions">
-        {questions ? (
-          questions.map((question, index) => (
-            <Card
-              key={index}
-              style={{ borderLeft: "3px solid blue", marginBottom: "40px" }}
-            >
-              <CardContent id="cardContent">
-                <TextField
-                  id="filled-textarea"
-                  label="write your question"
-                  placeholder=""
-                  multiline
-                  variant="filled"
-                  value={question.title}
-                  onChange={(e) => {
-                    setQuestionValue(e, index);
-                  }}
-                />
-                <SelectVariants
-                  selectedType={question.type}
-                  onSelectOption={selectedOption}
-                  questionNo={index}
-                />
-              </CardContent>
-              <CardContent id="question-option">
-                <EditOptions
-                  selectedType={question.type}
-                  options={question.options}
-                  questionNo={index}
-                  handleAddOption={setAddOption}
-                  handleOptionValue={setOptionInputValue}
-                  handleDeleteOption={deleteOption}
-                />
-              </CardContent>
+      {surveyExist ? (
+        <div className="survey-questions">
+          {questions ? (
+            questions.map((question, index) => (
+              <Card
+                key={index}
+                style={{ borderLeft: "3px solid blue", marginBottom: "40px" }}
+              >
+                <CardContent id="cardContent">
+                  <TextField
+                    id="filled-textarea"
+                    label="write your question"
+                    placeholder=""
+                    multiline
+                    variant="filled"
+                    value={question.title}
+                    onChange={(e) => {
+                      setQuestionValue(e, index);
+                    }}
+                  />
+                  <SelectVariants
+                    selectedType={question.type}
+                    onSelectOption={selectedOption}
+                    questionNo={index}
+                  />
+                </CardContent>
+                <CardContent id="question-option">
+                  <EditOptions
+                    selectedType={question.type}
+                    options={question.options}
+                    questionNo={index}
+                    handleAddOption={setAddOption}
+                    handleOptionValue={setOptionInputValue}
+                    handleDeleteOption={deleteOption}
+                  />
+                </CardContent>
 
-              <CardContent id="cardbutton">
-                <Tooltip title="copy">
-                  <IconButton onClick={() => copySurveyQuestion(index)}>
-                    <ContentCopyIcon></ContentCopyIcon>
-                  </IconButton>
-                </Tooltip>
-                <Button
-                  sx={{ color: "red" }}
-                  variant="outlined"
-                  startIcon={<DeleteIcon />}
-                  onClick={() => deleteQuestion(index)}
-                >
-                  Delete
-                </Button>
-              </CardContent>
-            </Card>
-          ))
-        ) : (
-          <Progress />
-        )}
-        <Fab color="primary" aria-label="add" id="addquestion-btn">
-          <AddIcon onClick={addQuestion} />
-        </Fab>
-      </div>
+                <CardContent id="cardbutton">
+                  <Tooltip title="copy">
+                    <IconButton onClick={() => copySurveyQuestion(index)}>
+                      <ContentCopyIcon></ContentCopyIcon>
+                    </IconButton>
+                  </Tooltip>
+                  <Button
+                    sx={{ color: "red" }}
+                    variant="outlined"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => deleteQuestion(index)}
+                  >
+                    Delete
+                  </Button>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            <Progress />
+          )}
+          <Fab color="primary" aria-label="add" id="addquestion-btn">
+            <AddIcon onClick={addQuestion} />
+          </Fab>
+        </div>
+      ) : (
+        <Typography variant="h2" align="center" color="red" >
+          Survey Does not Exist !
+        </Typography>
+      )}
       <Button
         id="submit-button"
         style={{
@@ -302,7 +309,7 @@ function SelectVariants({ selectedType, onSelectOption, questionNo }) {
           label="Choice"
         >
           <MenuItem value={QUESTION_TYPE.CHECKBOX}>checkbox</MenuItem>
-          <MenuItem value={QUESTION_TYPE.MULTIPLECHOICE}>
+          <MenuItem value={QUESTION_TYPE.MULTIPLE_CHOICE}>
             multiple choice
           </MenuItem>
           <MenuItem value={QUESTION_TYPE.TEXT}>text</MenuItem>
