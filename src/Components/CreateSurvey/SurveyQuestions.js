@@ -10,6 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
+import PropTypes from "prop-types";
 
 import QUESTION_TYPE from "../../Constants/QUESTIONS_TYPES";
 import Options from "./Options";
@@ -29,8 +30,8 @@ function SurveyQuestions({
     handleQuestion(e.target.value, index);
   };
 
-  const setSelectedOption = (cardNo, selected , previous) => {
-    handleQuestionType(selected, cardNo,previous);
+  const setSelectedOption = (cardNo, selected, previous) => {
+    handleQuestionType(selected, cardNo, previous);
   };
 
   const setInputValue = (values) => {
@@ -127,6 +128,24 @@ SurveyQuestions.defaultProps = {
       options: ["option1"],
     },
   ],
+};
+
+SurveyQuestions.propTypes = {
+  question: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      type: PropTypes.string,
+      options: PropTypes.arrayOf(PropTypes.string),
+    })
+  ),
+  handleQuestion: PropTypes.func,
+  handleQuestionType: PropTypes.func,
+  handleAddOption: PropTypes.func,
+  handleOptionValue: PropTypes.func,
+  handleDeleteOption: PropTypes.func,
+  handleDeleteQuestion: PropTypes.func,
+  handleAddQuestion: PropTypes.func,
+  copyQuestion: PropTypes.func,
 };
 
 export default SurveyQuestions;
