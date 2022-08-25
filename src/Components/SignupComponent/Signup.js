@@ -53,7 +53,7 @@ function Signup() {
           <PersonIcon style={{ fontSize: "40px" }} />
           <h1 className="header__heading">Create Account </h1>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form autoComplete="off" onSubmit={handleSubmit}>
           <div className="form">
             <div className="form__div">
               <label className="form__label">Username</label>
