@@ -34,12 +34,12 @@ function EditOptions({
     <div>
       {options.map((option, index) => (
         <div key={index} style={{ display: "flex", gap: "10px" }}>
-          {[QUESTIONS_TYPE.CHECKBOX, QUESTIONS_TYPE.MULTIPLECHOICE].includes(
+          {[QUESTIONS_TYPE.CHECKBOX, QUESTIONS_TYPE.MULTIPLE_CHOICE].includes(
             selectedType
           ) && (
             <input
               type={
-                selectedType === QUESTIONS_TYPE.MULTIPLECHOICE
+                selectedType === QUESTIONS_TYPE.MULTIPLE_CHOICE
                   ? "radio"
                   : selectedType
               }
@@ -48,7 +48,7 @@ function EditOptions({
             />
           )}
           &nbsp;&nbsp;&nbsp;
-          {[QUESTIONS_TYPE.CHECKBOX, QUESTIONS_TYPE.MULTIPLECHOICE].includes(
+          {[QUESTIONS_TYPE.CHECKBOX, QUESTIONS_TYPE.MULTIPLE_CHOICE].includes(
             selectedType
           ) ? (
             <TextField
@@ -71,7 +71,7 @@ function EditOptions({
         </div>
       ))}
 
-      {[QUESTIONS_TYPE.CHECKBOX, QUESTIONS_TYPE.MULTIPLECHOICE].includes(
+      {[QUESTIONS_TYPE.CHECKBOX, QUESTIONS_TYPE.MULTIPLE_CHOICE].includes(
         selectedType
       ) && (
         <Button
