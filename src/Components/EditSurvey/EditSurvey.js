@@ -17,7 +17,6 @@ import Switch from "@mui/material/Switch";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Progress from "../Progress/Progress";
-import LoadingBar from "react-top-loading-bar";
 
 import QUESTION_TYPE from "../../Constants/QUESTIONS_TYPES";
 import PATH from "../../Constants/Path";
@@ -32,15 +31,10 @@ function EditSurvey() {
   const [description, setDescription] = useState("");
   const [isPublic, setPublic] = useState(Boolean);
   const [questions, setQuestions] = useState();
-  const [progress, setProgress] = useState(10);
   const { surveyId } = useParams();
   const authToken = document.cookie.split("=")[1];
 
   const navigate = useNavigate();
-
-  const handleProgress = (progress) => {
-    setProgress(progress);
-  };
 
   const updateSurvey = () => {
     if (name.length === 0 || description.length === 0) {
@@ -81,7 +75,6 @@ function EditSurvey() {
 
   useEffect(() => {
     setTimeout(() => {
-      setProgress(30);
       const options = {
         method: "GET",
         url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${surveyId}`,
@@ -89,11 +82,9 @@ function EditSurvey() {
           token: authToken,
         },
       };
-      setProgress(50);
       axios
         .request(options)
         .then((response) => {
-          setProgress(90);
           setName(response.data.name);
           setDescription(response.data.description);
           setPublic(response.data.isPublic);
@@ -102,7 +93,6 @@ function EditSurvey() {
         .catch((error) => {
           console.log(error);
         });
-      setProgress(100);
     }, 2000);
   }, [authToken, surveyId]);
 
@@ -176,12 +166,6 @@ function EditSurvey() {
 
   return (
     <div>
-      <LoadingBar
-        color="#f11946"
-        progress={progress}
-        onLoaderFinished={handleProgress}
-        height={2}
-      />
       <Navbar />
       <section className="surveyheader">
         <input
