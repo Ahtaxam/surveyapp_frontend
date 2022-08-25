@@ -8,6 +8,7 @@ import Signup from "./Components/SignupComponent/Signup";
 import PrivateRoutes from "./PrivateRoutes";
 import CreateSurvey from "./Components/CreateSurvey/CreateSurvey";
 import EditSurvey from "./Components/EditSurvey/EditSurvey";
+import PageNotFound from "./Components/PageNotFound/PageNotFound";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           path={`${PATH.EDITSURVEY}/:surveyId`}
           element={<PrivateRoutes component={EditSurvey} />}
         />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
   );
