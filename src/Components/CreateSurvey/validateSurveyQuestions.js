@@ -7,7 +7,7 @@ export function validateSurveyQuestions(surQuestions) {
     titles.push(question.title);
     if (
       question.type === QUESTIONS_TYPE.CHECKBOX ||
-      question.type === QUESTIONS_TYPE.MULTIPLECHOICE
+      question.type === QUESTIONS_TYPE.MULTIPLE_CHOICE
     ) {
       option.push(question.options[0]);
     }
