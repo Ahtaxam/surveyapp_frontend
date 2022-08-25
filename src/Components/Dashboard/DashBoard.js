@@ -23,7 +23,6 @@ import Progress from "../Progress/Progress";
 function DashBoard({ PreviousSurveys }) {
   const [userSurveys, setUserSurveys] = useState();
   const [deleteId, setDeleteId] = useState();
-
   const authToken = document.cookie.split("=")[1];
   const [open, setOpen] = useState(false);
   const theme = useTheme();
