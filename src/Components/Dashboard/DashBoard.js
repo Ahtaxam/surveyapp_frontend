@@ -97,80 +97,81 @@ function DashBoard({ PreviousSurveys }) {
       <Typography className="createdsurveys-heading" variant="h4">
         Your Surveys
       </Typography>
-      <div className="recentSurvey">
-        {userSurveys ? (
-          userSurveys.map((survey, index) => (
-            <Card key={index}>
-              <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
-              <p className="recentSurvey__response">
-                Responses: {survey.responses}{" "}
-              </p>
-              <div style={{ display: "flex", gap: "45px" }}>
-                <Button variant="contained">
-                  <Link
-                    style={{ textDecoration: "none", color: "white" }}
-                    to={`${PATH.EDITSURVEY}/${survey._id}`}
-                  >
-                    Edit
-                  </Link>
-                </Button>
+      {userSurveys ? (
+        <div className="recentSurvey">
+          {userSurveys &&
+            userSurveys.map((survey, index) => (
+              <Card key={index}>
+                <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
+                <p className="recentSurvey__response">
+                  Responses: {survey.responses}{" "}
+                </p>
+                <div style={{ display: "flex", gap: "45px" }}>
+                  <Button variant="contained">
+                    <Link
+                      style={{ textDecoration: "none", color: "white" }}
+                      to={`${PATH.EDITSURVEY}/${survey._id}`}
+                    >
+                      Edit
+                    </Link>
+                  </Button>
 
-                <Button
-                  onClick={() => handleClickOpen(survey._id)}
-                  variant="danger"
-                  startIcon={<DeleteIcon />}
-                  style={{ color: "red" }}
-                >
-                  Delete
-                </Button>
-                <Dialog
-                  fullScreen={fullScreen}
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="responsive-dialog-title"
-                >
-                  <DialogTitle
-                    id="responsive-dialog-title"
+                  <Button
+                    onClick={() => handleClickOpen(survey._id)}
+                    variant="danger"
+                    startIcon={<DeleteIcon />}
                     style={{ color: "red" }}
                   >
-                    {"Survey will be deleted ?"}
-                  </DialogTitle>
-                  <DialogContent>
-                    <DialogContentText>
-                      Are you sure you want to delete this survey?
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions
-                    style={{
-                      display: "flex",
-                      gap: "20px",
-                      justifyContent: "center",
-                    }}
+                    Delete
+                  </Button>
+                  <Dialog
+                    fullScreen={fullScreen}
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="responsive-dialog-title"
                   >
-                    <Button
-                      autoFocus
-                      variant="outlined"
-                      onClick={() => handleClose("disagree")}
+                    <DialogTitle
+                      id="responsive-dialog-title"
+                      style={{ color: "red" }}
                     >
-                      No
-                    </Button>
-                    <Button
-                      variant="contained"
-                      onClick={() => handleClose("agree")}
-                      autoFocus
-                      style={{ backgroundColor: "#f44336" }}
+                      {"Survey will be deleted ?"}
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        Are you sure you want to delete this survey?
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions
+                      style={{
+                        display: "flex",
+                        gap: "20px",
+                        justifyContent: "center",
+                      }}
                     >
-                      Yes
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-              </div>
-            </Card>
-          ))
-        ) : (
-          <Progress />
-        )}
-      </div>
+                      <Button
+                        autoFocus
+                        variant="outlined"
+                        onClick={() => handleClose("disagree")}
+                      >
+                        No
+                      </Button>
+                      <Button
+                        variant="contained"
+                        onClick={() => handleClose("agree")}
+                        autoFocus
+                        style={{ backgroundColor: "#f44336" }}
+                      >
+                        Yes
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
+              </Card>
+            ))}
+        </div>
+      ) : (
+        <Progress />
+      )}
       <hr style={{ width: "80%", marginLeft: "8%" }} />
       <div className="createdSurveys">
         <Typography className="othersurveys-heading" variant="h4">
