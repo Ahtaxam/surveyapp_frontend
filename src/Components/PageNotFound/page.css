@@ -20,10 +20,14 @@
   padding: 20px;
   color: #f73378;
 }
-#backbutton {
-  margin: 20px auto;
+
+#backtohomelink {
+  text-decoration: none;
+  font-size: 20px;
   font-family: sans-serif;
+  padding: 10px;
   display: block;
+  text-align: center;
 }
 @media screen and (min-width: 768px) {
   .notfound__heading {
@@ -36,14 +40,8 @@
     margin-right: auto;
     display: block;
   }
-  #backbutton {
-    margin: 120px auto;
-    font-family: sans-serif;
-    display: block;
-  }
-  #backbutton:hover {
-    border: 1px solid #f73378;
-    color: #f50057;
+  #backtohomelink {
+    margin-top: 100px;
   }
 }
 
