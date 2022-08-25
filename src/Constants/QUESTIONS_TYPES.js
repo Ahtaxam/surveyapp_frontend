@@ -1,6 +1,6 @@
 const QUESTIONS_TYPE = {
   CHECKBOX: "checkbox",
-  MULTIPLECHOICE: "multiplechoice",
+  MULTIPLE_CHOICE: "multiplechoice",
   TEXT: "text",
   NUMBER: "number",
 };
