@@ -124,7 +124,7 @@ SurveyQuestions.defaultProps = {
   questions: [
     {
       title: "",
-      type: QUESTION_TYPE.MULTIPLECHOICE,
+      type: QUESTION_TYPE.MULTIPLE_CHOICE,
       options: ["option1"],
     },
   ],
@@ -168,7 +168,7 @@ function SelectVariants({ selectedType, onSelectOption, cardNo }) {
           label="Choice"
         >
           <MenuItem value={QUESTION_TYPE.CHECKBOX}>checkbox</MenuItem>
-          <MenuItem value={QUESTION_TYPE.MULTIPLECHOICE}>
+          <MenuItem value={QUESTION_TYPE.MULTIPLE_CHOICE}>
             multiple choice
           </MenuItem>
           <MenuItem value={QUESTION_TYPE.TEXT}>text</MenuItem>
