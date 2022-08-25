@@ -61,7 +61,7 @@ function Login() {
           <LockIcon className="header__icon"></LockIcon>
           <h1 className="header__heading">Login </h1>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form autoComplete="off" onSubmit={handleSubmit}>
           <div className="form">
             <div className="form__div">
               <label className="form__label">Email</label>
