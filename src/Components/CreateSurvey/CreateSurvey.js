@@ -20,7 +20,7 @@ function CreateSurvey() {
   const [userForms, setUserForms] = useState([
     {
       title: "",
-      type: QUESTION_TYPE.MULTIPLECHOICE,
+      type: QUESTION_TYPE.MULTIPLE_CHOICE,
       options: ["option1"],
     },
   ]);
@@ -31,7 +31,7 @@ function CreateSurvey() {
 
   const submitSurvey = () => {
     const authToken = document.cookie.split("=")[1];
-    if (name.length === 0 || description.length === 0) {
+    if (name.length === 0) {
       toast.error("Please Make Sure You Have A Title And Description");
       return;
     }
@@ -61,6 +61,7 @@ function CreateSurvey() {
           }, 1000);
         })
         .catch((error) => {
+          console.log(error);
           toast.error(error.message);
         });
     } else {
@@ -86,7 +87,7 @@ function CreateSurvey() {
       userForm[questionNo].options = [];
     } else if (
       ((selectedType === QUESTION_TYPE.CHECKBOX ||
-        selectedType === QUESTION_TYPE.MULTIPLECHOICE) &&
+        selectedType === QUESTION_TYPE.MULTIPLE_CHOICE) &&
         previous === QUESTION_TYPE.TEXT) ||
       previous === QUESTION_TYPE.NUMBER
     ) {
@@ -107,7 +108,7 @@ function CreateSurvey() {
     const userForm = [...userForms];
     userForm.push({
       title: "",
-      type: QUESTION_TYPE.MULTIPLECHOICE,
+      type: QUESTION_TYPE.MULTIPLE_CHOICE,
       options: ["option1"],
     });
     setUserForms(userForm);
