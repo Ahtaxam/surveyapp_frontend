@@ -39,7 +39,7 @@ function EditSurvey() {
 
   const updateSurvey = () => {
     if (name.length === 0) {
-      toast.error("Please Make Sure You Have A Title And Description");
+      toast.error("Please Make Sure You Have A Title ");
       return;
     }
     const [titles, options] = validateSurveyQuestions(questions);
@@ -256,7 +256,7 @@ function EditSurvey() {
           </Fab>
         </div>
       ) : (
-        <Typography variant="h2" align="center" color="red" >
+        <Typography variant="h2" align="center" color="red">
           Survey Does not Exist !
         </Typography>
       )}
