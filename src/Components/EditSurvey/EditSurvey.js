@@ -33,9 +33,10 @@ function EditSurvey() {
   const [questions, setQuestions] = useState();
   const [surveyExist, setSurveyExist] = useState(true);
   const { surveyId } = useParams();
+  const tokenName = "expressToken";
   const authToken = document.cookie.match(
-    new RegExp("(^| )" + "expressToken" + "=([^;]+)")
-  );
+    new RegExp("(^| )" + tokenName + "=([^;]+)")
+  )[2];
 
   const navigate = useNavigate();
 
@@ -50,7 +51,7 @@ function EditSurvey() {
         method: "PUT",
         url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${surveyId}`,
         headers: {
-          config: `Bearer ${authToken[2]}`,
+          config: `Bearer ${authToken}`,
         },
         data: {
           name: name,
@@ -82,7 +83,7 @@ function EditSurvey() {
         method: "GET",
         url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${surveyId}`,
         headers: {
-          config: `Bearer ${authToken[2]}`,
+          config: `Bearer ${authToken}`,
         },
       };
       axios
@@ -97,7 +98,7 @@ function EditSurvey() {
           setSurveyExist(false);
         });
     }, 1000);
-  }, [authToken[2], surveyId]);
+  }, [authToken, surveyId]);
 
   const setQuestionValue = (e, index) => {
     const userQuestions = [...questions];

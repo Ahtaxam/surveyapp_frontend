@@ -24,9 +24,11 @@ function DashBoard({ PreviousSurveys }) {
   const [userSurveys, setUserSurveys] = useState();
   const [deleteId, setDeleteId] = useState();
   const [isError, setIsError] = useState("");
+  const tokenName = "expressToken";
+
   const authToken = document.cookie.match(
-    new RegExp("(^| )" + "expressToken" + "=([^;]+)")
-  );
+    new RegExp("(^| )" + tokenName + "=([^;]+)")
+  )[2];
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -44,7 +46,7 @@ function DashBoard({ PreviousSurveys }) {
       method: "GET",
       url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}`,
       headers: {
-        config: `Bearer ${authToken[2]}`,
+        config: `Bearer ${authToken}`,
       },
     };
     axios
@@ -55,7 +57,7 @@ function DashBoard({ PreviousSurveys }) {
       .catch((error) => {
         setIsError(error.message);
       });
-  }, [authToken[2]]);
+  }, [authToken]);
 
   const handleClose = (message) => {
     setOpen(false);
@@ -64,7 +66,7 @@ function DashBoard({ PreviousSurveys }) {
         method: "DELETE",
         url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${deleteId}`,
         headers: {
-          config: `Bearer ${authToken[2]}`,
+          config: `Bearer ${authToken}`,
         },
       };
       axios
