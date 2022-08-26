@@ -23,8 +23,10 @@ import Progress from "../Progress/Progress";
 function DashBoard({ PreviousSurveys }) {
   const [userSurveys, setUserSurveys] = useState();
   const [deleteId, setDeleteId] = useState();
-  const [isError, setIsError] = useState(false);
-  const authToken = document.cookie.split("=")[1];
+  const [isError, setIsError] = useState("");
+  const authToken = document.cookie.match(
+    new RegExp("(^| )" + "expressToken" + "=([^;]+)")
+  );
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -42,7 +44,7 @@ function DashBoard({ PreviousSurveys }) {
       method: "GET",
       url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}`,
       headers: {
-        token: authToken,
+        config: `Bearer ${authToken[2]}`,
       },
     };
     axios
@@ -51,9 +53,9 @@ function DashBoard({ PreviousSurveys }) {
         setUserSurveys(response.data);
       })
       .catch((error) => {
-        setIsError(true);
+        setIsError(error.message);
       });
-  }, [authToken]);
+  }, [authToken[2]]);
 
   const handleClose = (message) => {
     setOpen(false);
@@ -62,7 +64,7 @@ function DashBoard({ PreviousSurveys }) {
         method: "DELETE",
         url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${deleteId}`,
         headers: {
-          token: authToken,
+          config: `Bearer ${authToken[2]}`,
         },
       };
       axios
@@ -98,7 +100,7 @@ function DashBoard({ PreviousSurveys }) {
       <Typography className="createdsurveys-heading" variant="h4">
         Your Surveys
       </Typography>
-      {!isError ? (
+      {isError === "" ? (
         <div>
           {userSurveys ? (
             <div className="recentSurvey">
@@ -178,8 +180,7 @@ function DashBoard({ PreviousSurveys }) {
         </div>
       ) : (
         <Typography variant="h6" style={{ textAlign: "center", color: "red" }}>
-          {" "}
-          Network Error{" "}
+          {isError}
         </Typography>
       )}
       <hr style={{ width: "80%", marginLeft: "8%" }} />
