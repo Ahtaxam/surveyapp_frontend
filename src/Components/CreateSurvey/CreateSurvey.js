@@ -30,7 +30,10 @@ function CreateSurvey() {
   };
 
   const submitSurvey = () => {
-    const authToken = document.cookie.split("=")[1];
+    const authToken = document.cookie.match(
+      new RegExp("(^| )" + "expressToken" + "=([^;]+)")
+    );
+
     if (name.length === 0) {
       toast.error("Please Make Sure You Have A Title");
       return;
@@ -42,7 +45,7 @@ function CreateSurvey() {
         method: "POST",
         url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}`,
         headers: {
-          token: authToken,
+          config: `Bearer ${authToken[2]}`,
         },
         data: {
           name: name,
