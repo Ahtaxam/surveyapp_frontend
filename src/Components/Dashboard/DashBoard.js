@@ -23,6 +23,7 @@ import Progress from "../Progress/Progress";
 function DashBoard({ PreviousSurveys }) {
   const [userSurveys, setUserSurveys] = useState();
   const [deleteId, setDeleteId] = useState();
+  const [isError, setIsError] = useState(false);
   const authToken = document.cookie.split("=")[1];
   const [open, setOpen] = useState(false);
   const theme = useTheme();
@@ -50,7 +51,7 @@ function DashBoard({ PreviousSurveys }) {
         setUserSurveys(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        setIsError(true);
       });
   }, [authToken]);
 
@@ -67,11 +68,11 @@ function DashBoard({ PreviousSurveys }) {
       axios
         .request(options)
         .then((response) => {
-          toast.success("Survey deleted successfully");
+          toast.success(response.data.message);
           fetchSurvey();
         })
         .catch((error) => {
-          console.log(error);
+          toast.error(error.message);
         });
     }
   };
@@ -97,80 +98,89 @@ function DashBoard({ PreviousSurveys }) {
       <Typography className="createdsurveys-heading" variant="h4">
         Your Surveys
       </Typography>
-      {userSurveys ? (
-        <div className="recentSurvey">
-          {userSurveys &&
-            userSurveys.map((survey, index) => (
-              <Card key={index}>
-                <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
-                <p className="recentSurvey__response">
-                  Responses: {survey.responses}{" "}
-                </p>
-                <div style={{ display: "flex", gap: "45px" }}>
-                  <Button variant="contained">
-                    <Link
-                      style={{ textDecoration: "none", color: "white" }}
-                      to={`${PATH.EDITSURVEY}/${survey._id}`}
-                    >
-                      Edit
-                    </Link>
-                  </Button>
+      {!isError ? (
+        <div>
+          {userSurveys ? (
+            <div className="recentSurvey">
+              {userSurveys &&
+                userSurveys.map((survey, index) => (
+                  <Card key={index}>
+                    <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
+                    <p className="recentSurvey__response">
+                      Responses: {survey.responses}{" "}
+                    </p>
+                    <div style={{ display: "flex", gap: "45px" }}>
+                      <Button variant="contained">
+                        <Link
+                          style={{ textDecoration: "none", color: "white" }}
+                          to={`${PATH.EDITSURVEY}/${survey._id}`}
+                        >
+                          Edit
+                        </Link>
+                      </Button>
 
-                  <Button
-                    onClick={() => handleClickOpen(survey._id)}
-                    variant="danger"
-                    startIcon={<DeleteIcon />}
-                    style={{ color: "red" }}
-                  >
-                    Delete
-                  </Button>
-                  <Dialog
-                    fullScreen={fullScreen}
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="responsive-dialog-title"
-                  >
-                    <DialogTitle
-                      id="responsive-dialog-title"
-                      style={{ color: "red" }}
-                    >
-                      {"Survey will be deleted ?"}
-                    </DialogTitle>
-                    <DialogContent>
-                      <DialogContentText>
-                        Are you sure you want to delete this survey?
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions
-                      style={{
-                        display: "flex",
-                        gap: "20px",
-                        justifyContent: "center",
-                      }}
-                    >
                       <Button
-                        autoFocus
-                        variant="outlined"
-                        onClick={() => handleClose("disagree")}
+                        onClick={() => handleClickOpen(survey._id)}
+                        variant="danger"
+                        startIcon={<DeleteIcon />}
+                        style={{ color: "red" }}
                       >
-                        No
+                        Delete
                       </Button>
-                      <Button
-                        variant="contained"
-                        onClick={() => handleClose("agree")}
-                        autoFocus
-                        style={{ backgroundColor: "#f44336" }}
+                      <Dialog
+                        fullScreen={fullScreen}
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="responsive-dialog-title"
                       >
-                        Yes
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-                </div>
-              </Card>
-            ))}
+                        <DialogTitle
+                          id="responsive-dialog-title"
+                          style={{ color: "red" }}
+                        >
+                          {"Survey will be deleted ?"}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText>
+                            Are you sure you want to delete this survey?
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions
+                          style={{
+                            display: "flex",
+                            gap: "20px",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Button
+                            autoFocus
+                            variant="outlined"
+                            onClick={() => handleClose("disagree")}
+                          >
+                            No
+                          </Button>
+                          <Button
+                            variant="contained"
+                            onClick={() => handleClose("agree")}
+                            autoFocus
+                            style={{ backgroundColor: "#f44336" }}
+                          >
+                            Yes
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </div>
+                  </Card>
+                ))}
+            </div>
+          ) : (
+            <Progress />
+          )}
         </div>
       ) : (
-        <Progress />
+        <Typography variant="h6" style={{ textAlign: "center", color: "red" }}>
+          {" "}
+          Network Error{" "}
+        </Typography>
       )}
       <hr style={{ width: "80%", marginLeft: "8%" }} />
       <div className="createdSurveys">
