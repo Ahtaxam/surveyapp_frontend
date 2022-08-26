@@ -1,4 +1,4 @@
-import { TextField, Tooltip } from "@mui/material";
+import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
@@ -32,7 +32,7 @@ function CreateSurvey() {
   const submitSurvey = () => {
     const authToken = document.cookie.split("=")[1];
     if (name.length === 0) {
-      toast.error("Please Make Sure You Have A Title And Description");
+      toast.error("Please Make Sure You Have A Title");
       return;
     }
     const [titles, options] = validateSurveyQuestions(userForms);
@@ -61,7 +61,6 @@ function CreateSurvey() {
           }, 1000);
         })
         .catch((error) => {
-          console.log(error);
           toast.error(error.message);
         });
     } else {
