@@ -1,0 +1,55 @@
+* {
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+}
+
+.searchsurvey {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+}
+
+#searchsurvey__button {
+  position: relative;
+  top: 20px;
+}
+#searchsurvey__input {
+  width: 280px;
+}
+
+.joinsurveyheader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+}
+.joinsurvey-questions {
+  width: 100%;
+  height: auto;
+  padding: 20px;
+}
+@media screen and (min-width: 768px) {
+  .searchsurvey {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+  }
+
+  .joinsurvey-questions {
+    width: 80%;
+    margin: auto;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .joinsurvey-questions {
+    width: 60%;
+    margin: auto;
+  }
+}
