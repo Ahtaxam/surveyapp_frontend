@@ -16,7 +16,6 @@ import PATH from "../../Constants/Path";
 
 function MenuComponent() {
   const { name, email } = JSON.parse(localStorage.getItem("loggedUser"));
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
   const logoutUser = () => {
@@ -63,8 +62,8 @@ function MenuComponent() {
           },
         }}
       >
-        <MenuItem>{name}</MenuItem>
-        <MenuItem>{email}</MenuItem>
+        <MenuItem>{name && name}</MenuItem>
+        <MenuItem>{email && email}</MenuItem>
         <Divider />
 
         <MenuItem onClick={logoutUser}>
