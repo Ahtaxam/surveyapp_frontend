@@ -10,13 +10,12 @@ import Tooltip from "@mui/material/Tooltip";
 import Person from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
 import { styled } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
-import PATH from "../../Path";
+import PATH from "../../Constants/Path";
 
 function MenuComponent() {
   const { name, email } = JSON.parse(localStorage.getItem("loggedUser"));
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
   const logoutUser = () => {
@@ -24,7 +23,7 @@ function MenuComponent() {
     document.cookie = express + "=; Max-Age=0";
     toast.success("Successfully Logout !");
     setTimeout(() => {
-      navigate(PATH.home, { replace: true });
+      navigate(PATH.HOME);
     }, 1300);
   };
 
@@ -63,8 +62,8 @@ function MenuComponent() {
           },
         }}
       >
-        <MenuItem>{name}</MenuItem>
-        <MenuItem>{email}</MenuItem>
+        <MenuItem>{name && name}</MenuItem>
+        <MenuItem>{email && email}</MenuItem>
         <Divider />
 
         <MenuItem onClick={logoutUser}>
@@ -74,7 +73,6 @@ function MenuComponent() {
           Logout
         </MenuItem>
       </Menu>
-      <ToastContainer />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { useFormik } from "formik";
 
 import { userSchema } from "../Validations/UserLoginValidation";
 import "./login.css";
+import PATH from "../../Constants/Path";
 
 function Login() {
   axios.defaults.withCredentials = true;
@@ -17,10 +18,9 @@ function Login() {
   const submit = () => {
     const options = {
       method: "POST",
-      url: `${process.env.REACT_APP_BASE_URL}/login`,
+      url: `${process.env.REACT_APP_BASE_URL}${PATH.LOGIN}`,
       data: values,
     };
-
     axios
       .request(options)
       .then((response) => {
@@ -33,11 +33,11 @@ function Login() {
           })
         );
         setTimeout(() => {
-          navigate("/dashboard", { replace: true });
+          navigate(PATH.DASHBOARD);
         }, 1000);
       })
       .catch((error) => {
-        toast.error(error.response.data || error.message);
+        toast.error(error.response?.data || error.message);
       });
   };
   const { values, errors, handleChange, handleSubmit } = useFormik({
@@ -61,7 +61,7 @@ function Login() {
           <LockIcon className="header__icon"></LockIcon>
           <h1 className="header__heading">Login </h1>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form autoComplete="off" onSubmit={handleSubmit}>
           <div className="form">
             <div className="form__div">
               <label className="form__label">Email</label>
