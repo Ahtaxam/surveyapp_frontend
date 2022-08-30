@@ -5,7 +5,8 @@ import { toast, ToastContainer } from "react-toastify";
 
 import PATH from "../../Constants/Path";
 import "./join.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
 
 function Join() {
   const [id, setId] = useState("");
@@ -14,6 +15,8 @@ function Join() {
   const authToken = document.cookie.match(
     new RegExp("(^| )" + tokenName + "=([^;]+)")
   )[2];
+
+  // function if check that given survey id is valid or not if valid then fetch survey details and redirect to survey page
   const authenticateSurvey = () => {
     if (id.length === 0) {
       toast.error("Please enter a valid survey id");
@@ -36,8 +39,17 @@ function Join() {
         toast.error(error.response.data);
       });
   };
+
+  //  onpress enter key handle survey authenticate function
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      authenticateSurvey();
+    }
+  };
+  // render function
   return (
     <div>
+      <Navbar />
       <Typography
         variant="h4"
         style={{ textAlign: "center", padding: "20px", color: "#2196f3" }}
@@ -50,10 +62,10 @@ function Join() {
           <TextField
             id="searchsurvey__input"
             variant="standard"
-            label="Search Survey"
+            label="Join survey by id"
             value={id}
-            multiline
             onChange={(e) => setId(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
         </div>
         <div>
@@ -62,10 +74,23 @@ function Join() {
             id="searchsurvey__button"
             onClick={authenticateSurvey}
           >
-            Search
+            Join
           </Button>
         </div>
       </section>
+
+      <Link
+        to={PATH.DASHBOARD}
+        style={{
+          textDecoration: "none",
+          margin: "50px auto",
+          display: "block",
+          color: "#f50057",
+          textAlign: "center",
+        }}
+      >
+        Back to Dashboard
+      </Link>
       <ToastContainer />
     </div>
   );
