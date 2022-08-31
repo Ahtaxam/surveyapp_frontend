@@ -7,14 +7,11 @@ import PATH from "../../Constants/Path";
 import "./join.css";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
+import { authToken } from "../../utils/Authenticate";
 
 function Join() {
   const [id, setId] = useState("");
   const navigate = useNavigate();
-  const tokenName = "expressToken";
-  const authToken = document.cookie.match(
-    new RegExp("(^| )" + tokenName + "=([^;]+)")
-  )[2];
 
   // function if check that given survey id is valid or not if valid then fetch survey details and redirect to survey page
   const authenticateSurvey = () => {
@@ -27,13 +24,13 @@ function Join() {
       method: "GET",
       url: `${process.env.REACT_APP_BASE_URL}${PATH.JOIN}/${id}`,
       headers: {
-        config: `Bearer ${authToken}`,
+        config: `Bearer ${authToken()}`,
       },
     };
     axios
       .request(options)
       .then((response) => {
-        navigate(PATH.JOINSURVEY + "/" + id);
+        navigate(`${PATH.JOINSURVEY}/${id}`);
       })
       .catch((error) => {
         toast.error(error.response.data);
@@ -79,18 +76,22 @@ function Join() {
         </div>
       </section>
 
-      <Link
-        to={PATH.DASHBOARD}
-        style={{
-          textDecoration: "none",
-          margin: "50px auto",
-          display: "block",
-          color: "#f50057",
-          textAlign: "center",
-        }}
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "70px" }}
       >
-        Back to Dashboard
-      </Link>
+        <Link
+          to={PATH.DASHBOARD}
+          style={{
+            textDecoration: "none",
+            color: "#f50057",
+            border: "1px solid #f50057",
+            padding: "10px",
+            borderRadius: "5px",
+          }}
+        >
+          Back to Dashboard
+        </Link>
+      </div>
       <ToastContainer />
     </div>
   );
