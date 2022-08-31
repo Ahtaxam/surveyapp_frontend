@@ -19,16 +19,13 @@ import "./dashbord.css";
 import PATH from "../../Constants/Path";
 import Navbar from "../Navbar/Navbar";
 import Progress from "../Progress/Progress";
+import { authToken } from "../../utils/Authenticate";
 
 function DashBoard({ PreviousSurveys }) {
   const [userSurveys, setUserSurveys] = useState();
   const [deleteId, setDeleteId] = useState();
   const [isError, setIsError] = useState("");
-  const tokenName = "expressToken";
 
-  const authToken = document.cookie.match(
-    new RegExp("(^| )" + tokenName + "=([^;]+)")
-  )[2];
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -46,7 +43,7 @@ function DashBoard({ PreviousSurveys }) {
       method: "GET",
       url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}`,
       headers: {
-        config: `Bearer ${authToken}`,
+        config: `Bearer ${authToken()}`,
       },
     };
     axios
@@ -57,7 +54,7 @@ function DashBoard({ PreviousSurveys }) {
       .catch((error) => {
         setIsError(error.message);
       });
-  }, [authToken]);
+  }, []);
 
   const handleClose = (message) => {
     setOpen(false);
@@ -66,7 +63,7 @@ function DashBoard({ PreviousSurveys }) {
         method: "DELETE",
         url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${deleteId}`,
         headers: {
-          config: `Bearer ${authToken}`,
+          config: `Bearer ${authToken()}`,
         },
       };
       axios
@@ -127,7 +124,11 @@ function DashBoard({ PreviousSurveys }) {
                         onClick={() => handleClickOpen(survey._id)}
                         variant="danger"
                         startIcon={<DeleteIcon />}
-                        style={{ color: "red" }}
+                        style={{
+                          color: "red",
+                          border: "1px solid red",
+                          borderRadius: "7px",
+                        }}
                       >
                         Delete
                       </Button>
