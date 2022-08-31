@@ -10,38 +10,35 @@ import JoinOptions from "./JoinOptions";
 import QUESTION_TYPES from "../../Constants/QUESTIONS_TYPES";
 import Navbar from "../Navbar/Navbar.js";
 import { validateSurveyResponse } from "./validateSurveyResponse";
+import { authToken } from "../../utils/Authenticate";
 
 function JoinSurvey() {
   const { surveyId } = useParams();
-  const [name, setName] = useState("UNTITLED");
-  const [description, setDescription] = useState("description");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [questions, setQuestions] = useState();
   const [answers, setAnswers] = useState([]);
   const [isError, setIsError] = useState("");
-  const tokenName = "expressToken";
-  const authToken = document.cookie.match(
-    new RegExp("(^| )" + tokenName + "=([^;]+)")
-  )[2];
 
   const navigate = useNavigate();
 
   // function to set value of multiplechoice questions and checkbox questions in answers array
-  const setSelectedoptions = (value, isChacked, index, questionNo, type) => {
+  const setSelectedoptions = (value, isChecked, index, questionNo, type) => {
     let obj = {
       questionId: "",
       options: [],
     };
     const newAnswers = [...answers];
+
     if (type === QUESTION_TYPES.MULTIPLE_CHOICE) {
       obj.questionId = questions[questionNo]._id;
-      obj.options.push(value);
+      obj.options.push(questions[questionNo].options[index]);
       newAnswers[questionNo] = obj;
       setAnswers(newAnswers);
     }
-
     // this one is to handle checkbox logic if user check the option then it will add that option in array and if user uncheck the option then it will remove that option from array
     if (type === QUESTION_TYPES.CHECKBOX) {
-      if (isChacked) {
+      if (isChecked) {
         const newAnswers = [...answers];
         obj.questionId = questions[questionNo]._id;
         obj.options.push(
@@ -103,7 +100,7 @@ function JoinSurvey() {
         answers: answers,
       },
       headers: {
-        config: `Bearer ${authToken}`,
+        config: `Bearer ${authToken()}`,
       },
     };
     axios
@@ -124,26 +121,24 @@ function JoinSurvey() {
 
   // function to fetch survey data from server
   useEffect(() => {
-    setTimeout(() => {
-      const options = {
-        method: "GET",
-        url: `${process.env.REACT_APP_BASE_URL}${PATH.JOIN}/${surveyId}`,
-        headers: {
-          config: `Bearer ${authToken}`,
-        },
-      };
-      axios
-        .request(options)
-        .then((response) => {
-          setName(response.data.name);
-          setDescription(response.data.description);
-          setQuestions(response.data.questions);
-        })
-        .catch((error) => {
-          setIsError(error.response.data);
-        });
-    }, 1000);
-  }, [authToken, surveyId]);
+    const options = {
+      method: "GET",
+      url: `${process.env.REACT_APP_BASE_URL}${PATH.JOIN}/${surveyId}`,
+      headers: {
+        config: `Bearer ${authToken()}`,
+      },
+    };
+    axios
+      .request(options)
+      .then((response) => {
+        setName(response.data.name);
+        setDescription(response.data.description);
+        setQuestions(response.data.questions);
+      })
+      .catch((error) => {
+        setIsError(error.response.data);
+      });
+  }, [surveyId]);
 
   //render function
   return (
@@ -194,12 +189,22 @@ function JoinSurvey() {
           padding: "20px",
         }}
       >
-        <Button variant="contained" onClick={handleSubmitAnswers}>
-          Submit
-        </Button>
+        {isError === "" ? (
+          <Button variant="contained" onClick={handleSubmitAnswers}>
+            Submit
+          </Button>
+        ) : (
+          ""
+        )}
         <Link
           to={PATH.JOIN}
-          style={{ textDecoration: "none", color: "#f73378" }}
+          style={{
+            textDecoration: "none",
+            color: "#f73378",
+            border: "1px solid #f73378",
+            padding: "10px",
+            borderRadius: "5px",
+          }}
         >
           Back
         </Link>
