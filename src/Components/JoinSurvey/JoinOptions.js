@@ -1,4 +1,4 @@
-import { Input, TextField } from "@mui/material";
+import { Input } from "@mui/material";
 import React from "react";
 
 import QUESTION_TYPES from "../../Constants/QUESTIONS_TYPES";
@@ -23,10 +23,8 @@ function JoinOptions({
     handleNumberValue(e.target.value, questionNo);
   };
 
-  if (
-    type === QUESTION_TYPES.MULTIPLE_CHOICE ||
-    type === QUESTION_TYPES.CHECKBOX
-  ) {
+  // function to render multiplechoice options and checkbox options
+  function renderOptions() {
     return (
       <div>
         {options.map((option, index) => (
@@ -36,7 +34,7 @@ function JoinOptions({
               type={
                 type === QUESTION_TYPES.MULTIPLE_CHOICE ? "radio" : "checkbox"
               }
-              name="name"
+              name={questionNo}
               onChange={(e) => {
                 getSelectedOptions(option, e.target.checked, index, type);
               }}
@@ -47,26 +45,49 @@ function JoinOptions({
         ))}
       </div>
     );
-  } else if (type === QUESTION_TYPES.TEXT) {
+  }
+
+  // function to render text input type
+  function renderText() {
     return (
       <div>
         <Input
-          placeholder="Give Answer"
-          type="text"
-          style={{ marginLeft: "10px" }}
-          onBlur={inputTextValues}
+          placeholder="Enter your answer"
+          onChange={(e) => {
+            inputTextValues(e);
+          }}
         />
       </div>
     );
-  } else {
+  }
+
+  // function to render number input type
+  function renderNumber() {
     return (
-      <Input
-        placeholder="Your Answer"
-        type="number"
-        style={{ marginLeft: "10px" }}
-        onBlur={inputNumberValue}
-      />
+      <div>
+        <Input
+          placeholder="Enter your answer"
+          onChange={(e) => {
+            inputNumberValue(e);
+          }}
+        />
+      </div>
     );
+  }
+
+  //switch case to render options based on question type
+  switch (type) {
+    case QUESTION_TYPES.CHECKBOX:
+      return renderOptions();
+    case QUESTION_TYPES.MULTIPLE_CHOICE:
+      return renderOptions();
+    case QUESTION_TYPES.TEXT:
+      return renderText();
+    case QUESTION_TYPES.NUMBER:
+      return renderNumber();
+
+    default:
+      return;
   }
 }
 
