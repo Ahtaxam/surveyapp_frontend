@@ -44,6 +44,22 @@ function Home() {
           )}
         </nav>
       </section>
+      {authToken() && (
+        <p style={{ textAlign: "center" }}>
+          <Link
+            to={PATH.DASHBOARD}
+            style={{
+              textDecoration: "none",
+              color: "#344FA1",
+              border: "1px solid #344FA1",
+              borderRadius: "10px",
+              padding: "8px 10px",
+            }}
+          >
+            Go to dashboard
+          </Link>
+        </p>
+      )}
 
       <div className="main">
         <Typography style={{ textAlign: "center" }} variant="h3">
@@ -55,7 +71,6 @@ function Home() {
           interest
         </p>
       </div>
-
       <section className="section">
         <div className="content">
           <h2 className="content__heading">A Web Survey Application</h2>
@@ -77,7 +92,6 @@ function Home() {
           <img className="image" src={graph} alt="loading..." />
         </div>
       </section>
-
       <section className="featureDiv">
         <div>
           <h1
@@ -128,7 +142,6 @@ function Home() {
           </div>
         </section>
       </section>
-
       <footer className="footer">
         <h3 className="footer__heading">Nax Research</h3>
         <div className="footer__icon">
