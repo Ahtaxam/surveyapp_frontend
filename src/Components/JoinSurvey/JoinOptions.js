@@ -52,6 +52,7 @@ function JoinOptions({
     return (
       <div>
         <Input
+          type="text"
           placeholder="Enter your answer"
           onChange={(e) => {
             inputTextValues(e);
@@ -66,6 +67,7 @@ function JoinOptions({
     return (
       <div>
         <Input
+          type="number"
           placeholder="Enter your answer"
           onChange={(e) => {
             inputNumberValue(e);
