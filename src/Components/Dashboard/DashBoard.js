@@ -14,6 +14,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 import "./dashbord.css";
 import PATH from "../../Constants/Path";
@@ -78,6 +81,11 @@ function DashBoard({ PreviousSurveys }) {
     }
   };
 
+  const copyPath = (index) => {
+    const path = `${window.location.origin}${PATH.JOINSURVEY}/${index}`;
+    navigator.clipboard.writeText(path);
+  };
+
   useEffect(() => {
     setTimeout(() => {
       fetchSurvey();
@@ -108,8 +116,35 @@ function DashBoard({ PreviousSurveys }) {
                   <Card key={index}>
                     <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
                     <p className="recentSurvey__response">
-                      Responses: {survey.responses}{" "}
+                      Responses: {survey.response}{" "}
                     </p>
+                    <div
+                      style={{
+                        margin: "10px 0px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        value={`${window.location.origin}${PATH.JOINSURVEY}/${survey._id}`}
+                        style={{
+                          margin: "0px 10px",
+                          outline: "none",
+                          border: "1px solid #ccc",
+                          padding: "0px 10px",
+                          borderRadius: "5px",
+                        }}
+                        readOnly
+                      />
+                      <Tooltip title="Copy Link">
+                        <IconButton onClick={() => copyPath(survey._id)}>
+                          <ContentCopyIcon
+                            style={{ position: "relative", left: "-10px" }}
+                          ></ContentCopyIcon>
+                        </IconButton>
+                      </Tooltip>
+                    </div>
                     <div style={{ display: "flex", gap: "45px" }}>
                       <Button variant="contained">
                         <Link
