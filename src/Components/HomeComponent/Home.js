@@ -5,7 +5,6 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 import graph from "../../../src/Images/graph.jpg";
-import logo from "../../../src/Images/logo.jpg";
 import "./home.css";
 import PATH from "../../Constants/Path";
 import { authToken } from "../../utils/Authenticate";
@@ -29,37 +28,23 @@ function Home() {
               </Link>
             </div>
           ) : (
-            <img
-              style={{
-                height: "100px",
-                width: "100px",
-                borderRadius: "50%",
-                position: "relative",
-                right: "0px",
-                top: "-30px",
-              }}
-              src={logo}
-              alt="logo "
-            />
+            <p style={{ textAlign: "center", marginTop: "10px" }}>
+              <Link
+                to={PATH.DASHBOARD}
+                style={{
+                  textDecoration: "none",
+                  color: "#344FA1",
+                  border: "1px solid #344FA1",
+                  borderRadius: "10px",
+                  padding: "8px 10px",
+                }}
+              >
+                Go to dashboard
+              </Link>
+            </p>
           )}
         </nav>
       </section>
-      {authToken() && (
-        <p style={{ textAlign: "center" }}>
-          <Link
-            to={PATH.DASHBOARD}
-            style={{
-              textDecoration: "none",
-              color: "#344FA1",
-              border: "1px solid #344FA1",
-              borderRadius: "10px",
-              padding: "8px 10px",
-            }}
-          >
-            Go to dashboard
-          </Link>
-        </p>
-      )}
 
       <div className="main">
         <Typography style={{ textAlign: "center" }} variant="h3">
