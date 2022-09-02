@@ -248,59 +248,70 @@ function DashBoard() {
         <Typography className="othersurveys-heading" variant="h4">
           Other Surveys
         </Typography>
-        {otherSurveys ? (
-          <div className="previousSurvey">
-            {otherSurveys &&
-              otherSurveys.map((obj, index) => (
-                <Card key={index}>
-                  <CardContent>
-                    <h4 className="previousSurvey__heading">{obj.name}</h4>
-                  </CardContent>
+        {isError === "" ? (
+          <div>
+            {otherSurveys ? (
+              <div className="previousSurvey">
+                {otherSurveys &&
+                  otherSurveys.map((obj, index) => (
+                    <Card key={index}>
+                      <CardContent>
+                        <h4 className="previousSurvey__heading">{obj.name}</h4>
+                      </CardContent>
 
-                  <p
-                    style={{
-                      fontFamily: "sans-serif",
-                      color: "#533483",
-                    }}
-                  >
-                    Take Survey
-                  </p>
-
-                  <CardContent>
-                    <div
-                      style={{
-                        margin: "0px 0px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <input
-                        type="text"
-                        value={`${window.location.origin}${PATH.JOINSURVEY}/${obj._id}`}
+                      <p
                         style={{
-                          margin: "5px 10px",
-                          outline: "none",
-                          border: "1px solid #ccc",
-                          padding: "0px 10px",
-                          borderRadius: "5px",
+                          fontFamily: "sans-serif",
+                          color: "#533483",
                         }}
-                        readOnly
-                      />
-                      <Tooltip title="Copy Link">
-                        <IconButton
-                          onClick={() => copyPath(obj._id)}
-                          style={{ position: "relative", left: "-8px" }}
+                      >
+                        Take Survey
+                      </p>
+
+                      <CardContent>
+                        <div
+                          style={{
+                            margin: "0px 0px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
                         >
-                          <ContentCopyIcon></ContentCopyIcon>
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                          <input
+                            type="text"
+                            value={`${window.location.origin}${PATH.JOINSURVEY}/${obj._id}`}
+                            style={{
+                              margin: "5px 10px",
+                              outline: "none",
+                              border: "1px solid #ccc",
+                              padding: "0px 10px",
+                              borderRadius: "5px",
+                            }}
+                            readOnly
+                          />
+                          <Tooltip title="Copy Link">
+                            <IconButton
+                              onClick={() => copyPath(obj._id)}
+                              style={{ position: "relative", left: "-8px" }}
+                            >
+                              <ContentCopyIcon></ContentCopyIcon>
+                            </IconButton>
+                          </Tooltip>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+              </div>
+            ) : (
+              <Progress />
+            )}
           </div>
         ) : (
-          <Progress />
+          <Typography
+            variant="h6"
+            style={{ textAlign: "center", color: "red" }}
+          >
+            {isError}
+          </Typography>
         )}
       </div>
       <ToastContainer />
