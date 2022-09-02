@@ -14,21 +14,21 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 import "./dashbord.css";
 import PATH from "../../Constants/Path";
 import Navbar from "../Navbar/Navbar";
 import Progress from "../Progress/Progress";
+import { authToken } from "../../utils/Authenticate";
 
 function DashBoard({ PreviousSurveys }) {
   const [userSurveys, setUserSurveys] = useState();
   const [deleteId, setDeleteId] = useState();
   const [isError, setIsError] = useState("");
-  const tokenName = "expressToken";
 
-  const authToken = document.cookie.match(
-    new RegExp("(^| )" + tokenName + "=([^;]+)")
-  )[2];
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -46,7 +46,7 @@ function DashBoard({ PreviousSurveys }) {
       method: "GET",
       url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}`,
       headers: {
-        config: `Bearer ${authToken}`,
+        config: `Bearer ${authToken()}`,
       },
     };
     axios
@@ -57,7 +57,7 @@ function DashBoard({ PreviousSurveys }) {
       .catch((error) => {
         setIsError(error.message);
       });
-  }, [authToken]);
+  }, []);
 
   const handleClose = (message) => {
     setOpen(false);
@@ -66,7 +66,7 @@ function DashBoard({ PreviousSurveys }) {
         method: "DELETE",
         url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${deleteId}`,
         headers: {
-          config: `Bearer ${authToken}`,
+          config: `Bearer ${authToken()}`,
         },
       };
       axios
@@ -79,6 +79,11 @@ function DashBoard({ PreviousSurveys }) {
           toast.error(error.message);
         });
     }
+  };
+
+  const copyPath = (index) => {
+    const path = `${window.location.origin}${PATH.JOINSURVEY}/${index}`;
+    navigator.clipboard.writeText(path);
   };
 
   useEffect(() => {
@@ -111,8 +116,35 @@ function DashBoard({ PreviousSurveys }) {
                   <Card key={index}>
                     <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
                     <p className="recentSurvey__response">
-                      Responses: {survey.responses}{" "}
+                      Responses: {survey.response}{" "}
                     </p>
+                    <div
+                      style={{
+                        margin: "10px 0px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        value={`${window.location.origin}${PATH.JOINSURVEY}/${survey._id}`}
+                        style={{
+                          margin: "0px 10px",
+                          outline: "none",
+                          border: "1px solid #ccc",
+                          padding: "0px 10px",
+                          borderRadius: "5px",
+                        }}
+                        readOnly
+                      />
+                      <Tooltip title="Copy Link">
+                        <IconButton onClick={() => copyPath(survey._id)}>
+                          <ContentCopyIcon
+                            style={{ position: "relative", left: "-10px" }}
+                          ></ContentCopyIcon>
+                        </IconButton>
+                      </Tooltip>
+                    </div>
                     <div style={{ display: "flex", gap: "45px" }}>
                       <Button variant="contained">
                         <Link
@@ -127,7 +159,11 @@ function DashBoard({ PreviousSurveys }) {
                         onClick={() => handleClickOpen(survey._id)}
                         variant="danger"
                         startIcon={<DeleteIcon />}
-                        style={{ color: "red" }}
+                        style={{
+                          color: "red",
+                          border: "1px solid red",
+                          borderRadius: "7px",
+                        }}
                       >
                         Delete
                       </Button>

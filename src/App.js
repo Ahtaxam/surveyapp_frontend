@@ -9,6 +9,8 @@ import PrivateRoutes from "./PrivateRoutes";
 import CreateSurvey from "./Components/CreateSurvey/CreateSurvey";
 import EditSurvey from "./Components/EditSurvey/EditSurvey";
 import PageNotFound from "./Components/PageNotFound/PageNotFound";
+import Join from "./Components/JoinSurvey/Join";
+import JoinSurvey from "./Components/JoinSurvey/JoinSurvey";
 
 function App() {
   return (
@@ -29,6 +31,12 @@ function App() {
         <Route
           path={`${PATH.EDITSURVEY}/:surveyId`}
           element={<PrivateRoutes component={EditSurvey} />}
+        />
+
+        <Route path={PATH.JOIN} element={<PrivateRoutes component={Join} />} />
+        <Route
+          path={`${PATH.JOINSURVEY}/:surveyId`}
+          element={<PrivateRoutes component={JoinSurvey} />}
         />
         <Route path="*" element={<PageNotFound />} />
       </Routes>

@@ -12,6 +12,7 @@ import PATH from "../../Constants/Path";
 import Navbar from "../Navbar/Navbar";
 import QUESTION_TYPE from "../../Constants/QUESTIONS_TYPES";
 import { validateSurveyQuestions } from "./validateSurveyQuestions";
+import { authToken } from "../../utils/Authenticate";
 
 function CreateSurvey() {
   const [isPublic, setPublic] = useState(true);
@@ -24,17 +25,12 @@ function CreateSurvey() {
       options: ["option1"],
     },
   ]);
-  const tokenName = "expressToken";
   const navigate = useNavigate();
   const backToDashBoard = () => {
     navigate(PATH.DASHBOARD);
   };
 
   const submitSurvey = () => {
-    const authToken = document.cookie.match(
-      new RegExp("(^| )" + tokenName + "=([^;]+)")
-    )[2];
-
     if (name.length === 0) {
       toast.error("Please Make Sure You Have A Title");
       return;
@@ -46,7 +42,7 @@ function CreateSurvey() {
         method: "POST",
         url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}`,
         headers: {
-          config: `Bearer ${authToken}`,
+          config: `Bearer ${authToken()}`,
         },
         data: {
           name: name,

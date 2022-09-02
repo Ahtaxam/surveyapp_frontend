@@ -5,8 +5,10 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 import graph from "../../../src/Images/graph.jpg";
+import logo from "../../../src/Images/logo.jpg";
 import "./home.css";
 import PATH from "../../Constants/Path";
+import { authToken } from "../../utils/Authenticate";
 
 function Home() {
   return (
@@ -16,17 +18,48 @@ function Home() {
           <div>
             <p className="navbar__text">Nex Research</p>
           </div>
-          <div>
-            <Link to={PATH.LOGIN}>
-              <button className="navbar__button">Login</button>
-            </Link>
+          {authToken() === null ? (
+            <div>
+              <Link to={PATH.LOGIN}>
+                <button className="navbar__button">Login</button>
+              </Link>
 
-            <Link to={PATH.SIGNUP}>
-              <button className="navbar__button">Signup</button>
-            </Link>
-          </div>
+              <Link to={PATH.SIGNUP}>
+                <button className="navbar__button">Signup</button>
+              </Link>
+            </div>
+          ) : (
+            <img
+              style={{
+                height: "100px",
+                width: "100px",
+                borderRadius: "50%",
+                position: "relative",
+                right: "0px",
+                top: "-30px",
+              }}
+              src={logo}
+              alt="logo "
+            />
+          )}
         </nav>
       </section>
+      {authToken() && (
+        <p style={{ textAlign: "center" }}>
+          <Link
+            to={PATH.DASHBOARD}
+            style={{
+              textDecoration: "none",
+              color: "#344FA1",
+              border: "1px solid #344FA1",
+              borderRadius: "10px",
+              padding: "8px 10px",
+            }}
+          >
+            Go to dashboard
+          </Link>
+        </p>
+      )}
 
       <div className="main">
         <Typography style={{ textAlign: "center" }} variant="h3">
@@ -38,7 +71,6 @@ function Home() {
           interest
         </p>
       </div>
-
       <section className="section">
         <div className="content">
           <h2 className="content__heading">A Web Survey Application</h2>
@@ -60,7 +92,6 @@ function Home() {
           <img className="image" src={graph} alt="loading..." />
         </div>
       </section>
-
       <section className="featureDiv">
         <div>
           <h1
@@ -111,7 +142,6 @@ function Home() {
           </div>
         </section>
       </section>
-
       <footer className="footer">
         <h3 className="footer__heading">Nax Research</h3>
         <div className="footer__icon">

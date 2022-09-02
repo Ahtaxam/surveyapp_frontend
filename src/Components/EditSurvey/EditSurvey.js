@@ -22,6 +22,7 @@ import QUESTION_TYPE from "../../Constants/QUESTIONS_TYPES";
 import PATH from "../../Constants/Path";
 import EditOptions from "./EditOptions";
 import Navbar from "../Navbar/Navbar";
+import { authToken } from "../../utils/Authenticate";
 const {
   validateSurveyQuestions,
 } = require("../CreateSurvey/validateSurveyQuestions");
@@ -33,10 +34,6 @@ function EditSurvey() {
   const [questions, setQuestions] = useState();
   const [surveyExist, setSurveyExist] = useState(true);
   const { surveyId } = useParams();
-  const tokenName = "expressToken";
-  const authToken = document.cookie.match(
-    new RegExp("(^| )" + tokenName + "=([^;]+)")
-  )[2];
 
   const navigate = useNavigate();
 
@@ -51,7 +48,7 @@ function EditSurvey() {
         method: "PUT",
         url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${surveyId}`,
         headers: {
-          config: `Bearer ${authToken}`,
+          config: `Bearer ${authToken()}`,
         },
         data: {
           name: name,
@@ -83,7 +80,7 @@ function EditSurvey() {
         method: "GET",
         url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${surveyId}`,
         headers: {
-          config: `Bearer ${authToken}`,
+          config: `Bearer ${authToken()}`,
         },
       };
       axios
@@ -98,7 +95,7 @@ function EditSurvey() {
           setSurveyExist(false);
         });
     }, 1000);
-  }, [authToken, surveyId]);
+  }, [surveyId]);
 
   const setQuestionValue = (e, index) => {
     const userQuestions = [...questions];
