@@ -75,26 +75,24 @@ function EditSurvey() {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      const options = {
-        method: "GET",
-        url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${surveyId}`,
-        headers: {
-          config: `Bearer ${authToken()}`,
-        },
-      };
-      axios
-        .request(options)
-        .then((response) => {
-          setName(response.data.name);
-          setDescription(response.data.description);
-          setPublic(response.data.isPublic);
-          setQuestions(response.data.questions);
-        })
-        .catch((error) => {
-          setSurveyExist(false);
-        });
-    }, 1000);
+    const options = {
+      method: "GET",
+      url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${surveyId}`,
+      headers: {
+        config: `Bearer ${authToken()}`,
+      },
+    };
+    axios
+      .request(options)
+      .then((response) => {
+        setName(response.data.name);
+        setDescription(response.data.description);
+        setPublic(response.data.isPublic);
+        setQuestions(response.data.questions);
+      })
+      .catch((error) => {
+        setSurveyExist(false);
+      });
   }, [surveyId]);
 
   const setQuestionValue = (e, index) => {
