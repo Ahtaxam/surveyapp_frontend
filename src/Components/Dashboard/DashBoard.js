@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, styled, Typography } from "@mui/material";
+import { Button, CardContent, styled, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Card as MuiCard } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -24,8 +24,9 @@ import Navbar from "../Navbar/Navbar";
 import Progress from "../Progress/Progress";
 import { authToken } from "../../utils/Authenticate";
 
-function DashBoard({ PreviousSurveys }) {
+function DashBoard() {
   const [userSurveys, setUserSurveys] = useState();
+  const [otherSurveys, setOtherSurveys] = useState();
   const [deleteId, setDeleteId] = useState();
   const [isError, setIsError] = useState("");
 
@@ -53,6 +54,25 @@ function DashBoard({ PreviousSurveys }) {
       .request(options)
       .then((response) => {
         setUserSurveys(response.data);
+      })
+      .catch((error) => {
+        setIsError(error.message);
+      });
+  }, []);
+
+  const fetchOtherSurvey = useCallback(() => {
+    const options = {
+      method: "GET",
+      url: `${process.env.REACT_APP_BASE_URL}/otherSurveys`,
+      headers: {
+        config: `Bearer ${authToken()}`,
+      },
+    };
+    axios
+
+      .request(options)
+      .then((response) => {
+        setOtherSurveys(response.data);
       })
       .catch((error) => {
         setIsError(error.message);
@@ -89,8 +109,9 @@ function DashBoard({ PreviousSurveys }) {
   useEffect(() => {
     setTimeout(() => {
       fetchSurvey();
+      fetchOtherSurvey();
     }, 1000);
-  }, [fetchSurvey]);
+  }, [fetchSurvey, fetchOtherSurvey]);
 
   return (
     <div>
@@ -129,7 +150,7 @@ function DashBoard({ PreviousSurveys }) {
                         type="text"
                         value={`${window.location.origin}${PATH.JOINSURVEY}/${survey._id}`}
                         style={{
-                          margin: "0px 10px",
+                          margin: "5px 10px",
                           outline: "none",
                           border: "1px solid #ccc",
                           padding: "0px 10px",
@@ -138,10 +159,11 @@ function DashBoard({ PreviousSurveys }) {
                         readOnly
                       />
                       <Tooltip title="Copy Link">
-                        <IconButton onClick={() => copyPath(survey._id)}>
-                          <ContentCopyIcon
-                            style={{ position: "relative", left: "-10px" }}
-                          ></ContentCopyIcon>
+                        <IconButton
+                          onClick={() => copyPath(survey._id)}
+                          style={{ position: "relative", left: "-8px" }}
+                        >
+                          <ContentCopyIcon></ContentCopyIcon>
                         </IconButton>
                       </Tooltip>
                     </div>
@@ -221,25 +243,65 @@ function DashBoard({ PreviousSurveys }) {
           {isError}
         </Typography>
       )}
-      <hr style={{ width: "80%", marginLeft: "8%" }} />
+      <hr style={{ width: "80%", marginLeft: "8%", marginTop: "50px" }} />
       <div className="createdSurveys">
         <Typography className="othersurveys-heading" variant="h4">
           Other Surveys
         </Typography>
-        <div className="previousSurvey">
-          {PreviousSurveys.map((obj, index) => (
-            <Card key={index}>
-              <h4 className="previousSurvey__heading">{obj.name}</h4>
-              <p className="previousSurvey__response">
-                {" "}
-                Responses: {obj.responses}{" "}
-              </p>
-              <Link to="/" style={{ textDecoration: "none" }}>
-                Take Survey
-              </Link>
-            </Card>
-          ))}
-        </div>
+        {otherSurveys ? (
+          <div className="previousSurvey">
+            {otherSurveys &&
+              otherSurveys.map((obj, index) => (
+                <Card key={index}>
+                  <CardContent>
+                    <h4 className="previousSurvey__heading">{obj.name}</h4>
+                  </CardContent>
+
+                  <p
+                    style={{
+                      fontFamily: "sans-serif",
+                      color: "#533483",
+                    }}
+                  >
+                    Take Survey
+                  </p>
+
+                  <CardContent>
+                    <div
+                      style={{
+                        margin: "0px 0px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        value={`${window.location.origin}${PATH.JOINSURVEY}/${obj._id}`}
+                        style={{
+                          margin: "5px 10px",
+                          outline: "none",
+                          border: "1px solid #ccc",
+                          padding: "0px 10px",
+                          borderRadius: "5px",
+                        }}
+                        readOnly
+                      />
+                      <Tooltip title="Copy Link">
+                        <IconButton
+                          onClick={() => copyPath(obj._id)}
+                          style={{ position: "relative", left: "-8px" }}
+                        >
+                          <ContentCopyIcon></ContentCopyIcon>
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+          </div>
+        ) : (
+          <Progress />
+        )}
       </div>
       <ToastContainer />
     </div>
@@ -249,9 +311,10 @@ const Card = styled(MuiCard)`
   width: 280px;
   height: auto;
   padding: 30px;
+  border-radius: 15px;
 `;
 DashBoard.defaultProps = {
-  PreviousSurveys: [
+  otherSurveys: [
     { name: "Mental health", responses: 34 },
     { name: "Work From Home", responses: 12 },
     { name: "Student Politices", responses: 56 },
