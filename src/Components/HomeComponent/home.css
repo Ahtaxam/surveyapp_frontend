@@ -76,7 +76,10 @@
   width: 100%;
   height: auto;
 }
-
+.featureDiv {
+  background-color: whitesmoke;
+  padding: 5px;
+}
 .feature {
   width: 100%;
   height: auto;
