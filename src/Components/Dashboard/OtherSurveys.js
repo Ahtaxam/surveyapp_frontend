@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CardContent, styled, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Card as MuiCard } from "@mui/material";
@@ -10,8 +10,13 @@ import Progress from "../Progress/Progress";
 import PATH from "../../Constants/Path";
 
 function OtherSurveys({ otherSurveys, isError, copyPath }) {
+  const [content, setContent] = useState("Copy Link");
   const getId = (index) => {
+    setContent("Copied");
     copyPath(index);
+  };
+  const changeTitle = () => {
+    setContent("Copy Link");
   };
   return (
     <div className="createdSurveys">
@@ -23,7 +28,7 @@ function OtherSurveys({ otherSurveys, isError, copyPath }) {
           <div className="previousSurvey">
             {otherSurveys.length > 0 ? (
               otherSurveys.map((obj, index) => (
-                <Card key={index}>
+                <Card key={index} onMouseLeave={changeTitle}>
                   <CardContent>
                     <h4 className="previousSurvey__heading">{obj.name}</h4>
                   </CardContent>
@@ -55,7 +60,7 @@ function OtherSurveys({ otherSurveys, isError, copyPath }) {
                         }}
                         readOnly
                       />
-                      <Tooltip title="Copy Link">
+                      <Tooltip title={content}>
                         <IconButton
                           onClick={() => getId(obj._id)}
                           style={{ position: "relative", left: "-8px" }}

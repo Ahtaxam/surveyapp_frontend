@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, styled, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Card as MuiCard } from "@mui/material";
@@ -24,6 +24,7 @@ function CreatedSurveys({
   fullScreen,
   copyPath,
 }) {
+  const [content, setContent] = useState("Copy Link");
   const handleClickOpenLocal = (id) => {
     handleClickOpen(id);
   };
@@ -31,7 +32,12 @@ function CreatedSurveys({
     handleClose(message);
   };
   const getCardId = (index) => {
+    setContent("Copied");
     copyPath(index);
+  };
+
+  const changeTitle = () => {
+    setContent("Copy Link");
   };
 
   return (
@@ -44,7 +50,7 @@ function CreatedSurveys({
           <div className="recentSurvey">
             {userSurveys.length > 0 ? (
               userSurveys.map((survey, index) => (
-                <Card key={index}>
+                <Card key={index} onMouseLeave={changeTitle}>
                   <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
                   <p className="recentSurvey__response">
                     Responses: {survey.response}{" "}
@@ -68,7 +74,7 @@ function CreatedSurveys({
                       }}
                       readOnly
                     />
-                    <Tooltip title="Copy Link">
+                    <Tooltip title={content}>
                       <IconButton
                         onClick={() => getCardId(survey._id)}
                         style={{ position: "relative", left: "-8px" }}
