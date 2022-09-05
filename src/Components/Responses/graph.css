@@ -1,0 +1,40 @@
+#graph {
+  height: auto;
+  position: relative;
+  display: block;
+  margin: auto;
+}
+#bargraph {
+  width: 250px;
+  height: 300px;
+  display: block;
+  margin: auto;
+}
+
+#card {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+@media screen and (min-width: 480px) {
+  #card {
+    width: 80%;
+    margin: auto;
+  }
+  #graph {
+    width: 250px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #card {
+    width: 80%;
+    margin: auto;
+  }
+  #bargraph {
+    width: 50%;
+    height: 300px;
+    padding: 20px;
+  }
+}
