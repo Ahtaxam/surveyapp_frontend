@@ -11,6 +11,7 @@ import EditSurvey from "./Components/EditSurvey/EditSurvey";
 import PageNotFound from "./Components/PageNotFound/PageNotFound";
 import Join from "./Components/JoinSurvey/Join";
 import JoinSurvey from "./Components/JoinSurvey/JoinSurvey";
+import Responses from "./Components/Responses/Responses";
 
 function App() {
   return (
@@ -37,6 +38,11 @@ function App() {
         <Route
           path={`${PATH.JOINSURVEY}/:surveyId`}
           element={<PrivateRoutes component={JoinSurvey} />}
+        />
+
+        <Route
+          path={`${PATH.RESPONSES}/:surveyId`}
+          element={<PrivateRoutes component={Responses} />}
         />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
