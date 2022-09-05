@@ -1,23 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { CardContent, styled, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Card as MuiCard } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
+import axios from "axios";
 
 import Progress from "../Progress/Progress";
 import PATH from "../../Constants/Path";
+import { authToken } from "../../utils/Authenticate";
 
-function OtherSurveys({ otherSurveys, isError, copyPath }) {
+function OtherSurveys() {
   const [content, setContent] = useState("Copy Link");
+  const [otherSurveys, setOtherSurveys] = useState([]);
+  const [isError, setIsError] = useState("");
+
   const getId = (index) => {
     setContent("Copied");
-    copyPath(index);
+    const path = `${window.location.origin}${PATH.JOINSURVEY}/${index}`;
+    navigator.clipboard.writeText(path);
   };
   const changeTitle = () => {
     setContent("Copy Link");
   };
+  const fetchSurvey = useCallback(() => {
+    const options = {
+      method: "GET",
+      url: `${process.env.REACT_APP_BASE_URL}/otherSurveys`,
+      headers: {
+        config: `Bearer ${authToken()}`,
+      },
+    };
+    axios
+      .request(options)
+      .then((response) => {
+        setOtherSurveys(response.data);
+      })
+      .catch((error) => {
+        setIsError(error.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetchSurvey();
+  }, [fetchSurvey]);
   return (
     <div className="createdSurveys">
       <Typography className="othersurveys-heading" variant="h4">
