@@ -49,6 +49,9 @@ function Login() {
     onSubmit: submit,
   });
 
+  /**
+   * @return {String}
+   */
   const handleError = () => {
     toast.error(errors.email);
     toast.error(errors.password);
