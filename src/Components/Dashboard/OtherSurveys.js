@@ -11,11 +11,18 @@ import Progress from "../Progress/Progress";
 import PATH from "../../Constants/Path";
 import { authToken } from "../../utils/Authenticate";
 
+/**
+ *
+ * @returns all the surveys created by the others user
+ */
 function OtherSurveys() {
   const [content, setContent] = useState("Copy Link");
   const [otherSurveys, setOtherSurveys] = useState([]);
   const [isError, setIsError] = useState("");
 
+  /**
+   * @param {number} index
+   */
   const getId = (index) => {
     setContent("Copied");
     const path = `${window.location.origin}${PATH.JOINSURVEY}/${index}`;
@@ -24,6 +31,11 @@ function OtherSurveys() {
   const changeTitle = () => {
     setContent("Copy Link");
   };
+
+  /**
+   * @async  fetchSurvey
+   * @return fetches all the surveys created by the other users
+   */
   const fetchSurvey = useCallback(() => {
     const options = {
       method: "GET",

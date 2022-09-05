@@ -23,6 +23,15 @@ function JoinSurvey() {
   const navigate = useNavigate();
 
   // function to set value of multiplechoice questions and checkbox questions in answers array
+
+  /**
+   *
+   * @param {Number} value
+   * @param {Boolean} isChecked
+   * @param {Number} index
+   * @param {Number} questionNo
+   * @param {String} type
+   */
   const setSelectedoptions = (value, isChecked, index, questionNo, type) => {
     let obj = {
       questionId: "",
@@ -58,6 +67,11 @@ function JoinSurvey() {
   };
 
   // function to set value of text questions in answers array and store in state
+  /**
+   *
+   * @param {String} value
+   * @param {Number} questionNo
+   */
   const setTextValue = (value, questionNo) => {
     let obj = {
       questionId: "",
@@ -72,6 +86,11 @@ function JoinSurvey() {
   };
 
   // function to set value of number questions in answers array and store in state
+  /**
+   *
+   * @param {String} value
+   * @param {Number} questionNo
+   */
   const setNumberValue = (value, questionNo) => {
     let obj = {
       questionId: "",
@@ -86,6 +105,7 @@ function JoinSurvey() {
   };
 
   // function to handle submit button first check that user has answered all the questions or not if user has answered all the questions then it will call server to store data
+
   const handleSubmitAnswers = () => {
     const result = validateSurveyResponse(answers, questions);
     if (!result) {
@@ -120,6 +140,7 @@ function JoinSurvey() {
   };
 
   // function to fetch survey data from server
+
   useEffect(() => {
     const options = {
       method: "GET",

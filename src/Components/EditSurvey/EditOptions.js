@@ -13,6 +13,12 @@ function EditOptions({
   handleOptionValue,
   handleDeleteOption,
 }) {
+  /**
+   * 
+   * @param {object} e 
+   * @param {number} index 
+   * @param {number} questionNo 
+   */
   const setOptionInputValue = (e, index, questionNo) => {
     handleOptionValue({
       value: e.target.value,
@@ -27,6 +33,11 @@ function EditOptions({
   };
 
   // this function is used to delete a specific option for a particular question and pass that data to parent component
+  /**
+   * 
+   * @param {number} index 
+   * @param {number} questionNo 
+   */
   const deleteOptionIndex = (index, questionNo) => {
     handleDeleteOption(index, questionNo);
   };

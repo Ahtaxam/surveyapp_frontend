@@ -20,16 +20,25 @@ import PATH from "../../Constants/Path";
 import Progress from "../Progress/Progress";
 import { authToken } from "../../utils/Authenticate";
 
+/**
+ *
+ * @returns all the surveys created by the user
+ */
+
 function UserSurveys() {
   const [userSurveys, setUserSurveys] = useState([]);
   const [deleteId, setDeleteId] = useState();
   const [isError, setIsError] = useState("");
   const [content, setContent] = useState("Copy Link");
-
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
+  /**
+   *
+   * @param {string} message
+   * @returns
+   */
   const handleClose = (message) => {
     setOpen(false);
     if (message === "agree") {
@@ -51,6 +60,11 @@ function UserSurveys() {
         });
     }
   };
+
+  /**
+   * @param {number} index
+   * @returns
+   */
   const getCardId = (index) => {
     setContent("Copied");
     const path = `${window.location.origin}${PATH.JOINSURVEY}/${index}`;
@@ -61,12 +75,18 @@ function UserSurveys() {
     setContent("Copy Link");
   };
 
+  /**
+   * @params {number} id
+   */
   const handleClickOpen = (id) => {
-    console.log(id);
     setOpen(true);
     setDeleteId(id);
   };
 
+  /**
+   * @async fetchSurvey
+   * @returns all the surveys created by the user
+   */
   const fetchSurvey = useCallback(() => {
     const options = {
       method: "GET",
@@ -97,12 +117,17 @@ function UserSurveys() {
       {isError === "" ? (
         <div>
           <div className="recentSurvey">
-            {userSurveys.length > 0 ? (
+            {userSurveys &&
               userSurveys.map((survey, index) => (
                 <Card key={index} onMouseLeave={changeTitle}>
                   <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
                   <p className="recentSurvey__response">
-                    Responses: {survey.response}{" "}
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      to={`${PATH.RESPONSES}/${survey._id}`}
+                    >
+                      Responses: {survey.response}{" "}
+                    </Link>
                   </p>
                   <div
                     style={{
@@ -197,10 +222,7 @@ function UserSurveys() {
                     </Dialog>
                   </div>
                 </Card>
-              ))
-            ) : (
-              <Progress />
-            )}
+              ))}
           </div>
         </div>
       ) : (

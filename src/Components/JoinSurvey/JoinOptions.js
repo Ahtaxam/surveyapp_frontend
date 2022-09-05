@@ -11,19 +11,38 @@ function JoinOptions({
   handleNumberValue,
   questionNo,
 }) {
-  const getSelectedOptions = (value, isChacked, index, type) => {
-    handleSelectedOptions(value, isChacked, index, questionNo, type);
+  /**
+   *
+   * @param {Number} value
+   * @param {Boolean} isChacked
+   * @param {Number} index
+   * @param {String} type
+   */
+  const getSelectedOptions = (value, isChecked, index, type) => {
+    handleSelectedOptions(value, isChecked, index, questionNo, type);
   };
 
+  /**
+   *
+   * @param {object} e
+   */
   const inputTextValues = (e) => {
     handleTextValue(e.target.value, questionNo);
   };
 
+  /**
+   *
+   * @param {object} e
+   */
   const inputNumberValue = (e) => {
     handleNumberValue(e.target.value, questionNo);
   };
 
   // function to render multiplechoice options and checkbox options
+  /**
+   *
+   * @returns return multiplechoice options and checkbox options
+   */
   function renderOptions() {
     return (
       <div>
@@ -48,6 +67,10 @@ function JoinOptions({
   }
 
   // function to render text input type
+  /**
+   *
+   * @returns {Text}
+   */
   function renderText() {
     return (
       <div>
@@ -63,6 +86,10 @@ function JoinOptions({
   }
 
   // function to render number input type
+  /**
+   *
+   * @returns {Number}
+   */
   function renderNumber() {
     return (
       <div>
@@ -78,6 +105,10 @@ function JoinOptions({
   }
 
   //switch case to render options based on question type
+  /**
+   * @param {string} type
+   * @returns {function}
+   */
   switch (type) {
     case QUESTION_TYPES.CHECKBOX:
       return renderOptions();
