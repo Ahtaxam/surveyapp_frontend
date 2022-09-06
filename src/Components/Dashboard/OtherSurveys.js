@@ -72,12 +72,7 @@ function OtherSurveys() {
                     <h4 className="previousSurvey__heading">{obj.name}</h4>
                   </CardContent>
 
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to={`${PATH.JOINSURVEY}/${obj._id}`}
-                  >
-                    Take Survey
-                  </Link>
+                  <Link to={`${PATH.JOINSURVEY}/${obj._id}`}>Take Survey</Link>
 
                   <CardContent>
                     <div
