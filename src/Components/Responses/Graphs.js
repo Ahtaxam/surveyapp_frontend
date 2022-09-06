@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { Card as MuiCard, CardContent } from "@mui/material";
+import { Button, Card as MuiCard, CardContent } from "@mui/material";
 import { styled, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -7,6 +7,9 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { Bar } from "react-chartjs-2";
 import { Link } from "react-router-dom";
+import Box from "@mui/material/Box";
+import { toast } from "react-toastify";
+import fileDownload from "js-file-download";
 
 import { authToken } from "../../utils/Authenticate";
 import PATH from "../../Constants/Path";
@@ -76,42 +79,65 @@ function Graphs() {
       });
   }, [surveyId]);
 
+  const downloadReport = () => {
+    const options = {
+      method: "GET",
+      url: `${process.env.REACT_APP_BASE_URL}/download/${surveyId}`,
+      headers: {
+        config: `Bearer ${authToken()}`,
+      },
+    };
+    axios
+      .request(options)
+      .then((response) => {
+        toast.success("Report Downloaded Successfully");
+        fileDownload(response.data, "report.csv");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     fetchResponses();
     fetchQuestions();
   }, [fetchResponses, fetchQuestions]);
   return (
     <div>
+      {!isError &&
+        (responses.length > 0 && (
+          <Box textAlign="center">
+            <Button variant="contained" onClick={downloadReport}>
+              Download report
+            </Button>
+          </Box>
+        ))}
       {responses.length > 0 ? (
         <>
-          <Card>
+          <Card id="responses-heading">
             <CardContent>
               <Typography color="#575546" variant="h4" textAlign="center">
                 {responses.length} responses
               </Typography>
             </CardContent>
           </Card>
-          <div>
-            {Questions &&
-              Questions.map((question, index) => (
-                <div key={index}>
-                  <Card>
-                    <CardContent>
-                      <Typography color="#575546">
-                        {Questions[index].title}
-                      </Typography>
-                    </CardContent>
-                    <CardContent style={{ width: "100%", height: "360px" }}>
-                      <ShowGraph
-                        responses={responses}
-                        index={index}
-                        type={question.type}
-                        options={question.options}
-                      />
-                    </CardContent>
-                  </Card>
-                </div>
-              ))}
+          <div id="graphdiv">
+            {Questions.map((question, index) => (
+              <div key={index}>
+                <Card>
+                  <CardContent>
+                    <Typography color="#575546">{question.title}</Typography>
+                  </CardContent>
+                  <ShowGraph
+                    responses={responses}
+                    Questions={Questions}
+                    index={index}
+                    type={question.type}
+                    options={question.options}
+                  />
+                </Card>
+              </div>
+            ))}
           </div>
         </>
       ) : (
@@ -153,21 +179,36 @@ export default Graphs;
 
 /**
  *
- * @param {responses} responses
- * @param {index} index
- * @param {type} type
- * @param {options} options
- * @returns {Comment} render graph
+ * @param {object[]} responses
+ * @param {Number} index
+ * @param {String} type
+ * @param {string[]} options
+ * @param {String} activeButton
+ * @returns {Component} render graph
  *
  */
-function ShowGraph({ responses, index, type, options }) {
+function ShowGraph({ responses, index, Questions, type, options }) {
+  const [activeButton, setActiveButton] = useState("Bar");
+  const handleType = (value) => {
+    setActiveButton(value);
+  };
   let result = [];
-  const colors = ["#5F6F94", "#A7D2CB", "#0F3460", "#42032C", "#A66CFF"];
 
+  const colors = [
+    "#5F6F94",
+    "#A7D2CB",
+    "#0F3460",
+    "#42032C",
+    "#A66CFF",
+    "#FF6384",
+    "#36A2EB",
+    "#486f27",
+    "#FFCE56",
+    "#5F6F94",
+  ];
   responses.forEach((response) => {
     result.push(...response.answers[index].options);
   });
-
   if (type === "multiplechoice") {
     const d = [];
     for (let i of options) {
@@ -184,7 +225,13 @@ function ShowGraph({ responses, index, type, options }) {
         {
           label: "Responses",
           data: d,
-          backgroundColor: ["#FF6384", "#36A2EB", "#486f27"],
+          backgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#486f27",
+            "#FFCE56",
+            "#5F6F94",
+          ],
           borderWidth: 1,
         },
       ],
@@ -194,7 +241,19 @@ function ShowGraph({ responses, index, type, options }) {
     };
     return (
       <div id="graph">
-        <Doughnut data={data} options={optionss} />
+        {activeButton === "Bar" ? (
+          <Bar data={data} options={optionss} />
+        ) : (
+          <Doughnut data={data} options={optionss} />
+        )}
+        <div className="btndiv">
+          <Button variant="contained" onClick={() => handleType("Bar")}>
+            Bar
+          </Button>
+          <Button variant="outlined" onClick={() => handleType("Doughnut")}>
+            Doughnut
+          </Button>
+        </div>
       </div>
     );
   }
@@ -215,7 +274,12 @@ function ShowGraph({ responses, index, type, options }) {
           label: "count",
           data: Object.values(obj),
           borderColor: "rgb(255, 99, 132)",
-          backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+          backgroundColor:
+            colors[
+              (Math.floor(Math.random() * colors.length),
+              Math.floor(Math.random() * colors.length),
+              Math.ceil(Math.random() * colors.length))
+            ],
           borderWidth: 1,
         },
       ],
@@ -224,8 +288,20 @@ function ShowGraph({ responses, index, type, options }) {
       maintainAspectRation: false,
     };
     return (
-      <div id="bargraph">
-        <Bar data={data} options={optionss} />
+      <div id="graph">
+        {activeButton === "Bar" ? (
+          <Bar data={data} options={optionss} />
+        ) : (
+          <Doughnut data={data} options={optionss} />
+        )}
+        <div className="btndiv">
+          <Button variant="contained" onClick={() => handleType("Bar")}>
+            Bar
+          </Button>
+          <Button variant="outlined" onClick={() => handleType("Doughnut")}>
+            Doughnut
+          </Button>
+        </div>
       </div>
     );
   }
