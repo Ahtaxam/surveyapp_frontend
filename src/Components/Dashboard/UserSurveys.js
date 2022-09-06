@@ -17,7 +17,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import PATH from "../../Constants/Path";
-import Progress from "../Progress/Progress";
 import { authToken } from "../../utils/Authenticate";
 
 /**
@@ -122,10 +121,7 @@ function UserSurveys() {
                 <Card key={index} onMouseLeave={changeTitle}>
                   <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
                   <p className="recentSurvey__response">
-                    <Link
-                      style={{ textDecoration: "none" }}
-                      to={`${PATH.RESPONSES}/${survey._id}`}
-                    >
+                    <Link to={`${PATH.RESPONSES}/${survey._id}`}>
                       Responses: {survey.response}{" "}
                     </Link>
                   </p>

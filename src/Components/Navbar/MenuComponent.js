@@ -62,8 +62,8 @@ function MenuComponent() {
           },
         }}
       >
-        <MenuItem>{name && name}</MenuItem>
-        <MenuItem>{email && email}</MenuItem>
+        <MenuItem disabled>{name && name}</MenuItem>
+        <MenuItem disabled>{email && email}</MenuItem>
         <Divider />
 
         <MenuItem onClick={logoutUser}>
