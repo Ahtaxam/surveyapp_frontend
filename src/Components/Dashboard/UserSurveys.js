@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 
 import PATH from "../../Constants/Path";
 import { authToken } from "../../utils/Authenticate";
+import Progress from "../Progress/Progress";
 
 /**
  *
@@ -100,6 +101,7 @@ function UserSurveys() {
         setUserSurveys(response.data);
       })
       .catch((error) => {
+        console.log(error);
         setIsError(error.message);
       });
   }, []);
@@ -115,9 +117,8 @@ function UserSurveys() {
       </Typography>
       {isError === "" ? (
         <div>
-          <div className="recentSurvey">
-            {userSurveys &&
-              userSurveys.map((survey, index) => (
+            <div className="recentSurvey">
+              {userSurveys.map((survey, index) => (
                 <Card key={index} onMouseLeave={changeTitle}>
                   <h4 style={{ marginTop: "5px" }}> {survey.name} </h4>
                   <p className="recentSurvey__response">
@@ -219,7 +220,8 @@ function UserSurveys() {
                   </div>
                 </Card>
               ))}
-          </div>
+            </div>
+         
         </div>
       ) : (
         <Typography variant="h6" style={{ textAlign: "center", color: "red" }}>

@@ -161,9 +161,6 @@ function EditSurvey() {
     setQuestions(userQuestions);
   };
 
-  /**
-   * @return {object}
-   */
   const addQuestion = () => {
     const userQuestions = [...questions];
     userQuestions.push({

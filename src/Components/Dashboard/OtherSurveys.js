@@ -65,7 +65,7 @@ function OtherSurveys() {
       {!isError ? (
         <div>
           <div className="previousSurvey">
-            {otherSurveys.length > 0 ? (
+            {
               otherSurveys.map((obj, index) => (
                 <Card key={index} onMouseLeave={changeTitle}>
                   <CardContent>
@@ -106,9 +106,7 @@ function OtherSurveys() {
                   </CardContent>
                 </Card>
               ))
-            ) : (
-              <Progress />
-            )}
+             }
           </div>
         </div>
       ) : (
