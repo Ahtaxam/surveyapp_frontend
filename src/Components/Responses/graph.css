@@ -53,6 +53,12 @@
   border-radius: 10px;
   border-left: 2px solid blue;
 }
+#userDetail {
+  width: 90%;
+  margin: 20px auto;
+  border-radius: 10px;
+  border-left: 2px solid blue;
+}
 
 @media screen and (min-width: 480px) {
   #card {
@@ -95,6 +101,9 @@
     padding: 0%;
   }
   #individualHeading {
+    width: 80%;
+  }
+  #userDetail {
     width: 80%;
   }
   .individualquestions {
