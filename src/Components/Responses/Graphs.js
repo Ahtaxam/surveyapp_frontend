@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { toast } from "react-toastify";
 import fileDownload from "js-file-download";
+import ButtonGroup from "@mui/material/ButtonGroup";
 
 import { authToken } from "../../utils/Authenticate";
 import PATH from "../../Constants/Path";
@@ -94,7 +95,7 @@ function Graphs() {
         fileDownload(response.data, "report.csv");
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error.message);
       });
   };
 
@@ -104,14 +105,13 @@ function Graphs() {
   }, [fetchResponses, fetchQuestions]);
   return (
     <div>
-      {!isError &&
-        (responses.length > 0 && (
-          <Box textAlign="center">
-            <Button variant="contained" onClick={downloadReport}>
-              Download report
-            </Button>
-          </Box>
-        ))}
+      {!isError && responses.length > 0 && (
+        <Box textAlign="center">
+          <Button variant="contained" onClick={downloadReport}>
+            Download report
+          </Button>
+        </Box>
+      )}
       {responses.length > 0 ? (
         <>
           <Card id="responses-heading">
@@ -247,12 +247,23 @@ function ShowGraph({ responses, index, Questions, type, options }) {
           <Doughnut data={data} options={optionss} />
         )}
         <div className="btndiv">
-          <Button variant="contained" onClick={() => handleType("Bar")}>
-            Bar
-          </Button>
-          <Button variant="outlined" onClick={() => handleType("Doughnut")}>
-            Doughnut
-          </Button>
+          <ButtonGroup
+            variant="contained"
+            aria-label="outlined primary button group"
+          >
+            <Button
+              color={activeButton === "Bar" ? "secondary" : "primary"}
+              onClick={() => handleType("Bar")}
+            >
+              Bar
+            </Button>
+            <Button
+              color={activeButton === "Doughnut" ? "secondary" : "primary"}
+              onClick={() => handleType("Doughnut")}
+            >
+              Doughnut
+            </Button>
+          </ButtonGroup>
         </div>
       </div>
     );
@@ -295,12 +306,23 @@ function ShowGraph({ responses, index, Questions, type, options }) {
           <Doughnut data={data} options={optionss} />
         )}
         <div className="btndiv">
-          <Button variant="contained" onClick={() => handleType("Bar")}>
-            Bar
-          </Button>
-          <Button variant="outlined" onClick={() => handleType("Doughnut")}>
-            Doughnut
-          </Button>
+          <ButtonGroup
+            variant="contained"
+            aria-label="outlined primary button group"
+          >
+            <Button
+              color={activeButton === "Bar" ? "secondary" : "primary"}
+              onClick={() => handleType("Bar")}
+            >
+              Bar
+            </Button>
+            <Button
+              color={activeButton === "Doughnut" ? "secondary" : "primary"}
+              onClick={() => handleType("Doughnut")}
+            >
+              Doughnut
+            </Button>
+          </ButtonGroup>
         </div>
       </div>
     );
