@@ -4,52 +4,57 @@ import { useParams } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
-
 import axios from "axios";
 
+import Options from "./Options";
 import { authToken } from "../../utils/Authenticate";
-import Progress from "../Progress/Progress";
 import PATH from "../../Constants/Path";
 import "./graph.css";
-import QUESTIONS_TYPE from "../../Constants/QUESTIONS_TYPES";
 
 function Individuals() {
   const [responses, setResponses] = useState([]);
-  const [Questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const [isError, setIsError] = useState("");
   const { surveyId } = useParams();
   const [page, setPage] = useState(1);
+  const [userDeatils, setUserDetails] = useState({ name: "", email: "" });
   const handleChange = (event, value) => {
     setPage(value);
   };
   const fetchResponses = useCallback(() => {
-    const options = {
-      method: "GET",
-      url: `${process.env.REACT_APP_BASE_URL}${PATH.RESPONSES}/${surveyId}`,
-      headers: {
-        config: `Bearer ${authToken()}`,
-      },
-    };
     axios
-      .request(options)
+      .get(`${process.env.REACT_APP_BASE_URL}${PATH.RESPONSES}/${surveyId}`, {
+        headers: {
+          config: `Bearer ${authToken()}`,
+        },
+      })
       .then((response) => {
         setResponses(response.data);
+        axios
+          .get(
+            `${process.env.REACT_APP_BASE_URL}/responsedetail/${
+              response.data[page - 1].userId
+            }`
+          )
+          .then((response) => {
+            setUserDetails({
+              name: response.data.name,
+              email: response.data.email,
+            });
+          });
       })
       .catch((error) => {
         setIsError("you have no responses");
       });
-  }, [surveyId]);
+  }, [surveyId, page]);
 
   const fetchQuestions = useCallback(() => {
-    const options = {
-      method: "GET",
-      url: `${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${surveyId}`,
-      headers: {
-        config: `Bearer ${authToken()}`,
-      },
-    };
     axios
-      .request(options)
+      .get(`${process.env.REACT_APP_BASE_URL}${PATH.SURVEY}/${surveyId}`, {
+        headers: {
+          config: `Bearer ${authToken()}`,
+        },
+      })
       .then((response) => {
         setQuestions(response.data.questions);
       })
@@ -80,9 +85,28 @@ function Individuals() {
         </CardContent>
       </Card>
 
+      <Card id="userDetail">
+        <CardContent style={{ margin: "auto" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+              gap: "10px",
+            }}
+          >
+            <Typography variant="h6" style={{ color: "#d500f9", m: 2 }}>
+              user Detail
+            </Typography>
+            <Typography color="primary">{userDeatils.name} </Typography>
+            <Typography color="primary">{userDeatils.email} </Typography>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="individualquestions">
-        {Questions.length > 0 ? (
-          Questions.map((question, index) => {
+        {questions &&
+          questions.map((question, index) => {
             return (
               <div key={index}>
                 <Card
@@ -109,10 +133,7 @@ function Individuals() {
                 </Card>
               </div>
             );
-          })
-        ) : (
-          <Progress />
-        )}
+          })}
       </div>
       <div
         style={{
@@ -140,26 +161,3 @@ function Individuals() {
 }
 
 export default Individuals;
-
-function Options({ selectedType, page, responses, index }) {
-  return (
-    <div>
-      {selectedType === QUESTIONS_TYPE.TEXT ||
-      selectedType === QUESTIONS_TYPE.NUMBER ? (
-        <p>{responses[page - 1]?.answers[index].options[0]}</p>
-      ) : null}
-
-      {selectedType === QUESTIONS_TYPE.CHECKBOX ||
-      selectedType === QUESTIONS_TYPE.MULTIPLE_CHOICE ? (
-        <div>
-          {responses[page - 1]?.answers[index].options.map((option, index) => (
-            <div key={index}>
-              <p>{option}</p>
-              <br />
-            </div>
-          ))}
-        </div>
-      ) : null}
-    </div>
-  );
-}
