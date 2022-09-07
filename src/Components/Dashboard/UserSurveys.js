@@ -18,7 +18,6 @@ import { toast } from "react-toastify";
 
 import PATH from "../../Constants/Path";
 import { authToken } from "../../utils/Authenticate";
-import Progress from "../Progress/Progress";
 
 /**
  *

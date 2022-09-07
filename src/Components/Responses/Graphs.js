@@ -3,7 +3,6 @@ import { Button, Card as MuiCard, CardContent } from "@mui/material";
 import { styled, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { toast } from "react-toastify";

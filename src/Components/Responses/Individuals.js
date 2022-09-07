@@ -104,37 +104,41 @@ function Individuals() {
         </CardContent>
       </Card>
 
-      <div className="individualquestions">
-        {questions &&
-          questions.map((question, index) => {
-            return (
-              <div key={index}>
-                <Card
-                  style={{
-                    marginTop: "20px",
-                    borderLeft: "2px solid blue",
-                    borderRadius: "8px",
-                  }}
-                >
-                  <CardContent>
-                    <Typography variant="p" color="#f50039">
-                      {question.title}
-                    </Typography>
-                  </CardContent>
-                  <CardContent>
-                    <Options
-                      options={question.options}
-                      page={page}
-                      selectedType={question.type}
-                      responses={responses}
-                      index={index}
-                    />
-                  </CardContent>
-                </Card>
-              </div>
-            );
-          })}
-      </div>
+      {isError === "" ? (
+        <div className="individualquestions">
+          {questions &&
+            questions.map((question, index) => {
+              return (
+                <div key={index}>
+                  <Card
+                    style={{
+                      marginTop: "20px",
+                      borderLeft: "2px solid blue",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    <CardContent>
+                      <Typography variant="p" color="#f50039">
+                        {question.title}
+                      </Typography>
+                    </CardContent>
+                    <CardContent>
+                      <Options
+                        options={question.options}
+                        page={page}
+                        selectedType={question.type}
+                        responses={responses}
+                        index={index}
+                      />
+                    </CardContent>
+                  </Card>
+                </div>
+              );
+            })}
+        </div>
+      ) : (
+        <p>{isError}</p>
+      )}
       <div
         style={{
           display: "flex",
