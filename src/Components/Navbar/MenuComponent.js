@@ -5,7 +5,7 @@ import MuiMenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import Person from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
@@ -64,6 +64,15 @@ function MenuComponent() {
       >
         <MenuItem disabled>{name && name}</MenuItem>
         <MenuItem disabled>{email && email}</MenuItem>
+        <MenuItem>
+          <Link
+            to={PATH.DASHBOARD}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            Dashboard
+          </Link>
+        </MenuItem>
+
         <Divider />
 
         <MenuItem onClick={logoutUser}>
