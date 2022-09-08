@@ -56,9 +56,7 @@ function CreateSurvey() {
         .request(options)
         .then((response) => {
           toast.success(response.data.message);
-          setTimeout(() => {
             navigate(PATH.DASHBOARD);
-          }, 1000);
         })
         .catch((error) => {
           toast.error(error.message);

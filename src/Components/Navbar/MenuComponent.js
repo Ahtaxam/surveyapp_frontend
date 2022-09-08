@@ -22,9 +22,7 @@ function MenuComponent() {
     const express = document.cookie.split("=")[0];
     document.cookie = express + "=; Max-Age=0";
     toast.success("Successfully Logout !");
-    setTimeout(() => {
-      navigate(PATH.HOME);
-    }, 1300);
+    navigate(PATH.HOME);
   };
 
   const open = Boolean(anchorEl);

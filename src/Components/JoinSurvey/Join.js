@@ -1,7 +1,7 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import PATH from "../../Constants/Path";
 import "./join.css";
@@ -101,7 +101,6 @@ function Join() {
           Back to Dashboard
         </Link>
       </div>
-      <ToastContainer />
     </div>
   );
 }

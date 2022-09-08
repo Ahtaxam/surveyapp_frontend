@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-import { ToastContainer } from "react-toastify";
 
 import ShowContent from "./ShowContent";
 import Navbar from "../Navbar/Navbar";
@@ -34,7 +33,6 @@ function Responses() {
       </Box>
 
       <ShowContent value={value} />
-      <ToastContainer />
     </div>
   );
 }

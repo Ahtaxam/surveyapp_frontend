@@ -3,7 +3,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 
@@ -24,7 +24,9 @@ function Login() {
     axios
       .request(options)
       .then((response) => {
-        toast.success(response.data.message);
+        toast.success(response.data.message, {
+          icon: "🚀",
+        });
         localStorage.setItem(
           "loggedUser",
           JSON.stringify({
@@ -32,9 +34,8 @@ function Login() {
             email: response.data.email,
           })
         );
-        setTimeout(() => {
-          navigate(PATH.DASHBOARD);
-        }, 1000);
+
+        navigate(PATH.DASHBOARD);
       })
       .catch((error) => {
         toast.error(error.response?.data || error.message);
@@ -100,7 +101,6 @@ function Login() {
           <Link to="/signup">Sign up</Link>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 }

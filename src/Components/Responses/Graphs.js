@@ -11,7 +11,6 @@ import fileDownload from "js-file-download";
 import ShowGraph from "./ShowGraph";
 import { authToken } from "../../utils/Authenticate";
 import PATH from "../../Constants/Path";
-import Progress from "../Progress/Progress";
 import "./graph.css";
 
 /**
@@ -36,7 +35,7 @@ function Graphs() {
         setResponses(response.data);
       })
       .catch((error) => {
-        setIsError("you have no responses");
+        setIsError(error.response.data);
       });
   }, [surveyId]);
 
@@ -51,13 +50,10 @@ function Graphs() {
         setSurveyName(response.data.name);
         setQuestions(response.data.questions);
       })
-      .catch((error) => {
-        setIsError(error.message);
-      });
+      .catch((error) => {});
   }, [surveyId]);
 
   const downloadReport = () => {
-    console.log("download");
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/download/${surveyId}`, {
         headers: {
@@ -65,12 +61,10 @@ function Graphs() {
         },
       })
       .then((response) => {
-        console.log(response.data);
         toast.success("Report Downloaded");
         fileDownload(response.data, `${surveyName}.csv`);
       })
       .catch((error) => {
-        console.log(error);
       });
   };
 
@@ -90,44 +84,40 @@ function Graphs() {
       {!isError ? (
         <div>
           <>
-            {responses.length > 0 ? (
-              <div>
-                <Card id="responses-heading">
-                  <CardContent>
-                    <Typography color="#575546" variant="h4" textAlign="center">
-                      {responses.length} responses
-                    </Typography>
-                  </CardContent>
-                </Card>
-                <div id="graphdiv">
-                  {questions.map((question, index) => (
-                    <div key={index}>
-                      <Card>
-                        <CardContent>
-                          <Typography color="#575546">
-                            {question.title}
-                          </Typography>
-                        </CardContent>
-                        <ShowGraph
-                          responses={responses}
-                          questions={questions}
-                          index={index}
-                          type={question.type}
-                          options={question.options}
-                        />
-                      </Card>
-                    </div>
-                  ))}
-                </div>
+            <div>
+              <Card id="responses-heading">
+                <CardContent>
+                  <Typography color="#575546" variant="h4" textAlign="center">
+                    {responses.length} responses
+                  </Typography>
+                </CardContent>
+              </Card>
+              <div id="graphdiv">
+                {questions.map((question, index) => (
+                  <div key={index}>
+                    <Card>
+                      <CardContent>
+                        <Typography color="#575546">
+                          {question.title}
+                        </Typography>
+                      </CardContent>
+                      <ShowGraph
+                        responses={responses}
+                        questions={questions}
+                        index={index}
+                        type={question.type}
+                        options={question.options}
+                      />
+                    </Card>
+                  </div>
+                ))}
               </div>
-            ) : (
-              <Progress />
-            )}
+            </div>
           </>
         </div>
       ) : (
         <Typography variant="h6" textAlign="center" color="red">
-          {isError ? isError : "No responses yet"}
+          {isError}
         </Typography>
       )}
       <div

@@ -44,7 +44,7 @@ function Individuals() {
           });
       })
       .catch((error) => {
-        setIsError("you have no responses");
+        setIsError(error.response.data);
       });
   }, [surveyId, page]);
 
@@ -58,9 +58,7 @@ function Individuals() {
       .then((response) => {
         setQuestions(response.data.questions);
       })
-      .catch((error) => {
-        setIsError(error.message);
-      });
+      .catch((error) => {});
   }, [surveyId]);
 
   useEffect(() => {
@@ -96,7 +94,7 @@ function Individuals() {
             }}
           >
             <Typography variant="h6" style={{ color: "#d500f9", m: 2 }}>
-              user Detail
+              Responder
             </Typography>
             <Typography color="primary">{userDetails.name} </Typography>
             <Typography color="primary">{userDetails.email} </Typography>
@@ -106,39 +104,38 @@ function Individuals() {
 
       {isError === "" ? (
         <div className="individualquestions">
-          {
-            questions.map((question, index) => {
-              return (
-                <div key={index}>
-                  <Card
-                    style={{
-                      marginTop: "20px",
-                      borderLeft: "2px solid blue",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <CardContent>
-                      <Typography variant="p" color="#f50039">
-                        {question.title}
-                      </Typography>
-                    </CardContent>
-                    <CardContent>
-                      <Options
-                        options={question.options}
-                        page={page}
-                        selectedType={question.type}
-                        responses={responses}
-                        index={index}
-                      />
-                    </CardContent>
-                  </Card>
-                </div>
-              );
-            })}
+          {questions.map((question, index) => {
+            return (
+              <div key={index}>
+                <Card
+                  style={{
+                    marginTop: "20px",
+                    borderLeft: "2px solid blue",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <CardContent>
+                    <Typography variant="p" color="#f50039">
+                      {question.title}
+                    </Typography>
+                  </CardContent>
+                  <CardContent>
+                    <Options
+                      options={question.options}
+                      page={page}
+                      selectedType={question.type}
+                      responses={responses}
+                      index={index}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <Typography variant="h6" textAlign="center" color="red">
-          {isError ? isError : "No responses yet"}
+          {isError}
         </Typography>
       )}
       <div

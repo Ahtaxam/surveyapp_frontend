@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Button, Card, CardContent, Typography } from "@mui/material";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import Progress from "../Progress/Progress";
 import PATH from "../../Constants/Path";
@@ -130,9 +130,7 @@ function JoinSurvey() {
           icon: "🚀",
         });
 
-        setTimeout(() => {
-          navigate(PATH.DASHBOARD);
-        }, 1000);
+        navigate(PATH.DASHBOARD);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -230,8 +228,6 @@ function JoinSurvey() {
           Back
         </Link>
       </div>
-
-      <ToastContainer />
     </div>
   );
 }
