@@ -62,11 +62,10 @@ function Graphs() {
         },
       })
       .then((response) => {
+        toast.success("Report Downloaded");
         fileDownload(response.data, `${surveyName}.csv`);
       })
-      .catch((error) => {
-        toast.error("Something went wrong");
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {
@@ -76,7 +75,7 @@ function Graphs() {
   return (
     <div>
       {!isError && responses.length > 0 && (
-        <Box textAlign="center" sx={{mt:2}}>
+        <Box textAlign="center" sx={{ mt: 2 }}>
           <Button variant="contained" onClick={downloadReport}>
             Download report
           </Button>
