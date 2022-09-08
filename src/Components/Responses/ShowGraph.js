@@ -26,7 +26,6 @@ ChartJS.register(
   Legend
 );
 ChartJS.register(ArcElement, Tooltip, Legend);
-
 function ShowGraph({ responses, index, type, options }) {
   const [activeButton, setActiveButton] = useState("Bar");
   const handleType = (value) => {
@@ -50,75 +49,15 @@ function ShowGraph({ responses, index, type, options }) {
     result.push(...response.answers[index].options);
   });
 
-  if (type === "multiplechoice") {
-    const d = [];
-    for (let i of options) {
-      const index = result.indexOf(i);
-      if (index < 0) {
-        d.push(0);
-      } else {
-        d.push(result.filter((x) => x === i).length);
-      }
+  let obj = {};
+  if (type !== "text") {
+    if (type === "number") {
+      result.forEach((item) => (obj[item] = 0));
     }
+    options.forEach((option) => (obj[option] = 0));
 
-    const data = {
-      labels: options,
-      datasets: [
-        {
-          label: "Responses",
-          data: d,
-          backgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#486f27",
-            "#FFCE56",
-            "#5F6F94",
-          ],
-          borderWidth: 1,
-        },
-      ],
-    };
-    let optionss = {
-      maintainAspectRation: false,
-    };
-    return (
-      <div id="graph">
-        {activeButton === "Bar" ? (
-          <Bar data={data} options={optionss} />
-        ) : (
-          <Doughnut data={data} options={optionss} />
-        )}
-        <div className="btndiv">
-          <ButtonGroup
-            variant="contained"
-            aria-label="outlined primary button group"
-          >
-            <Button
-              color={activeButton === "Bar" ? "secondary" : "primary"}
-              onClick={() => handleType("Bar")}
-            >
-              Bar
-            </Button>
-            <Button
-              color={activeButton === "Doughnut" ? "secondary" : "primary"}
-              onClick={() => handleType("Doughnut")}
-            >
-              Doughnut
-            </Button>
-          </ButtonGroup>
-        </div>
-      </div>
-    );
-  }
-
-  if (type === "number" || type === "checkbox") {
-    let obj = {};
     for (let i of result) {
-      if (obj[i]) {
-        obj[i] += 1;
-      } else {
-        obj[i] = 1;
-      }
+      obj[i] += 1;
     }
     const data = {
       labels: Object.keys(obj),
@@ -133,15 +72,25 @@ function ShowGraph({ responses, index, type, options }) {
         },
       ],
     };
+
     let optionss = {
-      maintainAspectRation: false,
+      responsive: true,
+      scales: {
+        y: {
+          suggestedMin: 0,
+          ticks: {
+            precision: 0,
+          },
+        },
+      },
     };
+
     return (
       <div id="graph">
         {activeButton === "Bar" ? (
           <Bar data={data} options={optionss} />
         ) : (
-          <Doughnut data={data} options={optionss} />
+          <Doughnut data={data} />
         )}
         <div className="btndiv">
           <ButtonGroup
@@ -149,13 +98,13 @@ function ShowGraph({ responses, index, type, options }) {
             aria-label="outlined primary button group"
           >
             <Button
-              color={activeButton === "Bar" ? "secondary" : "primary"}
+              variant={activeButton === "Bar" ? "contained" : "outlined"}
               onClick={() => handleType("Bar")}
             >
               Bar
             </Button>
             <Button
-              color={activeButton === "Doughnut" ? "secondary" : "primary"}
+              variant={activeButton === "Doughnut" ? "contained" : "outlined"}
               onClick={() => handleType("Doughnut")}
             >
               Doughnut
