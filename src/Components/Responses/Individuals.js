@@ -17,7 +17,7 @@ function Individuals() {
   const [isError, setIsError] = useState("");
   const { surveyId } = useParams();
   const [page, setPage] = useState(1);
-  const [userDeatils, setUserDetails] = useState({ name: "", email: "" });
+  const [userDetails, setUserDetails] = useState({ name: "", email: "" });
   const handleChange = (event, value) => {
     setPage(value);
   };
@@ -98,15 +98,15 @@ function Individuals() {
             <Typography variant="h6" style={{ color: "#d500f9", m: 2 }}>
               user Detail
             </Typography>
-            <Typography color="primary">{userDeatils.name} </Typography>
-            <Typography color="primary">{userDeatils.email} </Typography>
+            <Typography color="primary">{userDetails.name} </Typography>
+            <Typography color="primary">{userDetails.email} </Typography>
           </div>
         </CardContent>
       </Card>
 
       {isError === "" ? (
         <div className="individualquestions">
-          {questions &&
+          {
             questions.map((question, index) => {
               return (
                 <div key={index}>
@@ -137,7 +137,9 @@ function Individuals() {
             })}
         </div>
       ) : (
-        <p>{isError}</p>
+        <Typography variant="h6" textAlign="center" color="red">
+          {isError ? isError : "No responses yet"}
+        </Typography>
       )}
       <div
         style={{

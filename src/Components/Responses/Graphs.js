@@ -7,14 +7,16 @@ import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { toast } from "react-toastify";
 import fileDownload from "js-file-download";
+
 import ShowGraph from "./ShowGraph";
 import { authToken } from "../../utils/Authenticate";
 import PATH from "../../Constants/Path";
+import Progress from "../Progress/Progress";
 import "./graph.css";
 
 /**
  *
- * @returns all questons with their summary in graphical form
+ * @returns all questions with their summary in graphical form
  */
 function Graphs() {
   const [responses, setResponses] = useState([]);
@@ -55,6 +57,7 @@ function Graphs() {
   }, [surveyId]);
 
   const downloadReport = () => {
+    console.log("download");
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/download/${surveyId}`, {
         headers: {
@@ -62,10 +65,13 @@ function Graphs() {
         },
       })
       .then((response) => {
+        console.log(response.data);
         toast.success("Report Downloaded");
         fileDownload(response.data, `${surveyName}.csv`);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -81,34 +87,44 @@ function Graphs() {
           </Button>
         </Box>
       )}
-      {responses.length > 0 ? (
-        <>
-          <Card id="responses-heading">
-            <CardContent>
-              <Typography color="#575546" variant="h4" textAlign="center">
-                {responses.length} responses
-              </Typography>
-            </CardContent>
-          </Card>
-          <div id="graphdiv">
-            {questions.map((question, index) => (
-              <div key={index}>
-                <Card>
+      {!isError ? (
+        <div>
+          <>
+            {responses.length > 0 ? (
+              <div>
+                <Card id="responses-heading">
                   <CardContent>
-                    <Typography color="#575546">{question.title}</Typography>
+                    <Typography color="#575546" variant="h4" textAlign="center">
+                      {responses.length} responses
+                    </Typography>
                   </CardContent>
-                  <ShowGraph
-                    responses={responses}
-                    questions={questions}
-                    index={index}
-                    type={question.type}
-                    options={question.options}
-                  />
                 </Card>
+                <div id="graphdiv">
+                  {questions.map((question, index) => (
+                    <div key={index}>
+                      <Card>
+                        <CardContent>
+                          <Typography color="#575546">
+                            {question.title}
+                          </Typography>
+                        </CardContent>
+                        <ShowGraph
+                          responses={responses}
+                          questions={questions}
+                          index={index}
+                          type={question.type}
+                          options={question.options}
+                        />
+                      </Card>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
-        </>
+            ) : (
+              <Progress />
+            )}
+          </>
+        </div>
       ) : (
         <Typography variant="h6" textAlign="center" color="red">
           {isError ? isError : "No responses yet"}

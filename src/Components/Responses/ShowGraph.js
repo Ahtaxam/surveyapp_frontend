@@ -27,7 +27,7 @@ ChartJS.register(
 );
 ChartJS.register(ArcElement, Tooltip, Legend);
 function ShowGraph({ responses, index, type, options }) {
-  const [activeButton, setActiveButton] = useState("Bar");
+  const [activeButton, setActiveButton] = useState("Doughnut");
   const handleType = (value) => {
     setActiveButton(value);
   };
