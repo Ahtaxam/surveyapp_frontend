@@ -7,7 +7,6 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import axios from "axios";
 
-import Progress from "../Progress/Progress";
 import PATH from "../../Constants/Path";
 import { authToken } from "../../utils/Authenticate";
 
