@@ -75,6 +75,9 @@
     width: 80%;
     margin: auto;
   }
+  #graph {
+    width: 350px;
+  }
   #bargraph {
     width: 50%;
     height: 300px;
