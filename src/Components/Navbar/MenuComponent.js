@@ -19,8 +19,7 @@ function MenuComponent() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
   const logoutUser = () => {
-    const express = document.cookie.split("=")[0];
-    document.cookie = express + "=; Max-Age=0";
+    localStorage.removeItem("token");
     toast.success("Successfully Logout !");
     navigate(PATH.HOME);
   };

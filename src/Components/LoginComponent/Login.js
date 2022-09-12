@@ -24,6 +24,7 @@ function Login() {
     axios
       .request(options)
       .then((response) => {
+        localStorage.setItem("token", response.data.token);
         toast.success(response.data.message, {
           icon: "🚀",
         });
