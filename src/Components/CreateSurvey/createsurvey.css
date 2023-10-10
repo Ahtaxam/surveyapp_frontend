@@ -1,0 +1,148 @@
+* {
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+}
+.switch-button {
+  text-align: right;
+  margin-right: 20px;
+  font-family: sans-serif;
+  color: #1769aa;
+}
+.surveyheader {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.surveyheader__input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  border-bottom: 1px solid gray;
+  font-size: 25px;
+}
+.surveyheader__desc {
+  outline: none;
+  border: 1px solid gray;
+}
+#addquestion-btn {
+  float: right;
+  margin-right: 10px;
+}
+#submit-button {
+  display: block;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+#back-button {
+  display: block;
+  margin: auto;
+  margin-bottom: 20px;
+}
+.survey-questions {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+
+#cardContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+#cardbutton {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+.option-input {
+  border: none;
+  border-bottom: 1px solid blue;
+  outline: none;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+#question-option {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  gap: 20px;
+}
+#question-option-add-button {
+  width: 80px;
+  margin-left: 150px;
+  margin-top: 20px;
+}
+#delete-option {
+  position: relative;
+  left: 20px;
+  top: 10px;
+  color: red;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+  .surveyheader {
+    width: 80%;
+    margin: auto;
+  }
+  .surveyheader__input {
+    font-size: 30px;
+  }
+
+  .survey-questions {
+    width: 80%;
+    margin: auto;
+  }
+  #cardContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  #filled-textarea {
+    width: 400px;
+  }
+  #cardbutton {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 10px;
+  }
+  #question-option-add-button {
+    width: 80px;
+    margin-left: 170px;
+    margin-top: 20px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .surveyheader {
+    width: 60%;
+    margin: auto;
+  }
+  .surveyheader__input {
+    font-size: 35px;
+  }
+  .survey-questions {
+    width: 60%;
+    margin: auto;
+  }
+
+  #cardContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  #filled-textarea {
+    width: 500px;
+  }
+}

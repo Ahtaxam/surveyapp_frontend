@@ -1,0 +1,115 @@
+#graph {
+  height: auto;
+  position: relative;
+  display: block;
+  margin: auto;
+}
+#bargraph {
+  width: 250px;
+  height: 300px;
+  display: block;
+  margin: auto;
+}
+
+#card {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+#cardcontent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.btndiv {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+.individualquestions {
+  width: 90%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+#questioncard_text {
+  width: 250px;
+}
+#options {
+  width: 90%;
+  margin: 20px auto;
+}
+#optioncard {
+  width: 100%;
+  height: 100%;
+  margin: 20px auto;
+}
+#individualHeading {
+  width: 90%;
+  margin: auto;
+  border-radius: 10px;
+  border-left: 2px solid blue;
+}
+#userDetail {
+  width: 90%;
+  margin: 20px auto;
+  border-radius: 10px;
+  border-left: 2px solid blue;
+}
+
+@media screen and (min-width: 480px) {
+  #card {
+    width: 80%;
+    margin: auto;
+  }
+  #graph {
+    width: 250px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #card {
+    width: 80%;
+    margin: auto;
+  }
+  #graph {
+    width: 350px;
+  }
+  #bargraph {
+    width: 50%;
+    height: 300px;
+    padding: 20px;
+  }
+
+  #cardcontent {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+  }
+  #responses-heading {
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+  }
+  #graphdiv {
+    width: 83%;
+    margin: auto;
+  }
+  #questioncard {
+    width: 90%;
+    margin: auto;
+    padding: 0%;
+  }
+  #individualHeading {
+    width: 80%;
+  }
+  #userDetail {
+    width: 80%;
+  }
+  .individualquestions {
+    width: 80%;
+  }
+}
