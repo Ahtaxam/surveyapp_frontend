@@ -5,7 +5,7 @@ import MuiMenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import Person from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
@@ -19,12 +19,9 @@ function MenuComponent() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
   const logoutUser = () => {
-    const express = document.cookie.split("=")[0];
-    document.cookie = express + "=; Max-Age=0";
+    localStorage.removeItem("token");
     toast.success("Successfully Logout !");
-    setTimeout(() => {
-      navigate(PATH.HOME);
-    }, 1300);
+    navigate(PATH.HOME);
   };
 
   const open = Boolean(anchorEl);
@@ -62,8 +59,17 @@ function MenuComponent() {
           },
         }}
       >
-        <MenuItem>{name && name}</MenuItem>
-        <MenuItem>{email && email}</MenuItem>
+        <MenuItem disabled>{name && name}</MenuItem>
+        <MenuItem disabled>{email && email}</MenuItem>
+        <MenuItem>
+          <Link
+            to={PATH.DASHBOARD}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            Dashboard
+          </Link>
+        </MenuItem>
+
         <Divider />
 
         <MenuItem onClick={logoutUser}>

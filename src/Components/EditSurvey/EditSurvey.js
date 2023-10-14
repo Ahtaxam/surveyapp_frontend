@@ -17,6 +17,7 @@ import Switch from "@mui/material/Switch";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Progress from "../Progress/Progress";
+import PropTypes from "prop-types";
 
 import QUESTION_TYPE from "../../Constants/QUESTIONS_TYPES";
 import PATH from "../../Constants/Path";
@@ -62,9 +63,7 @@ function EditSurvey() {
         .request(options)
         .then((response) => {
           toast.success(response.data.message);
-          setTimeout(() => {
-            navigate(PATH.DASHBOARD);
-          }, 1000);
+          navigate(PATH.DASHBOARD);
         })
         .catch((error) => {
           toast.error(error.message);
@@ -95,12 +94,21 @@ function EditSurvey() {
       });
   }, [surveyId]);
 
+  /**
+   * @param {object} e
+   * @param {Number} index
+   */
   const setQuestionValue = (e, index) => {
     const userQuestions = [...questions];
     userQuestions[index].title = e.target.value;
     setQuestions(userQuestions);
   };
 
+  /**
+   * @param {Number} questionNo
+   * @param {String} selectedType
+   * @param {String} previousValue
+   */
   const selectedOption = (questionNo, selectedType, previousValue) => {
     const userQuestions = [...questions];
     userQuestions[questionNo].type = selectedType;
@@ -119,18 +127,32 @@ function EditSurvey() {
     setQuestions(userQuestions);
   };
 
+  /**
+   *
+   * @param {Number} questionNo
+   * @param {Number} length
+   */
   const setAddOption = (questionNo, length) => {
     const userQuestions = [...questions];
     userQuestions[questionNo].options.push(`option${length + 1}`);
     setQuestions(userQuestions);
   };
 
+  /**
+   *
+   * @param {object} value
+   */
   const setOptionInputValue = (value) => {
     const userQuestions = [...questions];
     userQuestions[value.questionNo].options[value.index] = value.value;
     setQuestions(userQuestions);
   };
 
+  /**
+   *
+   * @param {number} index
+   * @param {number} questionNo
+   */
   const deleteOption = (index, questionNo) => {
     const userQuestions = [...questions];
     userQuestions[questionNo].options.splice(index, 1);
@@ -147,12 +169,20 @@ function EditSurvey() {
     setQuestions(userQuestions);
   };
 
+  /**
+   *
+   * @param {number} index
+   */
   const deleteQuestion = (index) => {
     const userQuestions = [...questions];
     userQuestions.splice(index, 1);
     setQuestions(userQuestions);
   };
 
+  /**
+   *
+   * @param {number} index
+   */
   const copySurveyQuestion = (index) => {
     const userQuestions = [...questions];
     userQuestions.splice(index + 1, 0, {
@@ -317,3 +347,9 @@ function SelectVariants({ selectedType, onSelectOption, questionNo }) {
     </div>
   );
 }
+
+SelectVariants.propTypes = {
+  selectedType: PropTypes.string,
+  onSelectOption: PropTypes.func,
+  questionNo: PropTypes.number,
+};

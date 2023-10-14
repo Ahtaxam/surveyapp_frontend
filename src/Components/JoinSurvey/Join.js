@@ -1,7 +1,7 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import PATH from "../../Constants/Path";
 import "./join.css";
@@ -14,6 +14,11 @@ function Join() {
   const navigate = useNavigate();
 
   // function if check that given survey id is valid or not if valid then fetch survey details and redirect to survey page
+
+  /**
+   * @async 
+   * @return first check that given survey id is valid or not if valid then fetch survey details and redirect to survey page
+   */
   const authenticateSurvey = () => {
     if (id.length === 0) {
       toast.error("Please enter a valid survey id");
@@ -38,6 +43,10 @@ function Join() {
   };
 
   //  onpress enter key handle survey authenticate function
+  /**
+   *
+   * @param {object} e
+   */
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       authenticateSurvey();
@@ -92,7 +101,6 @@ function Join() {
           Back to Dashboard
         </Link>
       </div>
-      <ToastContainer />
     </div>
   );
 }

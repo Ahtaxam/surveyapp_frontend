@@ -7,5 +7,6 @@ const PATH = {
   EDITSURVEY: "/survey/edit",
   JOIN: "/join",
   JOINSURVEY: "/join/survey",
+  RESPONSES: "/responses",
 };
 export default PATH;

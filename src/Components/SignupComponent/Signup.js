@@ -2,7 +2,7 @@ import React from "react";
 import PersonIcon from "@mui/icons-material/Person";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 
@@ -22,9 +22,7 @@ function Signup() {
       .request(options)
       .then((response) => {
         toast.success("Account created!");
-        setTimeout(() => {
-          navigate(PATH.LOGIN);
-        }, 1000);
+        navigate(PATH.LOGIN);
       })
       .catch((error) => {
         toast.error(error.response.data?.message || error.message);
@@ -104,7 +102,6 @@ function Signup() {
           Login
         </button>
       </div>
-      <ToastContainer />
     </div>
   );
 }

@@ -7,15 +7,21 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import axios from "axios";
 
-import Progress from "../Progress/Progress";
 import PATH from "../../Constants/Path";
 import { authToken } from "../../utils/Authenticate";
 
+/**
+ *
+ * @returns all the surveys created by the others user
+ */
 function OtherSurveys() {
   const [content, setContent] = useState("Copy Link");
   const [otherSurveys, setOtherSurveys] = useState([]);
   const [isError, setIsError] = useState("");
 
+  /**
+   * @param {number} index
+   */
   const getId = (index) => {
     setContent("Copied");
     const path = `${window.location.origin}${PATH.JOINSURVEY}/${index}`;
@@ -24,6 +30,11 @@ function OtherSurveys() {
   const changeTitle = () => {
     setContent("Copy Link");
   };
+
+  /**
+   * @async  fetchSurvey
+   * @return fetches all the surveys created by the other users
+   */
   const fetchSurvey = useCallback(() => {
     const options = {
       method: "GET",
@@ -53,19 +64,14 @@ function OtherSurveys() {
       {!isError ? (
         <div>
           <div className="previousSurvey">
-            {otherSurveys.length > 0 ? (
+            {
               otherSurveys.map((obj, index) => (
                 <Card key={index} onMouseLeave={changeTitle}>
                   <CardContent>
                     <h4 className="previousSurvey__heading">{obj.name}</h4>
                   </CardContent>
 
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to={`${PATH.JOINSURVEY}/${obj._id}`}
-                  >
-                    Take Survey
-                  </Link>
+                  <Link to={`${PATH.JOINSURVEY}/${obj._id}`}>Take Survey</Link>
 
                   <CardContent>
                     <div
@@ -99,9 +105,7 @@ function OtherSurveys() {
                   </CardContent>
                 </Card>
               ))
-            ) : (
-              <Progress />
-            )}
+             }
           </div>
         </div>
       ) : (
